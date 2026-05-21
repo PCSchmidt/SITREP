@@ -1,0 +1,53 @@
+# SITREP Project Gitignore
+
+# Python Backend
+api/__pycache__/
+api/*.py[cod]
+api/*$py.class
+api/venv/
+api/.venv/
+api/ENV/
+api/.pytest_cache/
+api/.coverage
+api/htmlcov/
+api/*.egg-info/
+api/.env
+
+# Node/React Native Mobile
+mobile/node_modules/
+mobile/.expo/
+mobile/dist/
+mobile/web-build/
+mobile/expo-env.d.ts
+mobile/.metro-health-check*
+mobile/mobile/
+mobile/api/
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+*.pem
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+build/
+dist/
+
+# Temporary
+*.tmp
+*.temp
+.cache/
