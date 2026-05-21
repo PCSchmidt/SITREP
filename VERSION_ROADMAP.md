@@ -22,7 +22,7 @@ with a note on what drives the uncertainty.
 
 | Version | Gate Name | Goal | Est Hours | Actual Hours | Status |
 |---------|-----------|------|-----------|--------------|--------|
-| v0.0 | Foundation | Project scaffolding, repo structure, dependencies installed (React Native + Expo, FastAPI, Supabase, CloakBrowser). Git configured, basic README. | 4h | - | pending |
+| v0.0 | Foundation | Project scaffolding, repo structure, dependencies installed (React Native + Expo, FastAPI, Supabase, CloakBrowser). Git configured, basic README. | 4h | 4h | ✅ DONE |
 | v0.1 | Scraping Pipeline | CloakBrowser integrated, successfully scraping 4 Tier 1 sources (ISW, Defense One, Breaking Defense, IISS). Raw article extraction working, stored as JSON. | 8h | - | pending |
 | v0.2 | LLM Synthesis | Multi-model pipeline via Open Router (Gemini/Llama/Claude fallback). Takes scraped articles → outputs BLUF-format briefing for one region (Middle East). Prompt engineering validated. | 12h | - | pending |
 | v0.3 | **PDF Generation Backend** | **WeasyPrint/ReportLab integrated. PDF template designed (matching LOWDOWN but enhanced). Generates professional 15-20 page PDF from briefing JSON. Stored in Supabase blob storage. GET /briefing/latest/pdf endpoint working.** | **8h** | **-** | **pending** |
