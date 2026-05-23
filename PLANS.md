@@ -4,16 +4,30 @@
 
 ---
 
-## CURRENT WORK (v0.3 - PDF Generation Backend)
+## CURRENT WORK (v0.4+ - Next Gates)
 
-**Next Steps**:
-1. Install WeasyPrint/ReportLab for PDF generation
-2. Design PDF template matching LOWDOWN aesthetic (enhanced)
-3. Convert briefing JSON → HTML → PDF
-4. Store PDFs in Supabase blob storage (or local for now)
-5. Create GET /briefing/latest/pdf endpoint
-6. Test PDF generation with v0.2 briefing
-7. Validate PDF quality (15-20 pages expected)
+**v0.3 COMPLETE** (PDF Generation Backend - 2h actual vs 8h estimated)
+
+**Upcoming Gates** (per VERSION_ROADMAP.md):
+- v0.4: Mobile Scaffold (skipped - already done in v0.1)
+- v0.5: UI Design System (skipped - already done in v0.1)
+- v0.6: Backend API (FastAPI endpoints)
+- v0.7: Mobile-Backend Integration
+- v0.8: PDF Mobile Integration (react-native-pdf)
+- v0.9: Regional Filtering (all 4 regions)
+- v0.10: Weekly Automation (Railway Cron)
+- v0.11: Analytics Integration (Mixpanel + Sentry)
+- v0.12: Legal & Disclaimers
+- v0.13: App Store Prep
+- v0.14: Beta Testing
+- v1.0: Production Live
+
+**Immediate Next Steps** (v0.6 - Backend API):
+1. Implement POST /scrape endpoint (trigger ISW scraper)
+2. Implement POST /synthesize endpoint (trigger BLUF synthesis)
+3. Implement GET /briefing/latest endpoint (return JSON briefing)
+4. Connect Supabase for briefing caching
+5. Test end-to-end API flow
 
 ---
 

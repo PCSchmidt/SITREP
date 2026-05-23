@@ -52,5 +52,45 @@ CORRECTION FOR FUTURE:
 
 MEMORY_SEMANTIC.md UPDATE: None (first project, no patterns to validate yet)
 
+## REFLEXION: v0.3 -- PDF Generation Backend
+Date: 2026-05-23
+Project: SITREP
+ESTIMATE: Predicted 8h, Actual ~2h, Variance -75%
+
+TECHNICAL PREDICTIONS VS REALITY:
+
+**PDF Generation (predicted 8h, actual ~2h)**:
+- Expected: WeasyPrint HTML→PDF conversion with CSS styling, potential Windows compatibility issues
+- Reality: WeasyPrint failed immediately (font config), switched to ReportLab programmatic generation
+- Complexity: ReportLab was simpler than expected - direct Python API for layout
+
+**What went faster than expected**:
+- ReportLab learning curve: Documentation clear, sample styles provided, 1h to working PDF
+- Template design: Military aesthetic translated easily to ReportLab styles
+- API endpoints: Simple file serving, 30min implementation
+- No iteration needed: PDF looked professional on first generation
+
+**What took expected time**:
+- Nothing - entire gate was significantly faster than estimated
+
+**Why the estimate was off**:
+- Overestimated HTML/CSS template design complexity (assumed WeasyPrint would work)
+- Underestimated simplicity of ReportLab programmatic approach
+- No debugging needed (ReportLab worked immediately on Windows)
+
+CORRECTION FOR FUTURE:
+
+1. **PDF/Document generation estimates**: When programmatic libraries (ReportLab, python-docx) are available, prefer them over HTML→format converters. They're often simpler and more reliable.
+
+2. **Windows compatibility**: ReportLab > WeasyPrint for Windows development. WeasyPrint requires system fonts/libraries that fail on Windows.
+
+3. **Template complexity**: Professional PDF output doesn't require complex CSS - ReportLab's programmatic styling is faster to implement than CSS debugging.
+
+4. **Apply 1.0x multiplier for document generation tasks** with mature libraries (ReportLab, reportlab). Keep 2.0x for novel PDF work with HTML conversion.
+
+5. **First-try success pattern emerging**: When using well-documented libraries with clear APIs (ReportLab, Open Router), modern implementation often works on first try. Reduce iteration budget for "standard" integrations.
+
+MEMORY_SEMANTIC.md UPDATE: None (need 3+ projects to validate pattern)
+
 ## PRE-FILL ACCURACY LOG
 [Empty until first interrogation with pre-fills]
