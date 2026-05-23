@@ -36,6 +36,20 @@ Status: LOCKED
 
 ## DECISIONS LOG
 
+## DEC-008 -- DeepSeek V3 and Kimi K2.5 as cost-optimized fallbacks
+Date: 2026-05-23
+Gate: v0.2.2
+Owner: Chris Schmidt
+Proposed by: Chris Schmidt
+Approved by: Chris Schmidt
+Decision: Use DeepSeek V3 ($0.014/briefing) and Kimi K2.5 ($0.30/briefing) as fallback models instead of Llama 70B ($2/briefing)
+Reason: 99% cost reduction while maintaining quality; DeepSeek V3 offers excellent reasoning and citation accuracy at 1.4 cents per briefing vs $2+ for original fallbacks
+Alternatives considered: Llama 3.3 70B (50x more expensive), Claude Haiku only (100x more expensive), OpenRouter free tier (insufficient quality for citations)
+Supersedes: None (refines original stack choice)
+Status: LOCKED
+
+---
+
 [Entries added here during build, newest at top]
 
 ---

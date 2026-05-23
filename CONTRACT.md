@@ -33,9 +33,10 @@ SCRAPING:              CloakBrowser (Playwright/Puppeteer stealth wrapper)
 PDF_GENERATION:        WeasyPrint (HTML to PDF) or ReportLab
 AUTH:                  None (v1.0) | Supabase Auth (v1.1+)
 AI_ROUTING:            Open Router (multi-model waterfall)
-AI_PRIMARY_MODEL:      google/gemini-2.0-flash-exp (free tier)
-AI_FALLBACK_1:         meta-llama/llama-3.3-70b-instruct
-AI_FALLBACK_2:         anthropic/claude-haiku-4-5 (BYOK)
+AI_PRIMARY_MODEL:      google/gemini-2.0-flash-exp (free tier, 1.5M req/day)
+AI_FALLBACK_1:         deepseek/deepseek-v3 ($0.27/$1.10 per 1M tokens)
+AI_FALLBACK_2:         kimi/kimi-k2.5 ($0.30/$1.20 per 1M tokens)
+AI_FALLBACK_3:         anthropic/claude-haiku-4-5 (BYOK, emergency only)
 EMBEDDINGS:            None
 OBSERVABILITY:         Mixpanel (analytics) + Sentry (crash tracking)
 AUTOMATION:            Railway Cron (weekly briefing + PDF generation)
