@@ -58,8 +58,8 @@ SITREP is a mobile intelligence briefing platform that replicates and enhances "
 
 - ✅ **Cost ceiling: $20/month** (target: $5-10/month typical)
 - ✅ **Single cached briefing** - One briefing per week served to all users (no per-user generation)
-- ✅ **Multi-model LLM waterfall** - Gemini 2.0 Flash (free) → Llama 3.3 70B → Claude Haiku (BYOK)
-- ✅ **CloakBrowser** - Stealth Playwright wrapper for bypassing paywalls and bot detection
+- ✅ **Multi-model LLM waterfall** - GPT-4o Mini (primary) → Claude Haiku → Llama 3.1 70B
+- ✅ **Playwright scraping** - Open-source news scraping (CloakBrowser optional for paywalls)
 - ✅ **Full analytics & monitoring** - Mixpanel (user behavior) + Sentry (crash tracking)
 
 ---
@@ -173,12 +173,12 @@ SITREP/
 ### Backend
 - **Framework**: FastAPI (Python 3.11+)
 - **Database**: Supabase (PostgreSQL + Blob Storage for PDFs)
-- **Scraping**: CloakBrowser (stealth Playwright wrapper)
-- **PDF Generation**: WeasyPrint (HTML/CSS → PDF)
+- **Scraping**: Playwright (CloakBrowser optional for paywalled sources)
+- **PDF Generation**: ReportLab (programmatic PDF generation)
 - **LLM Integration**: Multi-model via Open Router
-  - Primary: Gemini 2.0 Flash (free tier, 1500 req/day)
-  - Fallback 1: Llama 3.3 70B ($0.50/1M tokens)
-  - Fallback 2: Claude Haiku BYOK (Anthropic direct)
+  - Primary: GPT-4o Mini ($0.15/briefing typical)
+  - Fallback 1: Claude 3 Haiku ($0.25/$1.25 per 1M tokens)
+  - Fallback 2: Llama 3.1 70B ($0.52/$0.75 per 1M tokens)
 - **HTTP**: httpx (async), aiohttp (concurrent scraping)
 - **Testing**: pytest, pytest-asyncio, pytest-cov
 
@@ -203,13 +203,13 @@ Built using **Blueprint v11** methodology with 16-gate phased development:
 |---------|------|-------------|-------|--------|
 | v0.0 | Foundation | Project scaffold, dependencies, documentation | 4h (4h actual) | ✅ COMPLETE |
 | v0.1 | Mobile Foundation | App config, design system, component library, screens | 8h (3h actual) | ✅ COMPLETE |
-| v0.2 | Scraping Pipeline | CloakBrowser integration, scrape 10 Tier 1 sources | 8h | 📅 Next |
-| v0.3 | LLM Synthesis | Multi-model pipeline, BLUF generation per region | 12h | 📅 Planned |
-| v0.3 | PDF Generation Backend | WeasyPrint integration, template design | 8h | 📅 Planned |
-| v0.4 | Mobile Scaffold | Navigation, tabs, theme, dark mode setup | 6h | 📅 Planned |
-| v0.5 | UI Design System | BriefingCard, BLUFSection, RegionTab components | 10h | 📅 Planned |
-| v0.6 | Backend API | REST endpoints, Supabase integration, caching | 8h | 📅 Planned |
-| v0.7 | Mobile-Backend Integration | TanStack Query, API client, error handling | 6h | 📅 Planned |
+| v0.2 | Scraping Pipeline | Playwright scraping, ISW working (16 articles) | 8h (4h actual) | ✅ COMPLETE |
+| v0.2 | LLM Synthesis | GPT-4o Mini via Open Router, BLUF generation | 12h (3h actual) | ✅ COMPLETE |
+| v0.3 | PDF Generation Backend | ReportLab PDF generation, 3-page output | 8h (2h actual) | ✅ COMPLETE |
+| v0.4 | Mobile Scaffold | (Skipped - completed in v0.1) | - | ⏭️ SKIPPED |
+| v0.5 | UI Design System | (Skipped - completed in v0.1) | - | ⏭️ SKIPPED |
+| v0.6 | Backend API | FastAPI endpoints, file-based caching | 8h (4h actual) | ✅ COMPLETE |
+| v0.7 | Mobile-Backend Integration | TanStack Query, API client, error handling | 6h | 📅 Next |
 | v0.8 | PDF Mobile Integration | react-native-pdf, share sheet, save/open | 6h | 📅 Planned |
 | v0.9 | Regional Filtering | Tab state, filter logic, empty states | 6h | 📅 Planned |
 | v0.10 | Weekly Automation | Railway Cron setup, failure alerts, monitoring | 10h | 📅 Planned |
@@ -266,11 +266,11 @@ See [VERSION_ROADMAP.md](VERSION_ROADMAP.md) for detailed gate descriptions and 
                           ↓
 ┌─────────────────────────────────────────────────────────────┐
 │              Weekly Scraping Pipeline                        │
-│  1. CloakBrowser scrapes 80+ OSINT sources                  │
+│  1. Playwright scrapes OSINT sources (ISW, Defense One...)  │
 │  2. Extract articles → JSON storage                          │
-│  3. Multi-model LLM synthesis (Gemini → Llama → Claude)     │
+│  3. Multi-model LLM synthesis (GPT-4o Mini → Claude → Llama)│
 │  4. Generate BLUF per region                                 │
-│  5. WeasyPrint generates PDF                                 │
+│  5. ReportLab generates PDF                                  │
 │  6. Cache briefing + PDF in Supabase                         │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -287,7 +287,7 @@ Sunday 06:00 UTC
                  │
                  ↓
 ┌───────────────────────────────────────────────┐
-│  CloakBrowser (Playwright + stealth patches)  │
+│  Playwright Scraping (async, parallel)        │
 │  • ISW: Russia/Ukraine analysis               │
 │  • Defense One: Pentagon insider news         │
 │  • IISS: Strategic assessments                │
@@ -298,8 +298,8 @@ Sunday 06:00 UTC
                  ↓ Raw articles JSON
 ┌───────────────────────────────────────────────┐
 │  Multi-Model LLM Synthesis                    │
-│  Primary: Gemini 2.0 Flash (free)            │
-│  Fallback: Llama 3.3 70B → Claude Haiku      │
+│  Primary: GPT-4o Mini (~$0.15/briefing)       │
+│  Fallback: Claude 3 Haiku → Llama 3.1 70B     │
 │                                                │
 │  Prompt: "Synthesize into 4 regional BLUF     │
 │  briefings (Middle East, Indo-Pacific,        │
@@ -308,9 +308,9 @@ Sunday 06:00 UTC
                  │
                  ↓ Structured BLUF JSON
 ┌───────────────────────────────────────────────┐
-│  WeasyPrint PDF Generation                    │
-│  • HTML template with military aesthetic      │
-│  • 15-20 pages, all regions                   │
+│  ReportLab PDF Generation                     │
+│  • Programmatic layout with Python API        │
+│  • 3-5 pages per region, military aesthetic   │
 │  • Source citations, disclaimers              │
 └────────────────┬──────────────────────────────┘
                  │
@@ -335,7 +335,7 @@ CREATE TABLE briefings (
   regions JSONB NOT NULL,  -- {middle_east: {...}, indo_pacific: {...}, ...}
   pdf_url TEXT,            -- Blob storage URL
   source_count INTEGER,    -- Number of articles scraped
-  model_used TEXT          -- "gemini-2.0-flash" | "llama-3.3-70b" | "claude-haiku"
+  model_used TEXT          -- "gpt-4o-mini" | "claude-3-haiku" | "llama-3.1-70b"
 );
 ```
 
@@ -376,8 +376,8 @@ CREATE TABLE briefings (
 |---------|------|--------------|-------|
 | Railway | Hobby | $5 | Backend hosting, cron jobs |
 | Supabase | Free | $0 | 500MB DB, 1GB storage, 2GB bandwidth |
-| Gemini 2.0 Flash | Free | $0 | 1500 req/day (15 RPM), primary LLM |
-| Open Router | Pay-as-you-go | $2-5 | Fallback for Llama/Claude if Gemini fails |
+| Open Router (GPT-4o Mini) | Pay-as-you-go | $1-2 | ~$0.15/briefing, 4 briefings/month |
+| Open Router (Fallbacks) | Pay-as-you-go | $0-1 | Claude/Llama only if GPT fails (rare) |
 | Mixpanel | Free | $0 | 100k events/month |
 | Sentry | Free | $0 | 5k errors/month |
 | **Total** | | **$5-10** | **Worst case: $20 if heavy fallback usage** |
@@ -385,8 +385,8 @@ CREATE TABLE briefings (
 ### Cost Optimization Strategies
 
 1. **Single Cached Briefing**: One briefing generated per week, served to ALL users (no per-user generation)
-2. **Free-Tier LLM Primary**: Gemini 2.0 Flash free tier covers 1500 req/day (weekly generation only uses ~10-20)
-3. **Waterfall Fallback**: Only pay for Llama/Claude if Gemini fails (rare)
+2. **Cost-Optimized LLM**: GPT-4o Mini at ~$0.15/briefing (4 briefings/month = $0.60/month typical)
+3. **Waterfall Fallback**: Only pay for Claude/Llama if GPT-4o Mini fails (rare, adds $0-1/month)
 4. **Supabase Free Tier**: 500MB database + 1GB blob storage sufficient for 52 briefings/year + PDFs
 5. **No User Auth in v1.0**: Deferred to v1.1 to reduce complexity and backend load
 6. **Railway Free Trial**: First $5/month free credits reduce effective cost
@@ -412,8 +412,8 @@ CREATE TABLE briefings (
 
 ### Scraping Ethics
 
-- **CloakBrowser**: Used only for paywall bypass, not for malicious purposes
-- **Rate limiting**: Respectful scraping (1 req/second per source)
+- **Playwright scraping**: Respectful scraping of open-source news (1 req/second per source)
+- **CloakBrowser**: Optional for paywalled sources, not used in current implementation
 - **robots.txt**: Honored where present
 - **Source attribution**: All scraped content properly cited in briefings
 
@@ -453,6 +453,6 @@ MIT License - see [LICENSE](LICENSE) for details
 
 ---
 
-**Status**: v0.1.0 Mobile Foundation Complete (2026-05-22)  
-**Next**: v0.2 Scraping Pipeline (CloakBrowser + 80+ OSINT sources)  
+**Status**: v0.6.0 Backend API Complete (2026-05-23)  
+**Next**: v0.7 Mobile-Backend Integration (TanStack Query + API client)  
 **Target Launch**: 2026-08-21 (App Store + Play Store)

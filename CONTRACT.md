@@ -9,7 +9,7 @@
 ## PROJECT IDENTITY
 
 PROJECT_NAME:          SITREP
-PROJECT_VERSION:       v0.1.0
+PROJECT_VERSION:       v0.6.0
 BUILD_TYPE:            PRODUCTION
 FINAL_VERSION:         v1.0 Production Live
 CLIENT_TYPE:           PERSONAL
@@ -29,14 +29,14 @@ STATE_MANAGEMENT:      TanStack Query + Zustand
 PDF_VIEWING:           react-native-pdf
 BACKEND:               FastAPI Python 3.11+
 DATABASE:              Supabase (PostgreSQL + Blob Storage for PDFs)
-SCRAPING:              CloakBrowser (Playwright/Puppeteer stealth wrapper)
-PDF_GENERATION:        WeasyPrint (HTML to PDF) or ReportLab
+SCRAPING:              Playwright (CloakBrowser optional for paywalled sources)
+PDF_GENERATION:        ReportLab (programmatic PDF generation)
 AUTH:                  None (v1.0) | Supabase Auth (v1.1+)
 AI_ROUTING:            Open Router (multi-model waterfall)
-AI_PRIMARY_MODEL:      google/gemini-2.0-flash-exp (free tier, 1.5M req/day)
-AI_FALLBACK_1:         deepseek/deepseek-v3 ($0.27/$1.10 per 1M tokens)
-AI_FALLBACK_2:         kimi/kimi-k2.5 ($0.30/$1.20 per 1M tokens)
-AI_FALLBACK_3:         anthropic/claude-haiku-4-5 (BYOK, emergency only)
+AI_PRIMARY_MODEL:      openai/gpt-4o-mini ($0.15/$0.60 per 1M tokens)
+AI_FALLBACK_1:         anthropic/claude-3-haiku-20240307 ($0.25/$1.25 per 1M tokens)
+AI_FALLBACK_2:         meta-llama/llama-3.1-70b-instruct ($0.52/$0.75 per 1M tokens)
+AI_COST_TARGET:        ~$0.15/briefing with GPT-4o Mini primary
 EMBEDDINGS:            None
 OBSERVABILITY:         Mixpanel (analytics) + Sentry (crash tracking)
 AUTOMATION:            Railway Cron (weekly briefing + PDF generation)

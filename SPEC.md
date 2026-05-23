@@ -43,9 +43,9 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 ### Infrastructure
 - ✅ FastAPI backend on Railway
 - ✅ Supabase for briefing caching
-- ✅ CloakBrowser for stealth scraping (bypasses paywalls)
-- ✅ Multi-model LLM synthesis (Gemini → Llama → Claude fallback via Open Router)
-- ✅ Cost-optimized: single cached briefing per week served to all users
+- ✅ Playwright for scraping open-source news (CloakBrowser optional for paywalls)
+- ✅ Multi-model LLM synthesis (GPT-4o Mini → Claude → Llama fallback via Open Router)
+- ✅ Cost-optimized: single cached briefing per week served to all users (~$0.15/briefing)
 
 ### Monitoring & Analytics
 - ✅ Mixpanel for user behavior tracking
@@ -81,7 +81,7 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 
 **Tier 2 (future expansion):**
 - CSIS - Policy analysis
-- Janes - Equipment specs (may require CloakBrowser)
+- Janes - Equipment specs (paywalled, optional CloakBrowser)
 - Reuters, Al Jazeera, BBC - General geopolitical
 - GTAC Intelligence Hub - Aggregated defense data
 - PizzINT - Real-time geopolitical intel feed
@@ -98,14 +98,14 @@ FastAPI Backend (Railway)
 Supabase (PostgreSQL)
   ↑ Weekly cron job
 Scraping → LLM Synthesis Pipeline
-  ↑ CloakBrowser + Open Router
+  ↑ Playwright + Open Router (GPT-4o Mini)
 ```
 
 **Weekly Pipeline:**
 1. Railway Cron triggers scraping (Sunday 06:00 UTC)
-2. CloakBrowser scrapes 4 sources → raw articles JSON
-3. Multi-model LLM synthesis (Gemini primary, Llama/Claude fallback)
-4. Generate BLUF briefing per region
+2. Playwright scrapes sources → raw articles JSON
+3. Multi-model LLM synthesis (GPT-4o Mini primary, Claude/Llama fallback)
+4. Generate BLUF briefing per region with ReportLab PDF
 5. Cache in Supabase
 6. Mobile apps fetch cached briefing on refresh
 
@@ -117,12 +117,12 @@ Scraping → LLM Synthesis Pipeline
 **Build budget**: < $50 total LLM usage  
 
 **Cost breakdown (estimated):**
-- Gemini 2.0 Flash: $0 (free tier 1,500 req/day)
+- GPT-4o Mini (Open Router): ~$1-2/month (4 briefings × $0.15 = $0.60 typical)
 - Railway backend: $5/month (free tier likely sufficient)
 - Supabase: $0 (free tier)
 - Sentry: $0 (free tier)
 - Mixpanel: $0 (free tier)
-- Open Router fallback: ~$2-5/month if Gemini limits hit
+- Fallback models: $0-1/month if GPT-4o Mini fails (rare)
 
 **Total**: $5-10/month typical, $20/month worst case
 
@@ -178,7 +178,7 @@ Scraping → LLM Synthesis Pipeline
 - Sample: `data/scraped/isw_2026-05-23.json`
 
 **Technical Decisions**:
-- Used Playwright alone (no CloakBrowser needed for ISW)
+- Playwright alone sufficient for open-source sites like ISW (no CloakBrowser needed)
 - HTML selectors are site-specific and fragile (expected)
 - ISW uses `<h3 a>` for article links, `<article>` for content
 - Date parsing from article titles (ISW format: "Title, May 22, 2026")
@@ -371,7 +371,7 @@ Scraping → LLM Synthesis Pipeline
 2. Set up FastAPI backend directory structure
 3. Install core dependencies:
    - Mobile: `expo-router`, `nativewind`, `@tanstack/react-query`, `zustand`
-   - Backend: `fastapi`, `supabase-py`, `playwright` (CloakBrowser)
+   - Backend: `fastapi`, `supabase-py`, `playwright`, `reportlab`
 4. Configure Supabase project (database + connection)
 5. Set up Git repository structure (mobile/, api/, docs/)
 6. Write basic README with project overview
