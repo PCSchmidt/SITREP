@@ -3,14 +3,15 @@
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import FileResponse
 from pathlib import Path
+from datetime import datetime, timezone
 import json
 
 app = FastAPI(
     title="SITREP API",
     description="AI-powered intelligence briefing generation and synthesis",
-    version="0.3.0"
+    version="0.6.0"
 )
 
 # CORS middleware for mobile app
@@ -25,28 +26,143 @@ app.add_middleware(
 @app.get("/")
 async def root():
     """Root endpoint"""
-    return {"message": "SITREP API v0.0.1"}
+    return {"message": "SITREP API v0.6.0"}
 
 @app.get("/health")
 async def health_check():
     """Health check endpoint for monitoring"""
-    return {"status": "ok", "version": "0.0.1"}
+    return {"status": "ok", "version": "0.6.0"}
 
-# Placeholder endpoints for future gates
 @app.post("/scrape")
-async def scrape_sources():
-    """Scrape intelligence sources (v0.1)"""
-    return {"message": "Scraping endpoint - to be implemented in v0.1"}
+async def scrape_sources(region: str = "Europe/Africa", days: int = 7):
+    """
+    Scrape intelligence sources for a specific region.
+
+    Args:
+        region: Geographic region to scrape (default: Europe/Africa)
+        days: Number of days to look back (default: 7)
+
+    Returns:
+        Scraping status and article count
+    """
+    try:
+        from scrapers.orchestrator import ScraperOrchestrator
+
+        orchestrator = ScraperOrchestrator()
+        results = await orchestrator.scrape_all_sources(days=days)
+
+        # Save results to JSON files
+        orchestrator.save_all_results(results)
+
+        # Get summary statistics
+        summary = orchestrator.get_summary(results)
+
+        return {
+            "status": "success",
+            "total_articles": summary["total_articles"],
+            "by_source": summary["by_source"],
+            "by_region": summary["by_region"],
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Scraping failed: {str(e)}")
+
 
 @app.post("/synthesize")
-async def synthesize_briefing():
-    """Generate BLUF briefing from articles (v0.2)"""
-    return {"message": "Synthesis endpoint - to be implemented in v0.2"}
+async def synthesize_briefing(region: str = "Europe/Africa"):
+    """
+    Generate BLUF briefing from scraped articles.
+
+    Args:
+        region: Geographic region to synthesize (default: Europe/Africa)
+
+    Returns:
+        Generated briefing and metadata
+    """
+    try:
+        from synthesis.bluf_synthesizer import BLUFSynthesizer
+
+        # Find latest scraped articles
+        scraped_dir = Path("../data/scraped")
+        if not scraped_dir.exists():
+            raise HTTPException(status_code=404, detail="No scraped articles found")
+
+        # Load all scraped articles
+        all_articles = []
+        for json_file in scraped_dir.glob("*.json"):
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                # Handle both formats: list of articles or dict with 'articles' key
+                if isinstance(data, list):
+                    all_articles.extend(data)
+                elif isinstance(data, dict) and 'articles' in data:
+                    all_articles.extend(data['articles'])
+                else:
+                    raise ValueError(f"Unexpected JSON format in {json_file.name}")
+
+        if not all_articles:
+            raise HTTPException(status_code=404, detail="No articles to synthesize")
+
+        # Synthesize briefing
+        synthesizer = BLUFSynthesizer()
+        briefing = await synthesizer.synthesize_region(all_articles, region)
+
+        return {
+            "status": "success",
+            "region": region,
+            "briefing": briefing,
+            "source_articles": len(all_articles),
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Synthesis failed: {str(e)}")
+
 
 @app.get("/briefing/latest")
-async def get_latest_briefing():
-    """Get latest cached briefing (v0.5)"""
-    return {"message": "Briefing endpoint - to be implemented in v0.5"}
+async def get_latest_briefing(region: str = "Europe/Africa"):
+    """
+    Get latest cached briefing for a region.
+
+    Args:
+        region: Geographic region (default: Europe/Africa)
+
+    Returns:
+        Latest briefing JSON
+    """
+    try:
+        # Find latest briefing for region
+        briefing_dir = Path("../data/briefings")
+        if not briefing_dir.exists():
+            raise HTTPException(status_code=404, detail="No briefings available")
+
+        region_slug = region.lower().replace(' ', '_').replace('/', '_')
+        briefing_files = list(briefing_dir.glob(f"{region_slug}_*.json"))
+
+        if not briefing_files:
+            raise HTTPException(status_code=404, detail=f"No briefings found for {region}")
+
+        latest_briefing = max(briefing_files, key=lambda p: p.stat().st_mtime)
+
+        # Load and return briefing
+        with open(latest_briefing, 'r', encoding='utf-8') as f:
+            briefing = json.load(f)
+
+        return {
+            "status": "success",
+            "region": region,
+            "briefing": briefing,
+            "source_file": str(latest_briefing.name),
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error retrieving briefing: {str(e)}")
 
 @app.get("/briefing/latest/pdf")
 async def get_latest_pdf():
