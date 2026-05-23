@@ -310,6 +310,56 @@ Scraping → LLM Synthesis Pipeline
 
 ---
 
+## v0.6 Backend API - COMPLETE
+
+**Goal**: FastAPI REST endpoints for scraping, synthesis, and briefing retrieval
+
+**What Shipped**:
+- ✅ POST /scrape endpoint (triggers ISW scraper orchestrator)
+- ✅ POST /synthesize endpoint (generates BLUF briefing from articles)
+- ✅ GET /briefing/latest endpoint (returns cached briefing JSON)
+- ✅ POST /briefing/generate-pdf endpoint (generates PDF from briefing)
+- ✅ GET /briefing/latest/pdf endpoint (serves PDF file)
+- ✅ File-based caching (data/briefings/, data/pdfs/)
+- ✅ Comprehensive API test suite
+
+**API Functionality**:
+- Scraping: Orchestrator runs all scrapers, returns statistics
+- Synthesis: Async LLM synthesis with proper error handling
+- Briefing retrieval: Latest briefing by region
+- PDF generation: ReportLab integration via API
+- PDF serving: FileResponse with proper media type
+
+**Technical Details**:
+- Fixed async/await for synthesize_region() call
+- Fixed JSON loading for wrapper format (articles key)
+- Timezone-aware datetime (datetime.now(timezone.utc))
+- Proper HTTPException handling for 404/500 errors
+
+**Test Results**:
+- All 6 endpoints passing
+- Scraping: 16 articles from ISW
+- Synthesis: 2-section briefing generated
+- PDF: 5.8 KB, 3 pages
+
+**Deferred**:
+- Supabase integration (moved to v0.10 Weekly Automation / Railway deployment)
+- File-based caching sufficient for local development
+
+**Completion criteria**:
+- ✅ POST /scrape working
+- ✅ POST /synthesize working
+- ✅ GET /briefing/latest working
+- ✅ API endpoints tested end-to-end
+- ✅ Local backend fully functional
+- ⏸️ Supabase deferred to deployment gate
+
+**Estimated hours**: 8h  
+**Actual hours**: ~4h (50% under estimate - endpoints simpler than expected)  
+**Status**: ✅ COMPLETE (2026-05-23)
+
+---
+
 ---
 
 ## v0.0 COMPLETION SUMMARY

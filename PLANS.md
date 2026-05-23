@@ -4,14 +4,13 @@
 
 ---
 
-## CURRENT WORK (v0.4+ - Next Gates)
+## CURRENT WORK (v0.7+ - Next Gates)
 
-**v0.3 COMPLETE** (PDF Generation Backend - 2h actual vs 8h estimated)
+**v0.6 COMPLETE** (Backend API - 4h actual vs 8h estimated)
 
 **Upcoming Gates** (per VERSION_ROADMAP.md):
 - v0.4: Mobile Scaffold (skipped - already done in v0.1)
 - v0.5: UI Design System (skipped - already done in v0.1)
-- v0.6: Backend API (FastAPI endpoints)
 - v0.7: Mobile-Backend Integration
 - v0.8: PDF Mobile Integration (react-native-pdf)
 - v0.9: Regional Filtering (all 4 regions)
@@ -22,12 +21,13 @@
 - v0.14: Beta Testing
 - v1.0: Production Live
 
-**Immediate Next Steps** (v0.6 - Backend API):
-1. Implement POST /scrape endpoint (trigger ISW scraper)
-2. Implement POST /synthesize endpoint (trigger BLUF synthesis)
-3. Implement GET /briefing/latest endpoint (return JSON briefing)
-4. Connect Supabase for briefing caching
-5. Test end-to-end API flow
+**Immediate Next Steps** (v0.7 - Mobile-Backend Integration):
+1. Configure TanStack Query for API calls
+2. Connect mobile app to local FastAPI backend (http://localhost:8001)
+3. Replace mock data with real API fetches
+4. Implement loading states and error handling
+5. Add offline support with cached briefings
+6. Test end-to-end: mobile fetch → display briefing
 
 ---
 
@@ -118,3 +118,10 @@
 If session stops during v0.2.2:
 - ISW scraper working: `data/scraped/isw_2026-05-23.json`
 - Resume with: `/start` → continue v0.2.2 synthesis work
+
+## AUTO-COMPACT WARNING: 2026-05-23T13:25:21Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: 83cec48 v0.3 - PDF Generation Backend
+Tests: 3 skipped, 3 warnings in 0.35s

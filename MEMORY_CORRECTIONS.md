@@ -13,6 +13,48 @@
 # CORRECTION FOR FUTURE: [what changes]
 # MEMORY_SEMANTIC.md UPDATE: [pattern added/updated or none]
 
+## REFLEXION: v0.6 -- Backend API
+Date: 2026-05-23
+Project: SITREP
+ESTIMATE: Predicted 8h, Actual ~4h, Variance -50%
+
+TECHNICAL PREDICTIONS VS REALITY:
+
+**API Implementation (predicted 8h, actual ~4h)**:
+- Expected: Complex integration with Supabase, database schema design, authentication setup
+- Reality: File-based caching sufficient for MVP, REST endpoints straightforward with FastAPI
+- Debugging: Async/await issues took ~1h (forgot to await synthesize_region), JSON loading format took ~30min
+- Supabase: Deferred to v0.10 deployment gate (not needed for local development)
+
+**What went faster than expected**:
+- FastAPI endpoint creation: 5 endpoints in ~2h (POST /scrape, POST /synthesize, GET /briefing/latest, POST /generate-pdf, GET /latest/pdf)
+- File-based caching worked perfectly: No need for database overhead during development
+- Error handling: HTTPException pattern very clean, minimal boilerplate
+- Testing: Comprehensive test suite written in 30min, all endpoints passing immediately after fixes
+
+**What took expected time**:
+- Debugging async/await (FastAPI coroutine serialization errors)
+- JSON format discovery (wrapper object with 'articles' key vs direct array)
+
+**Why the estimate was off**:
+- Overestimated Supabase integration complexity (not needed for local dev)
+- Underestimated FastAPI's productivity (declarative routing, automatic OpenAPI, great async support)
+- File-based caching simpler than database layer (no schema migrations, no ORM complexity)
+
+CORRECTION FOR FUTURE:
+
+1. **Database integration estimates**: Defer database setup to deployment gates unless absolutely required for development. File-based caching works fine for local MVP validation.
+
+2. **FastAPI productivity**: FastAPI is highly productive for REST APIs. 5-6 endpoints in 2-3 hours is realistic for CRUD operations with existing business logic.
+
+3. **Async debugging pattern**: When getting "coroutine object not iterable" errors in FastAPI, always check that async functions are being awaited. Server auto-reload can be unreliable - restart manually to confirm fixes.
+
+4. **Apply 1.0x multiplier for FastAPI endpoint gates** with existing business logic (scraping, synthesis already working). Keep 2.0x for novel API work with new domains.
+
+5. **First-try success pattern continues**: 3/3 gates now (v0.2 synthesis, v0.3 PDF, v0.6 API) where core functionality worked on first try after small fixes. Modern tools (GPT-4, ReportLab, FastAPI) deliver quickly when well-documented.
+
+MEMORY_SEMANTIC.md UPDATE: None (need 3+ projects to validate pattern)
+
 ## REFLEXION: v0.2 -- Scraping Pipeline + LLM Synthesis
 Date: 2026-05-23
 Project: SITREP
