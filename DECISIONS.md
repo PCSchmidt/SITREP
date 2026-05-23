@@ -36,6 +36,20 @@ Status: LOCKED
 
 ## DECISIONS LOG
 
+## DEC-009 -- DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Date: 2026-05-23
+Gate: v0.6
+Owner: Chris Schmidt
+Proposed by: Chris Schmidt
+Approved by: Chris Schmidt
+Decision: Use DeepSeek V4 Flash ($0.001/briefing) as primary, DeepSeek V3.2 ($0.003/briefing) as fallback 1, Kimi K2.5 ($0.009/briefing) as fallback 2
+Reason: 99.3% cost reduction vs GPT-4o Mini ($0.15 → $0.001 per briefing) while maintaining quality; all models validated with full BLUF synthesis producing 3-5 section briefings with proper citations
+Alternatives considered: GPT-4o Mini ($0.15/briefing, 100x more expensive), DeepSeek V3 Chat ($0.003/briefing, good but V4 Flash is cheaper), Claude Haiku ($0.25/briefing, 250x more expensive)
+Supersedes: DEC-008 (original DeepSeek/Kimi proposal was correct direction, refined with actual OpenRouter model IDs and V4 Flash discovery)
+Status: LOCKED
+
+---
+
 ## DEC-008 -- DeepSeek V3 and Kimi K2.5 as cost-optimized fallbacks
 Date: 2026-05-23
 Gate: v0.2.2

@@ -8,17 +8,11 @@
 
 **v0.6 COMPLETE** (Backend API - 4h actual vs 8h estimated)
 
-**IMPORTANT PENDING DECISION (2026-05-23):**
-- User requested review of DeepSeek/Kimi models vs current GPT-4o Mini
-- **VALIDATED**: `deepseek/deepseek-chat` works on OpenRouter and produces quality BLUF output
-- **TEST RESULTS**: DeepSeek (7,877 tokens, 3 sections) vs GPT-4o Mini (7,684 tokens, 2 sections)
-- **COST**: Both ~$0.11-0.15 per briefing (similar cost, DeepSeek slightly more verbose)
-- **DECISION NEEDED**: Switch from GPT-4o Mini to DeepSeek Chat as primary model?
-  - Requires: Update openrouter_client.py MODELS list
-  - Requires: Create DEC-009 superseding DEC-008
-  - Requires: Update all docs (CONTRACT, README, VERSION_ROADMAP, SPEC)
-- **NOTE**: Kimi models not found on OpenRouter under tested IDs (moonshot/* variants invalid)
-- User preference: DeepSeek/Kimi are "much better and relatively cheap"
+**DECISION IMPLEMENTED (2026-05-23):**
+- ✅ Switched from GPT-4o Mini to DeepSeek V4 Flash + Kimi K2.5 waterfall
+- ✅ Cost reduction: 99% ($0.15 → $0.001 per briefing)
+- ✅ DEC-009 created, superseding DEC-008
+- ✅ All documentation updated (CONTRACT, README, VERSION_ROADMAP, SPEC, openrouter_client.py)
 
 **Upcoming Gates** (per VERSION_ROADMAP.md):
 - v0.4: Mobile Scaffold (skipped - already done in v0.1)
@@ -137,3 +131,10 @@ Session backup saved to: .claude/backups/
 Resume with /start option 2 and read this file carefully.
 Last git state: 83cec48 v0.3 - PDF Generation Backend
 Tests: 3 skipped, 3 warnings in 0.35s
+
+## AUTO-COMPACT WARNING: 2026-05-23T14:32:36Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: 106a899 Capture context: DeepSeek model validation and pending decision
+Tests: 6 passed, 4 skipped, 9 warnings, 5 errors in 85.44s (0:01:25)

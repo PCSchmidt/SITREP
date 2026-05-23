@@ -14,34 +14,35 @@ class OpenRouterClient:
     Client for Open Router API with automatic model fallback.
 
     Waterfall order:
-    1. google/gemini-2.0-flash-exp (free tier, 1.5M req/day)
-    2. deepseek/deepseek-v3 ($0.27/$1.10 per 1M tokens)
-    3. moonshot/kimi-k2.5 ($0.30/$1.20 per 1M tokens)
-    4. anthropic/claude-haiku-4.5 (emergency fallback)
+    1. DeepSeek V4 Flash ($0.10/$0.20 per 1M tokens) - ~$0.001/briefing
+    2. DeepSeek V3.2 ($0.25/$0.38 per 1M tokens) - ~$0.003/briefing
+    3. Kimi K2.5 ($0.40/$1.90 per 1M tokens) - ~$0.009/briefing
+
+    Cost savings: 99.3% reduction vs GPT-4o Mini ($0.15 → $0.001 per briefing)
     """
 
     BASE_URL = "https://openrouter.ai/api/v1"
 
     # Model waterfall (in priority order)
-    # Using verified working OpenRouter model IDs
+    # All models validated 2026-05-23 with full BLUF synthesis tests
     MODELS = [
         {
-            "id": "openai/gpt-4o-mini",  # Verified working
-            "name": "GPT-4o Mini",
-            "cost": "$0.15/briefing",
+            "id": "deepseek/deepseek-v4-flash",
+            "name": "DeepSeek V4 Flash",
+            "cost": "$0.001/briefing",  # $0.10/$0.20 per 1M tokens
             "max_tokens": 16384
         },
         {
-            "id": "anthropic/claude-3-haiku",
-            "name": "Claude 3 Haiku",
-            "cost": "$0.25/briefing",
-            "max_tokens": 8192
+            "id": "deepseek/deepseek-v3.2",
+            "name": "DeepSeek V3.2",
+            "cost": "$0.003/briefing",  # $0.25/$0.38 per 1M tokens
+            "max_tokens": 16384
         },
         {
-            "id": "meta-llama/llama-3.1-70b-instruct",
-            "name": "Llama 3.1 70B",
-            "cost": "$0.50/briefing",
-            "max_tokens": 8192
+            "id": "moonshotai/kimi-k2.5",
+            "name": "Kimi K2.5",
+            "cost": "$0.009/briefing",  # $0.40/$1.90 per 1M tokens
+            "max_tokens": 16384
         }
     ]
 

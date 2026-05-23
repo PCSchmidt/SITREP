@@ -58,7 +58,7 @@ SITREP is a mobile intelligence briefing platform that replicates and enhances "
 
 - ✅ **Cost ceiling: $20/month** (target: $5-10/month typical)
 - ✅ **Single cached briefing** - One briefing per week served to all users (no per-user generation)
-- ✅ **Multi-model LLM waterfall** - GPT-4o Mini (primary) → Claude Haiku → Llama 3.1 70B
+- ✅ **Multi-model LLM waterfall** - DeepSeek V4 Flash (~$0.001/briefing) → DeepSeek V3.2 → Kimi K2.5
 - ✅ **Playwright scraping** - Open-source news scraping (CloakBrowser optional for paywalls)
 - ✅ **Full analytics & monitoring** - Mixpanel (user behavior) + Sentry (crash tracking)
 
@@ -176,9 +176,9 @@ SITREP/
 - **Scraping**: Playwright (CloakBrowser optional for paywalled sources)
 - **PDF Generation**: ReportLab (programmatic PDF generation)
 - **LLM Integration**: Multi-model via Open Router
-  - Primary: GPT-4o Mini ($0.15/briefing typical)
-  - Fallback 1: Claude 3 Haiku ($0.25/$1.25 per 1M tokens)
-  - Fallback 2: Llama 3.1 70B ($0.52/$0.75 per 1M tokens)
+  - Primary: DeepSeek V4 Flash (~$0.001/briefing)
+  - Fallback 1: DeepSeek V3.2 (~$0.003/briefing)
+  - Fallback 2: Kimi K2.5 (~$0.009/briefing)
 - **HTTP**: httpx (async), aiohttp (concurrent scraping)
 - **Testing**: pytest, pytest-asyncio, pytest-cov
 
@@ -268,7 +268,7 @@ See [VERSION_ROADMAP.md](VERSION_ROADMAP.md) for detailed gate descriptions and 
 │              Weekly Scraping Pipeline                        │
 │  1. Playwright scrapes OSINT sources (ISW, Defense One...)  │
 │  2. Extract articles → JSON storage                          │
-│  3. Multi-model LLM synthesis (GPT-4o Mini → Claude → Llama)│
+│  3. Multi-model LLM synthesis (DeepSeek V4 → V3.2 → Kimi)   │
 │  4. Generate BLUF per region                                 │
 │  5. ReportLab generates PDF                                  │
 │  6. Cache briefing + PDF in Supabase                         │
@@ -298,8 +298,8 @@ Sunday 06:00 UTC
                  ↓ Raw articles JSON
 ┌───────────────────────────────────────────────┐
 │  Multi-Model LLM Synthesis                    │
-│  Primary: GPT-4o Mini (~$0.15/briefing)       │
-│  Fallback: Claude 3 Haiku → Llama 3.1 70B     │
+│  Primary: DeepSeek V4 Flash (~$0.001/briefing)│
+│  Fallback: DeepSeek V3.2 → Kimi K2.5          │
 │                                                │
 │  Prompt: "Synthesize into 4 regional BLUF     │
 │  briefings (Middle East, Indo-Pacific,        │
@@ -335,7 +335,7 @@ CREATE TABLE briefings (
   regions JSONB NOT NULL,  -- {middle_east: {...}, indo_pacific: {...}, ...}
   pdf_url TEXT,            -- Blob storage URL
   source_count INTEGER,    -- Number of articles scraped
-  model_used TEXT          -- "gpt-4o-mini" | "claude-3-haiku" | "llama-3.1-70b"
+  model_used TEXT          -- "DeepSeek V4 Flash" | "DeepSeek V3.2" | "Kimi K2.5"
 );
 ```
 
@@ -376,17 +376,17 @@ CREATE TABLE briefings (
 |---------|------|--------------|-------|
 | Railway | Hobby | $5 | Backend hosting, cron jobs |
 | Supabase | Free | $0 | 500MB DB, 1GB storage, 2GB bandwidth |
-| Open Router (GPT-4o Mini) | Pay-as-you-go | $1-2 | ~$0.15/briefing, 4 briefings/month |
-| Open Router (Fallbacks) | Pay-as-you-go | $0-1 | Claude/Llama only if GPT fails (rare) |
+| Open Router (DeepSeek V4 Flash) | Pay-as-you-go | $0-1 | ~$0.001/briefing, 4 briefings/month = $0.004 |
+| Open Router (Fallbacks) | Pay-as-you-go | $0 | DeepSeek V3.2/Kimi only if V4 fails (rare) |
 | Mixpanel | Free | $0 | 100k events/month |
 | Sentry | Free | $0 | 5k errors/month |
-| **Total** | | **$5-10** | **Worst case: $20 if heavy fallback usage** |
+| **Total** | | **$5-6** | **Worst case: $10 if heavy fallback usage** |
 
 ### Cost Optimization Strategies
 
 1. **Single Cached Briefing**: One briefing generated per week, served to ALL users (no per-user generation)
-2. **Cost-Optimized LLM**: GPT-4o Mini at ~$0.15/briefing (4 briefings/month = $0.60/month typical)
-3. **Waterfall Fallback**: Only pay for Claude/Llama if GPT-4o Mini fails (rare, adds $0-1/month)
+2. **Ultra-Low-Cost LLM**: DeepSeek V4 Flash at ~$0.001/briefing (4 briefings/month = $0.004/month, 99% reduction vs GPT-4o Mini)
+3. **Waterfall Fallback**: Only pay for DeepSeek V3.2/Kimi if V4 Flash fails (rare, adds $0-1/month)
 4. **Supabase Free Tier**: 500MB database + 1GB blob storage sufficient for 52 briefings/year + PDFs
 5. **No User Auth in v1.0**: Deferred to v1.1 to reduce complexity and backend load
 6. **Railway Free Trial**: First $5/month free credits reduce effective cost

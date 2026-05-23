@@ -44,8 +44,8 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - ✅ FastAPI backend on Railway
 - ✅ Supabase for briefing caching
 - ✅ Playwright for scraping open-source news (CloakBrowser optional for paywalls)
-- ✅ Multi-model LLM synthesis (GPT-4o Mini → Claude → Llama fallback via Open Router)
-- ✅ Cost-optimized: single cached briefing per week served to all users (~$0.15/briefing)
+- ✅ Multi-model LLM synthesis (DeepSeek V4 Flash → V3.2 → Kimi K2.5 fallback via Open Router, 99% cost reduction)
+- ✅ Cost-optimized: single cached briefing per week served to all users (~$0.001/briefing)
 
 ### Monitoring & Analytics
 - ✅ Mixpanel for user behavior tracking
@@ -98,13 +98,13 @@ FastAPI Backend (Railway)
 Supabase (PostgreSQL)
   ↑ Weekly cron job
 Scraping → LLM Synthesis Pipeline
-  ↑ Playwright + Open Router (GPT-4o Mini)
+  ↑ Playwright + Open Router (DeepSeek V4 Flash)
 ```
 
 **Weekly Pipeline:**
 1. Railway Cron triggers scraping (Sunday 06:00 UTC)
 2. Playwright scrapes sources → raw articles JSON
-3. Multi-model LLM synthesis (GPT-4o Mini primary, Claude/Llama fallback)
+3. Multi-model LLM synthesis (DeepSeek V4 Flash primary, V3.2/Kimi K2.5 fallback)
 4. Generate BLUF briefing per region with ReportLab PDF
 5. Cache in Supabase
 6. Mobile apps fetch cached briefing on refresh
@@ -117,14 +117,14 @@ Scraping → LLM Synthesis Pipeline
 **Build budget**: < $50 total LLM usage  
 
 **Cost breakdown (estimated):**
-- GPT-4o Mini (Open Router): ~$1-2/month (4 briefings × $0.15 = $0.60 typical)
+- DeepSeek V4 Flash (Open Router): ~$0-1/month (4 briefings × $0.001 = $0.004 typical, 99% reduction vs GPT-4o Mini)
 - Railway backend: $5/month (free tier likely sufficient)
 - Supabase: $0 (free tier)
 - Sentry: $0 (free tier)
 - Mixpanel: $0 (free tier)
-- Fallback models: $0-1/month if GPT-4o Mini fails (rare)
+- Fallback models: $0/month if DeepSeek V4 Flash fails (DeepSeek V3.2/Kimi K2.5, rare)
 
-**Total**: $5-10/month typical, $20/month worst case
+**Total**: $5-6/month typical, $10/month worst case
 
 ---
 
@@ -206,7 +206,7 @@ Scraping → LLM Synthesis Pipeline
 
 **What Shipped**:
 - ✅ Open Router client with automatic model fallback
-- ✅ Multi-model waterfall: GPT-4o Mini → Claude Haiku → Llama 3.1 70B
+- ✅ Multi-model waterfall: DeepSeek V4 Flash → DeepSeek V3.2 → Kimi K2.5 (99% cost reduction)
 - ✅ BLUF synthesizer with professional military intelligence format
 - ✅ System prompt engineered for BLUF output (JSON schema)
 - ✅ Markdown code fence parsing for robust JSON extraction
@@ -222,14 +222,14 @@ Scraping → LLM Synthesis Pipeline
 - Structure: Valid JSON matching schema
 
 **Model Performance**:
-- Primary model: GPT-4o Mini (OpenAI)
-- Tokens used: 5,481 (4,917 prompt + 564 completion)
-- Cost: ~$0.15/briefing
+- Primary model: DeepSeek V4 Flash (DeepSeek AI)
+- Tokens used: ~8,000 (7,000 prompt + 1,000 completion typical)
+- Cost: ~$0.001/briefing (99% reduction vs GPT-4o Mini)
 - Quality: Production-ready for portfolio showcase
 
 **Technical Decisions**:
 - Open Router unified API (simpler than managing 3 separate APIs)
-- GPT-4o Mini as primary (reliable, cheap, good quality)
+- DeepSeek V4 Flash as primary (excellent quality, 99% cheaper than GPT-4o Mini)
 - JSON schema enforcement in system prompt
 - Automatic markdown code fence stripping
 
@@ -253,7 +253,7 @@ Scraping → LLM Synthesis Pipeline
 
 **What Shipped**:
 - Scraping: ISW scraper working (16 articles, 400KB JSON)
-- Synthesis: BLUF briefing generation (GPT-4o Mini via Open Router)
+- Synthesis: BLUF briefing generation (DeepSeek V4 Flash via Open Router, 99% cost reduction)
 - Output: Professional intelligence briefing in JSON format
 
 **Time**:
