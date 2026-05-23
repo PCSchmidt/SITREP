@@ -8,6 +8,18 @@
 
 **v0.6 COMPLETE** (Backend API - 4h actual vs 8h estimated)
 
+**IMPORTANT PENDING DECISION (2026-05-23):**
+- User requested review of DeepSeek/Kimi models vs current GPT-4o Mini
+- **VALIDATED**: `deepseek/deepseek-chat` works on OpenRouter and produces quality BLUF output
+- **TEST RESULTS**: DeepSeek (7,877 tokens, 3 sections) vs GPT-4o Mini (7,684 tokens, 2 sections)
+- **COST**: Both ~$0.11-0.15 per briefing (similar cost, DeepSeek slightly more verbose)
+- **DECISION NEEDED**: Switch from GPT-4o Mini to DeepSeek Chat as primary model?
+  - Requires: Update openrouter_client.py MODELS list
+  - Requires: Create DEC-009 superseding DEC-008
+  - Requires: Update all docs (CONTRACT, README, VERSION_ROADMAP, SPEC)
+- **NOTE**: Kimi models not found on OpenRouter under tested IDs (moonshot/* variants invalid)
+- User preference: DeepSeek/Kimi are "much better and relatively cheap"
+
 **Upcoming Gates** (per VERSION_ROADMAP.md):
 - v0.4: Mobile Scaffold (skipped - already done in v0.1)
 - v0.5: UI Design System (skipped - already done in v0.1)
