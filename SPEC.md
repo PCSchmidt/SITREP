@@ -270,6 +270,46 @@ Scraping → LLM Synthesis Pipeline
 
 ---
 
+## v0.3 PDF Generation Backend - COMPLETE
+
+**Goal**: Generate professional PDF briefings from BLUF JSON
+
+**What Shipped**:
+- ✅ ReportLab-based PDF generator (Windows-compatible)
+- ✅ Military aesthetic with amber (#FFA500) styling
+- ✅ Cover page with classification markings and AI disclaimer
+- ✅ BLUF summary with highlighted formatting
+- ✅ Detailed sections with source citations
+- ✅ GET /briefing/latest/pdf API endpoint
+- ✅ POST /briefing/generate-pdf API endpoint
+
+**Output Quality**:
+- Generated PDF: `data/pdfs/europe_africa_2026-05-23.pdf`
+- File size: 5.8 KB (3 pages)
+- Format: Professional intelligence briefing layout
+- Styling: Military aesthetic with structured sections
+- Compatibility: Works on Windows (ReportLab vs WeasyPrint)
+
+**Technical Decisions**:
+- ReportLab programmatic generation > WeasyPrint HTML→PDF
+- Letter size, 0.75" margins
+- Paragraph styles: CoverTitle, SectionHeader, BLUF, BodyJustified, Source
+- Amber border highlights for BLUF and section headers
+- Classification markings: UNCLASSIFIED // AI-GENERATED
+
+**Completion criteria**:
+- ✅ PDF generation working
+- ✅ Professional military aesthetic
+- ✅ API endpoint serving PDFs
+- ✅ Windows compatibility verified
+- ✅ Output validated (3 pages, proper formatting)
+
+**Estimated hours**: 8h  
+**Actual hours**: ~2h (75% under estimate - ReportLab simpler than HTML/CSS templates)  
+**Status**: ✅ COMPLETE (2026-05-23)
+
+---
+
 ---
 
 ## v0.0 COMPLETION SUMMARY

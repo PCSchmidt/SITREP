@@ -6,7 +6,7 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile dev
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-lightgrey)
-![Status](https://img.shields.io/badge/status-v0.1.0%20Mobile%20Foundation-green)
+![Status](https://img.shields.io/badge/status-v0.3.0%20PDF%20Generation-green)
 
 ---
 
@@ -14,7 +14,7 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile dev
 
 **Build Type**: Production / GA (App Store + Play Store deployment)  
 **Timeline**: 3 months (~114-124 hours total)  
-**Current Gate**: v0.1 Mobile Foundation ✅ COMPLETE  
+**Current Gate**: v0.3 PDF Generation Backend ✅ COMPLETE  
 **Portfolio**: [pcschmidt.github.io](https://pcschmidt.github.io)
 
 ### What is SITREP?
