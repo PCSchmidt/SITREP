@@ -6,7 +6,7 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile dev
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-lightgrey)
-![Status](https://img.shields.io/badge/status-v0.0.0%20Foundation-green)
+![Status](https://img.shields.io/badge/status-v0.1.0%20Mobile%20Foundation-green)
 
 ---
 
@@ -14,7 +14,7 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile dev
 
 **Build Type**: Production / GA (App Store + Play Store deployment)  
 **Timeline**: 3 months (~114-124 hours total)  
-**Current Gate**: v0.0 Foundation ✅ COMPLETE  
+**Current Gate**: v0.1 Mobile Foundation ✅ COMPLETE  
 **Portfolio**: [pcschmidt.github.io](https://pcschmidt.github.io)
 
 ### What is SITREP?
@@ -195,15 +195,16 @@ SITREP/
 
 ## 📋 Development Roadmap
 
-**Current Gate**: v0.0 Foundation ✅
+**Current Gate**: v0.1 Mobile Foundation ✅
 
 Built using **Blueprint v11** methodology with 16-gate phased development:
 
 | Version | Gate | Description | Hours | Status |
 |---------|------|-------------|-------|--------|
 | v0.0 | Foundation | Project scaffold, dependencies, documentation | 4h (4h actual) | ✅ COMPLETE |
-| v0.1 | Scraping Pipeline | CloakBrowser integration, scrape 10 Tier 1 sources | 8h | 📅 Next |
-| v0.2 | LLM Synthesis | Multi-model pipeline, BLUF generation per region | 12h | 📅 Planned |
+| v0.1 | Mobile Foundation | App config, design system, component library, screens | 8h (3h actual) | ✅ COMPLETE |
+| v0.2 | Scraping Pipeline | CloakBrowser integration, scrape 10 Tier 1 sources | 8h | 📅 Next |
+| v0.3 | LLM Synthesis | Multi-model pipeline, BLUF generation per region | 12h | 📅 Planned |
 | v0.3 | PDF Generation Backend | WeasyPrint integration, template design | 8h | 📅 Planned |
 | v0.4 | Mobile Scaffold | Navigation, tabs, theme, dark mode setup | 6h | 📅 Planned |
 | v0.5 | UI Design System | BriefingCard, BLUFSection, RegionTab components | 10h | 📅 Planned |
@@ -452,6 +453,6 @@ MIT License - see [LICENSE](LICENSE) for details
 
 ---
 
-**Status**: v0.0.0 Foundation Complete (2026-05-21)  
-**Next**: v0.1 Scraping Pipeline (CloakBrowser + 80+ OSINT sources)  
+**Status**: v0.1.0 Mobile Foundation Complete (2026-05-22)  
+**Next**: v0.2 Scraping Pipeline (CloakBrowser + 80+ OSINT sources)  
 **Target Launch**: 2026-08-21 (App Store + Play Store)

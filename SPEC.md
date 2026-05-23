@@ -5,8 +5,8 @@
 ## PROJECT
 
 **App name**: SITREP  
-**Current gate**: v0.0 - COMPLETE  
-**Status**: READY FOR v0.1  
+**Current gate**: v0.1 - COMPLETE  
+**Status**: READY FOR v0.2  
 **Build type**: Production / GA  
 **Target launch**: 2026-08-21 (3 months)  
 
@@ -128,7 +128,34 @@ Scraping → LLM Synthesis Pipeline
 
 ---
 
-## v0.0 ACTIVE TASKS
+## v0.1 COMPLETION SUMMARY
+
+**Goal**: Mobile Foundation - Expo app configuration, design system, component library, navigation
+
+**What Shipped**:
+- ✅ App configured with SITREP bundle ID (com.pcschmidt.sitrep)
+- ✅ Dark mode enforced (AMOLED-optimized)
+- ✅ NativeWind + Tailwind CSS configured with design system colors
+- ✅ Design tokens file (colors, typography, spacing, regions)
+- ✅ Component library: BriefingCard, RegionTab, BLUFSection, DisclaimerBanner, SourceCitation
+- ✅ Expo Router file-based navigation (home, detail, about screens)
+- ✅ Mock briefing data and TypeScript types
+- ✅ Dependencies: Expo Router, NativeWind, TanStack Query, Zustand, react-native-pdf
+- ✅ TypeScript strict mode with NativeWind types
+
+**Completion criteria**:
+- ✅ App displays military aesthetic dark UI
+- ✅ Navigation between screens working
+- ✅ Components render placeholder content correctly
+- ✅ Git committed cleanly (2 commits)
+
+**Estimated hours**: 8h  
+**Actual hours**: ~3h (62% under estimate - efficient component library build)  
+**Status**: ✅ COMPLETE (2026-05-22)
+
+---
+
+## v0.0 COMPLETION SUMMARY
 
 **Goal**: Foundation setup - project scaffolding, dependencies, repo structure
 
