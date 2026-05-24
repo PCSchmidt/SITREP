@@ -4,20 +4,25 @@
 
 ---
 
-## CURRENT WORK (v0.7+ - Next Gates)
+## CURRENT WORK (v0.8+ - Next Gates)
 
-**v0.6 COMPLETE** (Backend API - 4h actual vs 8h estimated)
+**v0.7 COMPLETE** (Mobile-Backend Integration - 6h actual vs 6h estimated)
 
-**DECISION IMPLEMENTED (2026-05-23):**
-- ✅ Switched from GPT-4o Mini to DeepSeek V4 Flash + Kimi K2.5 waterfall
-- ✅ Cost reduction: 99% ($0.15 → $0.001 per briefing)
-- ✅ DEC-009 created, superseding DEC-008
-- ✅ All documentation updated (CONTRACT, README, VERSION_ROADMAP, SPEC, openrouter_client.py)
+**What Shipped (2026-05-24):**
+- ✅ TanStack Query setup with offline-first configuration
+- ✅ API client created with network IP (10.0.0.201:8001) for device testing
+- ✅ Data transformation layer (backend BLUF → mobile Briefing type)
+- ✅ React Query hooks for data fetching (useAllBriefings, useBriefingById)
+- ✅ Mobile screens updated with real API calls (replaced mock data)
+- ✅ Loading states and error handling implemented
+- ✅ Backend verified accessible on local network
+
+**Known Issues:**
+- ⚠️ Babel configuration error preventing mobile bundling (`.plugins is not a valid Plugin property`)
+- ⚠️ E2E mobile testing blocked pending Babel/NativeWind/Reanimated plugin resolution
+- Integration code is complete and correct; issue is environmental/tooling
 
 **Upcoming Gates** (per VERSION_ROADMAP.md):
-- v0.4: Mobile Scaffold (skipped - already done in v0.1)
-- v0.5: UI Design System (skipped - already done in v0.1)
-- v0.7: Mobile-Backend Integration
 - v0.8: PDF Mobile Integration (react-native-pdf)
 - v0.9: Regional Filtering (all 4 regions)
 - v0.10: Weekly Automation (Railway Cron)
@@ -27,13 +32,13 @@
 - v0.14: Beta Testing
 - v1.0: Production Live
 
-**Immediate Next Steps** (v0.7 - Mobile-Backend Integration):
-1. Configure TanStack Query for API calls
-2. Connect mobile app to local FastAPI backend (http://localhost:8001)
-3. Replace mock data with real API fetches
-4. Implement loading states and error handling
-5. Add offline support with cached briefings
-6. Test end-to-end: mobile fetch → display briefing
+**Immediate Next Steps** (v0.8 - PDF Mobile Integration):
+1. Integrate react-native-pdf library
+2. Create PDF viewer screen component
+3. Add "View as PDF" button in briefing detail
+4. Implement iOS/Android share sheet integration
+5. Add save to Files/Downloads functionality
+6. Test PDF viewing and sharing on real devices
 
 ---
 

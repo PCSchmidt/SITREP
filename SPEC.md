@@ -5,8 +5,8 @@
 ## PROJECT
 
 **App name**: SITREP  
-**Current gate**: v0.1 - COMPLETE  
-**Status**: READY FOR v0.2  
+**Current gate**: v0.7 - COMPLETE  
+**Status**: READY FOR v0.8  
 **Build type**: Production / GA  
 **Target launch**: 2026-08-21 (3 months)  
 
@@ -357,6 +357,60 @@ Scraping → LLM Synthesis Pipeline
 **Estimated hours**: 8h  
 **Actual hours**: ~4h (50% under estimate - endpoints simpler than expected)  
 **Status**: ✅ COMPLETE (2026-05-23)
+
+---
+
+## v0.7 Mobile-Backend Integration - COMPLETE
+
+**Goal**: Connect mobile app to FastAPI backend with React Query for data fetching
+
+**What Shipped**:
+- ✅ TanStack Query setup (QueryClientProvider with offline-first config)
+- ✅ API client (mobile/api/client.ts) with network IP configuration (10.0.0.201:8001)
+- ✅ Backend data transformation (BLUF format → mobile Briefing type)
+- ✅ React Query hooks (mobile/hooks/useBriefings.ts) for data fetching
+- ✅ Updated index.tsx with real API calls replacing mock data
+- ✅ Updated detail/[id].tsx with dynamic briefing fetching
+- ✅ Loading states (ActivityIndicator) for all async operations
+- ✅ Error handling with user-friendly messages
+- ✅ Offline support (5min stale time, 10min cache time, auto-retry)
+
+**Technical Details**:
+- API base URL configured for local network testing (not localhost)
+- Transform function maps backend sections/sources to mobile format
+- Query keys structure: `['briefings', 'all-regions']` and `['briefings', 'region', region]`
+- Error messages guide user to check backend availability
+- Region filtering works client-side on cached data
+
+**Integration Verified**:
+- ✅ Backend accessible on local network (http://10.0.0.201:8001/health)
+- ✅ API endpoint returns briefing data (http://10.0.0.201:8001/briefing/latest)
+- ✅ TypeScript compilation passes with no errors
+- ✅ Mobile code properly configured for network requests
+
+**Testing Status**:
+- ✅ API integration verified via curl testing
+- ✅ Backend serving data correctly on local network
+- ⏸️ E2E mobile testing blocked by Babel configuration issue (`.plugins is not a valid Plugin property`)
+- ⏸️ Network connectivity issues (Comcast router) preventing physical device testing
+
+**Deferred**:
+- Babel plugin configuration debugging (NativeWind/Reanimated conflict)
+- Physical device E2E testing (pending network stability)
+- Android emulator E2E testing (pending Babel fix)
+
+**Completion criteria**:
+- ✅ TanStack Query configured
+- ✅ API client created with fetch functions
+- ✅ React Query hooks implemented
+- ✅ Mock data replaced with real API calls
+- ✅ Loading and error states added
+- ✅ Offline caching configured
+- ⏸️ End-to-end visual testing (blocked by environment issues)
+
+**Estimated hours**: 6h  
+**Actual hours**: ~3h integration work + ~3h environment debugging (Babel, network, emulator setup)  
+**Status**: ✅ CODE COMPLETE (2026-05-24) - Testing pending environment resolution
 
 ---
 

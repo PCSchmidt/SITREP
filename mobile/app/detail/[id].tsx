@@ -1,19 +1,35 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import DisclaimerBanner from '../../components/DisclaimerBanner';
 import BLUFSection from '../../components/BLUFSection';
 import SourceCitation from '../../components/SourceCitation';
-import { mockBriefings } from '../../data/mockBriefings';
+import { useBriefingById } from '../../hooks/useBriefings';
 import { Colors, Typography, Spacing } from '../../constants/tokens';
 
 export default function DetailScreen() {
   const { id } = useLocalSearchParams();
-  const briefing = mockBriefings.find((b) => b.id === id);
+  const { data: briefing, isLoading, error } = useBriefingById(id as string);
 
-  if (!briefing) {
+  if (isLoading) {
     return (
       <View className="flex-1 bg-true-black items-center justify-center">
-        <Text style={{ color: Colors.textBody, ...Typography.body }}>Briefing not found</Text>
+        <ActivityIndicator size="large" color="#FFA500" />
+        <Text className="text-amber-500 mt-4 text-base">Loading briefing...</Text>
+      </View>
+    );
+  }
+
+  if (error || !briefing) {
+    return (
+      <View className="flex-1 bg-true-black items-center justify-center px-4">
+        <Text className="text-red-500 text-base text-center">
+          {error ? 'Failed to load briefing' : 'Briefing not found'}
+        </Text>
+        {error && (
+          <Text className="text-gray-400 text-sm mt-2 text-center">
+            {(error as Error).message}
+          </Text>
+        )}
       </View>
     );
   }
