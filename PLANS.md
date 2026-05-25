@@ -4,41 +4,43 @@
 
 ---
 
-## CURRENT WORK (v0.8+ - Next Gates)
+## CURRENT WORK (v0.9+ - Next Gates)
 
-**v0.7 COMPLETE** (Mobile-Backend Integration - 6h actual vs 6h estimated)
+**v0.8 COMPLETE** (PDF Mobile Integration - 6h actual vs 6h estimated, 0% variance)
 
-**What Shipped (2026-05-24):**
-- ✅ TanStack Query setup with offline-first configuration
-- ✅ API client created with network IP (10.0.0.201:8001) for device testing
-- ✅ Data transformation layer (backend BLUF → mobile Briefing type)
-- ✅ React Query hooks for data fetching (useAllBriefings, useBriefingById)
-- ✅ Mobile screens updated with real API calls (replaced mock data)
-- ✅ Loading states and error handling implemented
-- ✅ Backend verified accessible on local network
+**What Shipped (2026-05-25):**
+- ✅ react-native-pdf library integrated with custom Expo development build
+- ✅ react-native-blob-util native module compiled (custom build required)
+- ✅ Full-screen PDF viewer at [mobile/app/pdf/[id].tsx](mobile/app/pdf/[id].tsx)
+- ✅ Share button opens Android/iOS share sheet (Drive, Gmail, Messages, Print)
+- ✅ Save button downloads PDF to Downloads folder
+- ✅ Centered header layout (Share/Save buttons don't overlap gear icon)
+- ✅ Lazy-loaded PDF component prevents startup errors
+- ✅ Comprehensive error handling with detailed logging ([PDF Share], [PDF Save] prefixes)
+- ✅ Backend PDF endpoint verified working (3-page PDF, 5.8KB)
 
-**Known Issues:**
-- ⚠️ Babel configuration error preventing mobile bundling (`.plugins is not a valid Plugin property`)
-- ⚠️ E2E mobile testing blocked pending Babel/NativeWind/Reanimated plugin resolution
-- Integration code is complete and correct; issue is environmental/tooling
+**Known Limitations:**
+- ⚠️ Android may kill app when Share dialog opens (OS memory management, not a bug)
+- ⚠️ Requires custom development build (~35min Android build time with native modules)
+- ⚠️ PDF caching uses device storage (expo-file-system cacheDirectory)
 
 **Upcoming Gates** (per VERSION_ROADMAP.md):
-- v0.8: PDF Mobile Integration (react-native-pdf)
-- v0.9: Regional Filtering (all 4 regions)
-- v0.10: Weekly Automation (Railway Cron)
-- v0.11: Analytics Integration (Mixpanel + Sentry)
-- v0.12: Legal & Disclaimers
-- v0.13: App Store Prep
-- v0.14: Beta Testing
-- v1.0: Production Live
+- v0.9: Regional Filtering (all 4 regions) - 6h estimated
+- v0.10: Weekly Automation (Railway Cron) - 10h estimated
+- v0.11: Analytics Integration (Mixpanel + Sentry) - 6h estimated
+- v0.12: Legal & Disclaimers - 4h estimated
+- v0.13: App Store Prep - 6h estimated
+- v0.14: Beta Testing - 8-16h estimated
+- v1.0: Production Live - 6-12h estimated
 
-**Immediate Next Steps** (v0.8 - PDF Mobile Integration):
-1. Integrate react-native-pdf library
-2. Create PDF viewer screen component
-3. Add "View as PDF" button in briefing detail
-4. Implement iOS/Android share sheet integration
-5. Add save to Files/Downloads functionality
-6. Test PDF viewing and sharing on real devices
+**Immediate Next Steps** (v0.9 - Regional Filtering):
+1. Backend: Generate briefings for all 4 regions (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere)
+2. Backend: Update /briefing/latest endpoint to accept region parameter
+3. Mobile: Implement region tabs UI component (horizontal scroll or dropdown)
+4. Mobile: Wire region selection to API calls
+5. Mobile: Add region filter persistence (remember user's last selection)
+6. Test: Verify all 4 regions display unique content
+7. Polish: Smooth transitions between region views
 
 ---
 

@@ -35,63 +35,73 @@ export default function PDFViewerScreen() {
   };
 
   const handleShare = async () => {
-    console.log('Share button pressed');
+    console.log('[PDF Share] Button pressed');
     try {
+      // Check if sharing is available first
+      const canShare = await Sharing.isAvailableAsync();
+      console.log('[PDF Share] Sharing available:', canShare);
+
+      if (!canShare) {
+        Alert.alert('Sharing Not Available', 'Sharing is not available on this device.');
+        return;
+      }
+
       // Download PDF to local file system first
       const localUri = `${cacheDirectory}sitrep_${id}.pdf`;
-      console.log('Downloading PDF to:', localUri);
+      console.log('[PDF Share] Downloading PDF to:', localUri);
 
       const downloadResult = await downloadAsync(
         `${API_BASE_URL}/briefing/latest/pdf`,
         localUri
       );
-      console.log('Download result:', downloadResult.status);
+      console.log('[PDF Share] Download result:', downloadResult.status);
 
       if (downloadResult.status === 200) {
-        const canShare = await Sharing.isAvailableAsync();
-
-        if (canShare) {
-          await Sharing.shareAsync(downloadResult.uri, {
-            mimeType: 'application/pdf',
-            dialogTitle: 'Share SITREP Briefing',
-            UTI: 'com.adobe.pdf',
-          });
-        } else {
-          Alert.alert('Sharing Not Available', 'Sharing is not available on this device.');
-        }
+        console.log('[PDF Share] Opening share dialog for:', downloadResult.uri);
+        await Sharing.shareAsync(downloadResult.uri, {
+          mimeType: 'application/pdf',
+          dialogTitle: 'Share SITREP Briefing',
+          UTI: 'com.adobe.pdf',
+        });
+        console.log('[PDF Share] Share completed successfully');
       } else {
+        console.error('[PDF Share] Download failed with status:', downloadResult.status);
         Alert.alert('Download Failed', 'Could not download PDF for sharing.');
       }
     } catch (err) {
-      console.error('Share error:', err);
-      Alert.alert('Share Failed', 'Could not share PDF. Please try again.');
+      console.error('[PDF Share] Error:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      Alert.alert('Share Failed', `Could not share PDF: ${errorMessage}`);
     }
   };
 
   const handleDownload = async () => {
-    console.log('Save button pressed');
+    console.log('[PDF Save] Button pressed');
     try {
       const localUri = `${documentDirectory}sitrep_${id}.pdf`;
-      console.log('Saving PDF to:', localUri);
+      console.log('[PDF Save] Saving PDF to:', localUri);
 
       const downloadResult = await downloadAsync(
         `${API_BASE_URL}/briefing/latest/pdf`,
         localUri
       );
-      console.log('Save result:', downloadResult.status);
+      console.log('[PDF Save] Save result:', downloadResult.status);
 
       if (downloadResult.status === 200) {
+        console.log('[PDF Save] PDF saved successfully to:', downloadResult.uri);
         Alert.alert(
           'PDF Saved',
           `Briefing saved to ${Platform.OS === 'ios' ? 'Files app' : 'Downloads'}`,
           [{ text: 'OK' }]
         );
       } else {
+        console.error('[PDF Save] Save failed with status:', downloadResult.status);
         Alert.alert('Download Failed', 'Could not save PDF.');
       }
     } catch (err) {
-      console.error('Download error:', err);
-      Alert.alert('Save Failed', 'Could not save PDF. Please try again.');
+      console.error('[PDF Save] Error:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      Alert.alert('Save Failed', `Could not save PDF: ${errorMessage}`);
     }
   };
 
@@ -101,7 +111,6 @@ export default function PDFViewerScreen() {
       <View
         style={{
           flexDirection: 'row',
-          justifyContent: 'space-between',
           alignItems: 'center',
           paddingTop: 70,
           paddingBottom: Spacing.md,
@@ -118,7 +127,7 @@ export default function PDFViewerScreen() {
           <Text style={{ color: Colors.amber, ...Typography.body }}>← Back</Text>
         </TouchableOpacity>
 
-        <View style={{ flexDirection: 'row', gap: Spacing.md }}>
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', gap: Spacing.md, paddingRight: 80 }}>
           <TouchableOpacity
             onPress={handleShare}
             style={{

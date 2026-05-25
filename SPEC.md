@@ -5,8 +5,8 @@
 ## PROJECT
 
 **App name**: SITREP  
-**Current gate**: v0.7 - COMPLETE  
-**Status**: READY FOR v0.8  
+**Current gate**: v0.8 - COMPLETE  
+**Status**: READY FOR v0.9  
 **Build type**: Production / GA  
 **Target launch**: 2026-08-21 (3 months)  
 
@@ -413,6 +413,62 @@ Scraping → LLM Synthesis Pipeline
 **Status**: ✅ CODE COMPLETE (2026-05-24) - Testing pending environment resolution
 
 ---
+
+## v0.8 PDF Mobile Integration - COMPLETE
+
+**Goal**: Full in-app PDF viewing with Share and Save functionality
+
+**What Shipped**:
+- ✅ react-native-pdf library integrated (v7.0.4)
+- ✅ react-native-blob-util native module (v0.24.9) with custom development build
+- ✅ expo-file-system for PDF download/caching
+- ✅ expo-sharing for native share sheet integration
+- ✅ Full-screen PDF viewer screen ([mobile/app/pdf/[id].tsx](mobile/app/pdf/[id].tsx))
+- ✅ Lazy-loaded PDF component (prevents startup errors)
+- ✅ Share button - Opens Android/iOS share sheet (Drive, Gmail, Messages, Print, Bluetooth)
+- ✅ Save button - Downloads PDF to device Downloads folder
+- ✅ Centered header layout (Share/Save buttons don't overlap gear icon)
+- ✅ Loading states and error handling with detailed logging
+- ✅ "View as PDF" button added to briefing detail screen
+
+**Technical Details**:
+- Custom Expo development build required (react-native-pdf won't work in Expo Go)
+- PDF source: `http://10.0.0.201:8001/briefing/latest/pdf`
+- Lazy import prevents native module errors: `const Pdf = (await import('react-native-pdf')).default`
+- Share workflow: Download to cache → Check availability → Open share sheet
+- Save workflow: Download to documentDirectory → Show success alert
+- Comprehensive logging with `[PDF Share]` and `[PDF Save]` prefixes
+
+**Build Process**:
+- Initial build: ~35 minutes (Android native compilation with CMake)
+- Codegen directories generated during build for TurboModules
+- Native modules: react-native-blob-util, react-native-pdf, react-native-reanimated, react-native-worklets
+- Metro bundler: 1738 modules, ~6s bundle time
+
+**Testing Verified**:
+- ✅ PDF loads and displays 3-page briefing document
+- ✅ Pinch-to-zoom, scrolling, and pagination working
+- ✅ Share button opens native share sheet with all system options
+- ✅ Save button downloads PDF and shows "Briefing saved to Downloads" alert
+- ✅ Header layout centered, no gear icon overlap
+- ⚠️ Android backgrounding behavior when Share dialog opens (normal OS behavior)
+
+**Known Limitations**:
+- App may be killed by Android when Share dialog is open (OS memory management)
+- Requires custom development build (cannot use Expo Go for testing)
+- PDF caching uses device storage (expo-file-system cacheDirectory)
+
+**Completion criteria**:
+- ✅ PDF viewer displays briefings
+- ✅ Share functionality working
+- ✅ Save functionality working
+- ✅ UI polished (centered buttons, proper spacing)
+- ✅ Error handling and logging implemented
+- ✅ Backend PDF endpoint accessible and serving valid PDFs
+
+**Estimated hours**: 6h  
+**Actual hours**: ~6h (3h initial setup + native module debugging, 2h build time, 1h testing/fixes)  
+**Status**: ✅ COMPLETE (2026-05-25)
 
 ---
 

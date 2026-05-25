@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { View, Text, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { useLocalSearchParams, router } from 'expo-router';
 import DisclaimerBanner from '../../components/DisclaimerBanner';
 import BLUFSection from '../../components/BLUFSection';
 import SourceCitation from '../../components/SourceCitation';
@@ -60,6 +60,32 @@ export default function DetailScreen() {
           </Text>
 
           <BLUFSection summary={briefing.bluf} readTime={briefing.readTime} />
+
+          {/* View as PDF Button */}
+          <TouchableOpacity
+            onPress={() => router.push(`/pdf/${briefing.id}` as any)}
+            style={{
+              marginTop: Spacing.lg,
+              marginBottom: Spacing.lg,
+              backgroundColor: Colors.amber,
+              paddingVertical: Spacing.md,
+              paddingHorizontal: Spacing.lg,
+              borderRadius: 4,
+              alignItems: 'center',
+            }}
+          >
+            <Text
+              style={{
+                color: Colors.trueBlack,
+                ...Typography.body,
+                fontWeight: '700',
+                textTransform: 'uppercase',
+                letterSpacing: 1,
+              }}
+            >
+              📄 View as PDF
+            </Text>
+          </TouchableOpacity>
 
           {briefing.content.map((section, idx) => (
             <View key={idx} style={{ marginTop: Spacing.lg }}>

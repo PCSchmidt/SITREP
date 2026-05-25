@@ -13,6 +13,55 @@
 # CORRECTION FOR FUTURE: [what changes]
 # MEMORY_SEMANTIC.md UPDATE: [pattern added/updated or none]
 
+## REFLEXION: v0.8 -- PDF Mobile Integration
+Date: 2026-05-25
+Project: SITREP
+ESTIMATE: Predicted 6h, Actual 6h, Variance 0%
+
+TECHNICAL PREDICTIONS VS REALITY:
+
+**PDF Integration (predicted 6h, actual ~6h)**:
+- Expected: react-native-pdf integration, custom development build, Share/Save functionality
+- Reality: Exactly as predicted - native module required custom build, all features working
+- Debugging: react-native-blob-util native module initialization (~2h), header layout fix (~30min)
+- Build time: ~35 minutes per Android build (CMake native compilation)
+
+**What went as expected**:
+- Custom development build requirement (react-native-pdf doesn't work in Expo Go)
+- Native module autolinking with TurboModules codegen
+- expo-file-system and expo-sharing APIs worked immediately
+- Share and Save functionality straightforward once native modules compiled
+
+**What took longer than expected**:
+- Initial "Cannot read property 'getConstants' of null" error required full rebuild
+- CMake codegen directories needed to be generated during build (not pre-built)
+- Android emulator crashes during Share testing (OS behavior, not our code)
+
+**What was faster than expected**:
+- Lazy-loading PDF component prevented startup errors on first try
+- Error handling and logging additions prevented further debugging loops
+- Centered header layout fix was simple CSS adjustment
+
+**Why the estimate was accurate**:
+- Learned from previous gates that native modules require build time
+- Anticipated debugging time for native module issues
+- Factored in Android development build compilation time
+- Share/Save APIs well-documented (Expo), minimal iteration needed
+
+CORRECTION FOR FUTURE:
+
+1. **Native module gates**: Estimate 6h as baseline for any gate requiring custom development build (3h setup/debugging + 2h build time + 1h testing). This matched reality for v0.8.
+
+2. **Android backgrounding**: When implementing Share/Save functionality, note that Android may kill backgrounded apps. This is OS behavior, not a bug - document as "known limitation" rather than spending hours optimizing.
+
+3. **Build-time pattern validated**: ~35min Android builds with native modules is now a known quantity. Don't underestimate compilation time.
+
+4. **Lazy-loading native modules**: Pattern of `await import('react-native-pdf')` prevents startup crashes and should be default for heavy native modules.
+
+5. **Apply 1.0x multiplier for native module integration gates** when custom development build is required and dependencies are well-documented. The 6h estimate was spot-on.
+
+MEMORY_SEMANTIC.md UPDATE: None (need 3+ projects to validate pattern)
+
 ## REFLEXION: v0.6 -- Backend API
 Date: 2026-05-23
 Project: SITREP

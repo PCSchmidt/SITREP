@@ -7,6 +7,7 @@
 
 | Date | Project | Gate | Outcome | Tests | Notes |
 |------|---------|------|---------|-------|-------|
+| 2026-05-25 | SITREP | v0.8 | ✅ COMPLETE | N/A | PDF Mobile Integration: react-native-pdf viewer with Share/Save. 6h actual vs 6h estimated (0% variance). Native module build required, Share/Save both working. Android backgrounding behavior noted for future optimization. |
 
 ## STOP EVENTS
 [Appended automatically by writethru-episodic hook]
@@ -1108,4 +1109,58 @@ Resume: /start option 2
 Session ended (crash or manual stop).
 Gate in progress: 
 Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:54:26Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 025bdbb v0.7-v0.8: Complete Mobile-Backend Integration & PDF Viewer
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T13:10:34Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 025bdbb v0.7-v0.8: Complete Mobile-Backend Integration & PDF Viewer
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T21:40:41Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 025bdbb v0.7-v0.8: Complete Mobile-Backend Integration & PDF Viewer
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T22:27:40Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 025bdbb v0.7-v0.8: Complete Mobile-Backend Integration & PDF Viewer
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T22:41:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 025bdbb v0.7-v0.8: Complete Mobile-Backend Integration & PDF Viewer
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T22:41:41Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 025bdbb v0.7-v0.8: Complete Mobile-Backend Integration & PDF Viewer
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T22:42:04Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 025bdbb v0.7-v0.8: Complete Mobile-Backend Integration & PDF Viewer
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T22:43:33Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 025bdbb v0.7-v0.8: Complete Mobile-Backend Integration & PDF Viewer
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T22:48:15Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 025bdbb v0.7-v0.8: Complete Mobile-Backend Integration & PDF Viewer
 Resume: /start option 2

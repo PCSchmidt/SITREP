@@ -54,6 +54,14 @@ export default function RootLayout() {
             headerShown: true,
           }}
         />
+        <Stack.Screen
+          name="pdf/[id]"
+          options={{
+            title: 'PDF Viewer',
+            headerShown: false, // Custom header in component
+            presentation: 'fullScreenModal',
+          }}
+        />
       </Stack>
     </QueryClientProvider>
   );
