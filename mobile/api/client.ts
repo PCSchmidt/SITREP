@@ -47,12 +47,12 @@ function transformBriefing(
   // Extract date from generated_at for ID
   const dateStr = briefing.generated_at.split('T')[0];
 
-  // Map region to short code
+  // Map region to short code (must match tokens.ts Regions)
   const regionMap: Record<string, string> = {
-    'Europe/Africa': 'EUR',
-    'Middle East': 'M.EAST',
-    'Indo-Pacific': 'INDO-PAC',
-    'Western Hemisphere': 'W.HEM',
+    'Europe/Africa': 'europe-africa',
+    'Middle East': 'middle-east',
+    'Indo-Pacific': 'indo-pacific',
+    'Western Hemisphere': 'western-hemisphere',
   };
 
   const regionCode = regionMap[briefing.region] || briefing.region;
@@ -117,13 +117,22 @@ export async function fetchLatestBriefing(region: string = 'Europe/Africa'): Pro
 export async function fetchAllRegionBriefings(): Promise<Briefing[]> {
   const regions = ['Europe/Africa', 'Middle East', 'Indo-Pacific', 'Western Hemisphere'];
 
+  console.log('Fetching briefings for regions:', regions);
+
   const briefingPromises = regions.map(region =>
-    fetchLatestBriefing(region).catch(err => {
-      console.warn(`Failed to fetch ${region}:`, err);
-      return null;
-    })
+    fetchLatestBriefing(region)
+      .then(briefing => {
+        console.log(`Successfully fetched ${region}:`, briefing.id);
+        return briefing;
+      })
+      .catch(err => {
+        console.warn(`Failed to fetch ${region}:`, err);
+        return null;
+      })
   );
 
   const briefings = await Promise.all(briefingPromises);
-  return briefings.filter((b): b is Briefing => b !== null);
+  const filtered = briefings.filter((b): b is Briefing => b !== null);
+  console.log(`Total briefings fetched: ${filtered.length}`, filtered.map(b => b.id));
+  return filtered;
 }

@@ -172,3 +172,940 @@ Session ended (crash or manual stop).
 Gate in progress: 
 Last git commit: 2414ac6 v0.2 - Scraping Pipeline + LLM Synthesis
 Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T13:23:10Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 83cec48 v0.3 - PDF Generation Backend
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T13:24:28Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 83cec48 v0.3 - PDF Generation Backend
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T13:54:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4e0e50f Docs: Update all documentation for v0.6 completion
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T14:08:08Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: de4525e Docs: Fix all tool/naming inconsistencies across documentation
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T14:11:21Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: de4525e Docs: Fix all tool/naming inconsistencies across documentation
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T14:18:27Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: de4525e Docs: Fix all tool/naming inconsistencies across documentation
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T14:19:35Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 106a899 Capture context: DeepSeek model validation and pending decision
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T14:24:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 106a899 Capture context: DeepSeek model validation and pending decision
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T14:29:57Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 106a899 Capture context: DeepSeek model validation and pending decision
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T14:44:29Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T14:45:06Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-23T14:45:23Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T12:08:15Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T12:13:13Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T12:35:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T12:46:18Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T12:47:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T12:49:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T12:56:53Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T12:59:50Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T13:01:10Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T13:04:43Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T13:07:49Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T13:10:44Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T13:12:39Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T13:17:32Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T13:19:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 581fb2a Implement DeepSeek V4 Flash + Kimi K2.5 waterfall (99% cost reduction)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T13:25:21Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T13:26:34Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:03:03Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:03:52Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:19:04Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:29:30Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:29:43Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:31:26Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:32:36Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:34:06Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:39:34Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:41:17Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:45:40Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:48:38Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:51:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T17:52:26Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T21:39:23Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T21:40:58Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T21:41:57Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T21:43:07Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T21:44:38Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T21:52:41Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T21:53:26Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:28:19Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:29:18Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:32:53Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:33:50Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:35:36Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:37:05Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:37:40Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:38:21Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:39:16Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:40:06Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:42:13Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:44:18Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:46:23Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:47:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:49:35Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T22:55:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:04:26Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:12:11Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:13:08Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:24:39Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:26:27Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:27:27Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:28:29Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:30:11Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:32:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:36:25Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:46:52Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:47:41Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:50:25Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:51:54Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:52:32Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:54:33Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:57:52Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:58:00Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:58:47Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-24T23:59:31Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T00:01:17Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T00:08:16Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T00:11:18Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T00:17:50Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T00:59:12Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:06:10Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:06:19Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:07:21Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:07:43Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:09:26Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:10:36Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:13:13Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:16:53Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:23:44Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:27:46Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:28:24Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:29:13Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:29:54Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:31:21Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:47:27Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:50:19Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:51:51Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:55:37Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:55:58Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:56:50Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T01:59:12Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T02:02:50Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T03:15:00Z (ESTIMATED)
+
+Session ended (user stopping for evening).
+Gate in progress: v0.8 - PDF Mobile Integration (IN PROGRESS)
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+
+**Work completed this session:**
+
+- Installed react-native-pdf library for PDF viewing
+- Installed react-native-blob-util dependency (required by react-native-pdf)
+- Installed expo-dev-client, expo-sharing, expo-file-system
+- Created PDF viewer screen at mobile/app/pdf/[id].tsx with share/save functionality
+- Added "View as PDF" button to briefing detail screen
+- Created fresh SITREP_Device Android emulator (Pixel 8, API 37)
+- Successfully built custom Expo development app with all native modules (2 builds, ~35min each)
+- App installs and launches successfully on emulator
+
+**Current blockers:**
+
+- react-native-blob-util native module not initializing: "Cannot read property 'getConstants' of null"
+- This prevents PDF viewer from functioning
+- Backend API returning 404s (expected, backend not running)
+- PDF route has default export but showing stale warning (likely cache issue)
+
+**Technical details:**
+
+- Using expo-file-system/legacy API for SDK 56 compatibility
+- Custom development build required (react-native-pdf won't work in Expo Go)
+- Built with Gradle successfully, all native modules compiled
+- Metro bundler running on port 8082
+- App loads but throws initialization error for blob-util native module
+
+**Next session priorities:**
+
+1. Fix react-native-blob-util native module initialization (autolinking/configuration issue)
+2. Clear Metro cache if needed
+3. Test PDF viewer once blob-util is working
+4. Verify share/save functionality
+
+**Files modified:**
+
+- mobile/package.json: Added react-native-pdf, react-native-blob-util, expo-dev-client, expo-sharing
+- mobile/app/pdf/[id].tsx: Created PDF viewer screen
+- mobile/app/detail/[id].tsx: Added "View as PDF" button
+- mobile/android/local.properties: Created with SDK path
+- Created SITREP_Device emulator
+
+Resume: Continue v0.8 PDF integration - fix blob-util initialization issue
+
+## STOP EVENT: 2026-05-25T02:07:08Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T10:34:56Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T10:43:22Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T10:47:37Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T10:56:49Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T10:58:48Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T11:02:05Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T11:02:48Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T11:03:15Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T11:18:47Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T11:36:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T11:38:08Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T11:53:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T11:53:43Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T11:54:50Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T11:57:56Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:03:18Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:05:45Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:09:30Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:10:14Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:11:43Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:12:56Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:13:46Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:18:27Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:20:30Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:23:56Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:31:25Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:33:19Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:36:52Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:39:02Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:41:44Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:42:44Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:44:02Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:44:47Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-25T12:46:46Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 14b90f5 v0.7 - Mobile-Backend Integration
+Resume: /start option 2

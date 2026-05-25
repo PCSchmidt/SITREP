@@ -108,11 +108,24 @@ async def synthesize_briefing(region: str = "Europe/Africa"):
         synthesizer = BLUFSynthesizer()
         briefing = await synthesizer.synthesize_region(all_articles, region)
 
+        # Save briefing to disk
+        briefing_dir = Path("../data/briefings")
+        briefing_dir.mkdir(parents=True, exist_ok=True)
+
+        # Create filename with region and timestamp
+        region_slug = region.lower().replace(' ', '_').replace('/', '_')
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        briefing_file = briefing_dir / f"{region_slug}_{timestamp}.json"
+
+        with open(briefing_file, 'w', encoding='utf-8') as f:
+            json.dump(briefing, f, indent=2, ensure_ascii=False)
+
         return {
             "status": "success",
             "region": region,
             "briefing": briefing,
             "source_articles": len(all_articles),
+            "briefing_file": str(briefing_file),
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
 

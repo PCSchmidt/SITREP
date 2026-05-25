@@ -9,10 +9,14 @@ interface RegionTabProps {
 export default function RegionTab({ activeRegion, onRegionChange }: RegionTabProps) {
   return (
     <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={{ flexGrow: 0 }}
-      contentContainerStyle={{ paddingHorizontal: Spacing.lg, paddingVertical: Spacing.sm }}
+      horizontal={false}
+      showsVerticalScrollIndicator={false}
+      style={{ flexGrow: 0, maxHeight: 350 }}
+      contentContainerStyle={{
+        paddingHorizontal: Spacing.lg,
+        paddingTop: Spacing.sm,
+        paddingBottom: Spacing.xl
+      }}
     >
       {Regions.map((region) => {
         const isActive = activeRegion === region.id;
@@ -21,17 +25,20 @@ export default function RegionTab({ activeRegion, onRegionChange }: RegionTabPro
             key={region.id}
             onPress={() => onRegionChange(region.id)}
             style={{
-              paddingVertical: Spacing.sm,
+              paddingVertical: Spacing.lg,
               paddingHorizontal: Spacing.md,
-              marginRight: Spacing.md,
-              borderBottomWidth: 2,
-              borderBottomColor: isActive ? Colors.amber : 'transparent',
+              marginBottom: Spacing.sm,
+              borderLeftWidth: 3,
+              borderLeftColor: isActive ? Colors.amber : 'transparent',
+              backgroundColor: isActive ? 'rgba(255, 165, 0, 0.1)' : 'transparent',
             }}
           >
             <Text
               style={{
                 color: isActive ? Colors.textHeading : Colors.textSubtle,
-                ...Typography.label,
+                fontSize: 16,
+                fontWeight: '600',
+                lineHeight: 24,
                 textTransform: 'uppercase',
               }}
             >

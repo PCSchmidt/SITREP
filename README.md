@@ -6,15 +6,16 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile dev
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-lightgrey)
-![Status](https://img.shields.io/badge/status-v0.6.0%20Backend%20API-green)
+![Status](https://img.shields.io/badge/status-v0.8%20PDF%20Integration%20Complete-green)
 
 ---
 
 ## 🎯 Project Overview
 
-**Build Type**: Production / GA (App Store + Play Store deployment)  
-**Timeline**: 3 months (~114-124 hours total)  
-**Current Gate**: v0.6 Backend API ✅ COMPLETE  
+**Build Type**: Production / GA (App Store + Play Store deployment)
+**Timeline**: 3 months (~114-124 hours total)
+**Current Gate**: v0.8 PDF Mobile Integration ✅ COMPLETE
+**Next Gate**: v0.9 Regional Filtering
 **Portfolio**: [pcschmidt.github.io](https://pcschmidt.github.io)
 
 ### What is SITREP?
@@ -100,6 +101,7 @@ cp .env.example .env
 ### Running Locally
 
 **Mobile App:**
+
 ```bash
 cd mobile
 npm start
@@ -111,6 +113,7 @@ npm start
 ```
 
 **Backend API:**
+
 ```bash
 cd api
 source venv/bin/activate  # Windows: venv\Scripts\activate
@@ -163,7 +166,7 @@ SITREP/
 - **Language**: TypeScript (strict mode)
 - **Navigation**: Expo Router (file-based routing)
 - **Styling**: NativeWind (Tailwind CSS for React Native)
-- **State Management**: 
+- **State Management**:
   - TanStack Query v5 (server state, caching, offline-first)
   - Zustand (client state)
 - **PDF Viewing**: react-native-pdf
@@ -171,6 +174,7 @@ SITREP/
 - **Monitoring**: Sentry React Native SDK
 
 ### Backend
+
 - **Framework**: FastAPI (Python 3.11+)
 - **Database**: Supabase (PostgreSQL + Blob Storage for PDFs)
 - **Scraping**: Playwright (CloakBrowser optional for paywalled sources)
@@ -183,6 +187,7 @@ SITREP/
 - **Testing**: pytest, pytest-asyncio, pytest-cov
 
 ### DevOps & Infrastructure
+
 - **Backend Hosting**: Railway (Hobby plan, $5/month)
 - **Mobile Deployment**: App Store (iOS) + Play Store (Android)
 - **Database**: Supabase Free Tier (500MB database, 1GB storage)
@@ -195,31 +200,33 @@ SITREP/
 
 ## 📋 Development Roadmap
 
-**Current Gate**: v0.1 Mobile Foundation ✅
+**Current Gate**: v0.8 PDF Mobile Integration ✅
 
 Built using **Blueprint v11** methodology with 16-gate phased development:
 
-| Version | Gate | Description | Hours | Status |
-|---------|------|-------------|-------|--------|
-| v0.0 | Foundation | Project scaffold, dependencies, documentation | 4h (4h actual) | ✅ COMPLETE |
-| v0.1 | Mobile Foundation | App config, design system, component library, screens | 8h (3h actual) | ✅ COMPLETE |
-| v0.2 | Scraping Pipeline | Playwright scraping, ISW working (16 articles) | 8h (4h actual) | ✅ COMPLETE |
-| v0.2 | LLM Synthesis | GPT-4o Mini via Open Router, BLUF generation | 12h (3h actual) | ✅ COMPLETE |
-| v0.3 | PDF Generation Backend | ReportLab PDF generation, 3-page output | 8h (2h actual) | ✅ COMPLETE |
-| v0.4 | Mobile Scaffold | (Skipped - completed in v0.1) | - | ⏭️ SKIPPED |
-| v0.5 | UI Design System | (Skipped - completed in v0.1) | - | ⏭️ SKIPPED |
-| v0.6 | Backend API | FastAPI endpoints, file-based caching | 8h (4h actual) | ✅ COMPLETE |
-| v0.7 | Mobile-Backend Integration | TanStack Query, API client, error handling | 6h | 📅 Next |
-| v0.8 | PDF Mobile Integration | react-native-pdf, share sheet, save/open | 6h | 📅 Planned |
-| v0.9 | Regional Filtering | Tab state, filter logic, empty states | 6h | 📅 Planned |
-| v0.10 | Weekly Automation | Railway Cron setup, failure alerts, monitoring | 10h | 📅 Planned |
-| v0.11 | Analytics Integration | Mixpanel events, Sentry crash tracking | 6h | 📅 Planned |
-| v0.12 | Legal & Disclaimers | Privacy Policy, ToS, AI content warnings | 4h | 📅 Planned |
-| v0.13 | App Store Prep | Icons, screenshots, metadata, build signing | 6h | 📅 Planned |
-| v0.14 | Beta Testing | TestFlight, internal testing, bug fixes | 8-16h | 📅 Planned |
-| v1.0 | Production Live | App Store + Play Store deployment, launch | 6-12h | 📅 Planned |
+| Version | Gate                       | Description                                           | Hours           | Status       |
+| ------- | -------------------------- | ----------------------------------------------------- | --------------- | ------------ |
+| v0.0    | Foundation                 | Project scaffold, dependencies, documentation         | 4h (4h actual)  | ✅ COMPLETE  |
+| v0.1    | Mobile Foundation          | App config, design system, component library, screens | 8h (3h actual)  | ✅ COMPLETE  |
+| v0.2    | Scraping Pipeline          | Playwright scraping, ISW working (16 articles)        | 8h (4h actual)  | ✅ COMPLETE  |
+| v0.2    | LLM Synthesis              | DeepSeek V4 Flash via Open Router, BLUF generation    | 12h (3h actual) | ✅ COMPLETE  |
+| v0.3    | PDF Generation Backend     | ReportLab PDF generation, 3-page output               | 8h (2h actual)  | ✅ COMPLETE  |
+| v0.4    | Mobile Scaffold            | (Skipped - completed in v0.1)                         | -               | ⏭️ SKIPPED |
+| v0.5    | UI Design System           | (Skipped - completed in v0.1)                         | -               | ⏭️ SKIPPED |
+| v0.6    | Backend API                | FastAPI endpoints, file-based caching                 | 8h (4h actual)  | ✅ COMPLETE  |
+| v0.7    | Mobile-Backend Integration | TanStack Query, API client, vertical region tabs      | 6h (8h actual)  | ✅ COMPLETE  |
+| v0.8    | PDF Mobile Integration     | react-native-pdf, custom build, share/save working    | 6h (6h actual)  | ✅ COMPLETE  |
+| v0.9    | Regional Filtering         | Multi-region briefings, filter logic, navigation      | 6h              | 📅 Next      |
+| v0.10   | Weekly Automation          | Railway Cron setup, failure alerts, monitoring        | 10h             | 📅 Planned   |
+| v0.11   | Analytics Integration      | Mixpanel events, Sentry crash tracking                | 6h              | 📅 Planned   |
+| v0.12   | Legal & Disclaimers        | Privacy Policy, ToS, AI content warnings              | 4h              | 📅 Planned   |
+| v0.13   | App Store Prep             | Icons, screenshots, metadata, build signing           | 6h              | 📅 Planned   |
+| v0.14   | Beta Testing               | TestFlight, internal testing, bug fixes               | 8-16h           | 📅 Planned   |
+| v1.0    | Production Live            | App Store + Play Store deployment, launch             | 6-12h           | 📅 Planned   |
 
 **Total Estimated**: 114-124 hours over 3 months  
+**Total Actual (v0.0-v0.8)**: 34 hours  
+**Remaining**: 80-90 hours  
 **Target Launch**: 2026-08-21
 
 See [VERSION_ROADMAP.md](VERSION_ROADMAP.md) for detailed gate descriptions and hour breakdowns.
@@ -366,21 +373,21 @@ CREATE TABLE briefings (
 
 ## 💰 Cost Breakdown & Optimization
 
-**Operational Ceiling**: $20/month  
-**Typical Monthly Cost**: $5-10  
+**Operational Ceiling**: $20/month
+**Typical Monthly Cost**: $5-10
 **One-Time Build Cost**: <$50 LLM usage
 
 ### Monthly Operating Costs
 
-| Service | Tier | Monthly Cost | Notes |
-|---------|------|--------------|-------|
-| Railway | Hobby | $5 | Backend hosting, cron jobs |
-| Supabase | Free | $0 | 500MB DB, 1GB storage, 2GB bandwidth |
-| Open Router (DeepSeek V4 Flash) | Pay-as-you-go | $0-1 | ~$0.001/briefing, 4 briefings/month = $0.004 |
-| Open Router (Fallbacks) | Pay-as-you-go | $0 | DeepSeek V3.2/Kimi only if V4 fails (rare) |
-| Mixpanel | Free | $0 | 100k events/month |
-| Sentry | Free | $0 | 5k errors/month |
-| **Total** | | **$5-6** | **Worst case: $10 if heavy fallback usage** |
+| Service                         | Tier          | Monthly Cost                                                       | Notes                                      |
+| ------------------------------- | ------------- | ------------------------------------------------------------------ | ------------------------------------------ |
+| Railway                         | Hobby         | $5                                                                 | Backend hosting, cron jobs                 |
+| Supabase                        | Free          | $0                                                                 | 500MB DB, 1GB storage, 2GB bandwidth       |
+| Open Router (DeepSeek V4 Flash) | Pay-as-you-go | $0-1 | ~$0.001/briefing, 4 briefings/month = $0.004                |                                            |
+| Open Router (Fallbacks)         | Pay-as-you-go | $0                                                                 | DeepSeek V3.2/Kimi only if V4 fails (rare) |
+| Mixpanel                        | Free          | $0                                                                 | 100k events/month                          |
+| Sentry                          | Free          | $0                                                                 | 5k errors/month                            |
+| **Total**                 |               | **$5-6** | **Worst case: $10 if heavy fallback usage** |                                            |
 
 ### Cost Optimization Strategies
 
@@ -438,6 +445,7 @@ MIT License - see [LICENSE](LICENSE) for details
 ## 👤 Author
 
 **Chris Schmidt**
+
 - Portfolio: [pcschmidt.github.io](https://pcschmidt.github.io)
 - Email: p.christopher.schmidt@gmail.com
 - GitHub: [@PCSchmidt](https://github.com/PCSchmidt)
@@ -453,6 +461,6 @@ MIT License - see [LICENSE](LICENSE) for details
 
 ---
 
-**Status**: v0.6.0 Backend API Complete (2026-05-23)  
-**Next**: v0.7 Mobile-Backend Integration (TanStack Query + API client)  
+**Status**: v0.8 PDF Mobile Integration Complete (2026-05-25)
+**Next**: v0.9 Regional Filtering (Multi-region briefings + navigation)
 **Target Launch**: 2026-08-21 (App Store + Play Store)

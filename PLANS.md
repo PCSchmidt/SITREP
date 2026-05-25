@@ -143,3 +143,24 @@ Session backup saved to: .claude/backups/
 Resume with /start option 2 and read this file carefully.
 Last git state: 106a899 Capture context: DeepSeek model validation and pending decision
 Tests: 6 passed, 4 skipped, 9 warnings, 5 errors in 85.44s (0:01:25)
+
+## AUTO-COMPACT WARNING: 2026-05-24T17:11:29Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: 14b90f5 v0.7 - Mobile-Backend Integration
+Tests: 6 passed, 4 skipped, 9 warnings, 5 errors in 102.47s (0:01:42)
+
+## AUTO-COMPACT WARNING: 2026-05-25T01:01:29Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: 14b90f5 v0.7 - Mobile-Backend Integration
+Tests: 6 passed, 4 skipped, 9 warnings, 5 errors in 127.20s (0:02:07)
+
+## AUTO-COMPACT WARNING: 2026-05-25T11:04:36Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: 14b90f5 v0.7 - Mobile-Backend Integration
+Tests: 6 passed, 4 skipped, 9 warnings, 5 errors in 90.83s (0:01:30)
