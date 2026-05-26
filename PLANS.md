@@ -4,40 +4,43 @@
 
 ---
 
-## CURRENT WORK (v0.10+ - Next Gates)
+## CURRENT WORK (v0.11+ - Next Gates)
 
-**v0.9 COMPLETE** (Regional Filtering - 6h actual vs 6h estimated, 0% variance)
+**v0.10 COMPLETE** (Production Deployment - 10h actual vs 10h estimated, 0% variance)
 
 **What Shipped (2026-05-26):**
-- ✅ Backend briefings generated for all 4 regions (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere)
-- ✅ Backend PDFs generated for all 4 regions (7.4KB, 8.0KB, 8.7KB, 3.4KB respectively)
-- ✅ Mobile region filter persistence with AsyncStorage (remembers user's last selection)
-- ✅ API endpoints working for all regions (/briefing/latest?region=...)
-- ✅ Debug PDF test button removed from home screen
-- ✅ TypeScript compilation passes with no errors
-- ✅ End-to-end testing verified for all 4 regions
 
-**Regional Content Quality:**
-- Middle East: 3 sections (US-Iran negotiations, Strait of Hormuz, military posture)
-- Indo-Pacific: 3 sections (Taiwan strait, maritime security, Sino-Russian relations)
-- Europe/Africa: 3 sections (Ukraine war, Russia nuclear posturing, Iran negotiations)
-- Western Hemisphere: No recent intelligence (expected, limited Western Hemisphere coverage in ISW sources)
+- ✅ Railway deployment with Nixpacks build system
+- ✅ Supabase PostgreSQL database integration for briefing caching
+- ✅ Railway cron job for weekly automation (Sundays 6 AM UTC)
+- ✅ Production URL configured: <https://sitrep-production-6aac.up.railway.app>
+- ✅ Mobile API client updated to Railway production URL
+- ✅ Environment variables configured (OPENROUTER_API_KEY, SUPABASE_URL, SUPABASE_KEY)
+- ✅ Health endpoint verified: v0.10.0, Supabase enabled
+- ✅ Manual pipeline trigger endpoint working (/pipeline/run-weekly)
+
+**Infrastructure Details:**
+
+- Railway service: SITREP (main API) - Online
+- Railway cron service: humorous-manifestation - Next run in 5 days
+- Supabase project: sitrep-production with briefings table (RLS configured)
+- Deployment configs: Procfile, railway.toml, runtime.txt, nixpacks.toml
 
 **Upcoming Gates** (per VERSION_ROADMAP.md):
-- v0.10: Weekly Automation (Railway Cron) - 10h estimated
+
 - v0.11: Analytics Integration (Mixpanel + Sentry) - 6h estimated
 - v0.12: Legal & Disclaimers - 4h estimated
 - v0.13: App Store Prep - 6h estimated
 - v0.14: Beta Testing - 8-16h estimated
 - v1.0: Production Live - 6-12h estimated
 
-**Immediate Next Steps** (v0.10 - Weekly Automation):
-1. Deploy backend to Railway
-2. Set up Railway Cron job to trigger weekly scraping → synthesis → PDF generation
-3. Configure Supabase database for briefing caching
-4. Add monitoring/logging for pipeline failures
-5. Create manual trigger endpoint for testing
-6. Verify pipeline runs successfully for 2 consecutive weeks
+**Immediate Next Steps** (v0.11 - Analytics Integration):
+
+1. Integrate Mixpanel SDK for user event tracking
+2. Integrate Sentry SDK for crash reporting and error tracking
+3. Add event tracking: app_open, briefing_view, region_filter, pdf_view, pdf_share
+4. Verify telemetry in Mixpanel and Sentry dashboards
+5. Test crash reporting and error tracking
 
 ---
 
@@ -163,3 +166,10 @@ Session backup saved to: .claude/backups/
 Resume with /start option 2 and read this file carefully.
 Last git state: 14b90f5 v0.7 - Mobile-Backend Integration
 Tests: 6 passed, 4 skipped, 9 warnings, 5 errors in 90.83s (0:01:30)
+
+## AUTO-COMPACT WARNING: 2026-05-26T14:03:27Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: 87d4f73 Add nixpacks.toml for Railway deployment
+Tests: 1 failed, 5 passed, 4 skipped, 8 warnings, 5 errors in 29.57s
