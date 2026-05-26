@@ -109,7 +109,7 @@ async def synthesize_briefing(region: str = "Europe/Africa"):
         from synthesis.bluf_synthesizer import BLUFSynthesizer
 
         # Find latest scraped articles
-        scraped_dir = Path("../data/scraped")
+        scraped_dir = Path("data/scraped")
         if not scraped_dir.exists():
             raise HTTPException(status_code=404, detail="No scraped articles found")
 
@@ -134,7 +134,7 @@ async def synthesize_briefing(region: str = "Europe/Africa"):
         briefing = await synthesizer.synthesize_region(all_articles, region)
 
         # Save briefing to disk
-        briefing_dir = Path("../data/briefings")
+        briefing_dir = Path("data/briefings")
         briefing_dir.mkdir(parents=True, exist_ok=True)
 
         # Create filename with region and timestamp
@@ -191,7 +191,7 @@ async def get_latest_briefing(region: str = "Europe/Africa"):
                 logger.warning(f"Supabase lookup failed, falling back to files: {e}")
 
         # Fall back to file-based storage
-        briefing_dir = Path("../data/briefings")
+        briefing_dir = Path("data/briefings")
         if not briefing_dir.exists():
             raise HTTPException(status_code=404, detail="No briefings available")
 
@@ -230,7 +230,7 @@ async def get_latest_pdf():
     """
     try:
         # Find latest PDF in data/pdfs/
-        pdf_dir = Path("../data/pdfs")
+        pdf_dir = Path("data/pdfs")
         if not pdf_dir.exists():
             raise HTTPException(status_code=404, detail="No PDFs available")
 
@@ -269,7 +269,7 @@ async def generate_pdf(region: str = "Europe/Africa"):
         from pdf_generation.pdf_generator_reportlab import PDFGenerator
 
         # Find latest briefing JSON for region
-        briefing_dir = Path("../data/briefings")
+        briefing_dir = Path("data/briefings")
         region_slug = region.lower().replace(' ', '_').replace('/', '_')
 
         briefing_files = list(briefing_dir.glob(f"{region_slug}_*.json"))
@@ -353,7 +353,7 @@ async def run_weekly_pipeline():
                 from pdf_generation.pdf_generator_reportlab import PDFGenerator
 
                 # Load scraped articles
-                scraped_dir = Path("../data/scraped")
+                scraped_dir = Path("data/scraped")
                 all_articles = []
                 for json_file in scraped_dir.glob("*.json"):
                     with open(json_file, 'r', encoding='utf-8') as f:
@@ -368,7 +368,7 @@ async def run_weekly_pipeline():
                 briefing = await synthesizer.synthesize_region(all_articles, region)
 
                 # Save briefing JSON (file-based backup)
-                briefing_dir = Path("../data/briefings")
+                briefing_dir = Path("data/briefings")
                 briefing_dir.mkdir(parents=True, exist_ok=True)
                 region_slug = region.lower().replace(' ', '_').replace('/', '_')
                 timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
