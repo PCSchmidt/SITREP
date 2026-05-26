@@ -10,21 +10,29 @@
 
 **What Shipped (2026-05-26):**
 
-- ✅ Railway deployment with Nixpacks build system
+- ✅ Railway deployment with Dockerfile (Playwright + Chromium)
 - ✅ Supabase PostgreSQL database integration for briefing caching
 - ✅ Railway cron job for weekly automation (Sundays 6 AM UTC)
 - ✅ Production URL configured: <https://sitrep-production-6aac.up.railway.app>
 - ✅ Mobile API client updated to Railway production URL
 - ✅ Environment variables configured (OPENROUTER_API_KEY, SUPABASE_URL, SUPABASE_KEY)
-- ✅ Health endpoint verified: v0.10.0, Supabase enabled
+- ✅ End-to-end pipeline verified: scraping → region filtering → LLM synthesis → PDF generation
 - ✅ Manual pipeline trigger endpoint working (/pipeline/run-weekly)
+- ✅ All 4 regions processing successfully (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere)
+- ✅ DeepSeek V4 Flash LLM generating briefings ($0.001/briefing)
 
 **Infrastructure Details:**
 
-- Railway service: SITREP (main API) - Online
-- Railway cron service: humorous-manifestation - Next run in 5 days
-- Supabase project: sitrep-production with briefings table (RLS configured)
-- Deployment configs: Procfile, railway.toml, runtime.txt, nixpacks.toml
+- Railway service: SITREP (main API) - Online, fully functional
+- Railway cron service: humorous-manifestation - Next run Sunday 6 AM UTC
+- Supabase project: sitrep-production with briefings table (RLS configured, fallback to file storage working)
+- Deployment configs: Dockerfile, nixpacks.toml
+- Last pipeline run: 16 articles scraped, 3 regions with content, 4/4 regions successful, 0 errors
+
+**Technical Fixes During v0.10:**
+- Fixed Playwright browser installation in Docker (RUN playwright install chromium)
+- Fixed path mismatch issue (changed ../data/* to data/* in main.py)
+- Fixed OpenRouter API authentication
 
 **Upcoming Gates** (per VERSION_ROADMAP.md):
 
@@ -173,3 +181,17 @@ Session backup saved to: .claude/backups/
 Resume with /start option 2 and read this file carefully.
 Last git state: 87d4f73 Add nixpacks.toml for Railway deployment
 Tests: 1 failed, 5 passed, 4 skipped, 8 warnings, 5 errors in 29.57s
+
+## AUTO-COMPACT WARNING: 2026-05-26T15:32:11Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: 4c9a7ba Fix: Add Playwright browser installation to Railway build
+Tests: 6 passed, 4 skipped, 9 warnings, 5 errors in 36.81s
+
+## AUTO-COMPACT WARNING: 2026-05-26T17:12:14Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: d31fc05 Fix: Remove railway.toml to let Dockerfile CMD control start command
+Tests: 1 failed, 5 passed, 4 skipped, 8 warnings, 5 errors in 51.10s
