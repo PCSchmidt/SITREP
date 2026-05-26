@@ -1195,3 +1195,285 @@ Session ended (crash or manual stop).
 Gate in progress: 
 Last git commit: 5e72810 Add v0.9 reflexion entry to MEMORY_CORRECTIONS.md
 Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:07:30Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:31:23Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:33:15Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:43:12Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:46:29Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:48:48Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:49:33Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:49:49Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:54:51Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:56:12Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T13:58:55Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ad5b591 v0.10 - Weekly Automation Infrastructure (Part 1: Backend)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:01:51Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:07:14Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:10:03Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:11:29Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:14:40Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:18:28Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:23:17Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:26:57Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:29:17Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:30:10Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:30:55Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:31:56Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:33:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:34:56Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:37:02Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 87d4f73 Add nixpacks.toml for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T14:48:49Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: d8794e0 v0.10 - Production Deployment to Railway + Supabase
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T15:07:56Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 778a39e Update documentation for v0.10 production deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T15:23:22Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4c9a7ba Fix: Add Playwright browser installation to Railway build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T15:30:29Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4c9a7ba Fix: Add Playwright browser installation to Railway build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T15:31:34Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4c9a7ba Fix: Add Playwright browser installation to Railway build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T16:38:29Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 0cdaeb2 Fix: Use system Chromium from nixPkgs instead of Playwright install
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T16:41:19Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 0cdaeb2 Fix: Use system Chromium from nixPkgs instead of Playwright install
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T16:44:31Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 0cdaeb2 Fix: Use system Chromium from nixPkgs instead of Playwright install
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T16:46:22Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 0cdaeb2 Fix: Use system Chromium from nixPkgs instead of Playwright install
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T16:46:50Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 0cdaeb2 Fix: Use system Chromium from nixPkgs instead of Playwright install
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T16:48:35Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: c94c84c Add Dockerfile for Railway deployment with Playwright support
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T16:53:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: c94c84c Add Dockerfile for Railway deployment with Playwright support
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T16:56:06Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: c94c84c Add Dockerfile for Railway deployment with Playwright support
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T16:59:28Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: c94c84c Add Dockerfile for Railway deployment with Playwright support
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T17:04:02Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: d31fc05 Fix: Remove railway.toml to let Dockerfile CMD control start command
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T17:05:27Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: d31fc05 Fix: Remove railway.toml to let Dockerfile CMD control start command
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T17:08:32Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: d31fc05 Fix: Remove railway.toml to let Dockerfile CMD control start command
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T17:11:37Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: d31fc05 Fix: Remove railway.toml to let Dockerfile CMD control start command
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T17:21:33Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: d39400d Fix: Correct data directory paths for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T17:32:42Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: d39400d Fix: Correct data directory paths for Railway deployment
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T17:40:05Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: d3b7bc1 v0.10 Production Deployment COMPLETE
+Resume: /start option 2

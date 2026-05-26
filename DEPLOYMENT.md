@@ -1,4 +1,5 @@
 # SITREP Deployment Guide
+
 # Railway + Supabase Production Deployment
 
 ## Prerequisites
@@ -39,7 +40,7 @@
 Once project is ready:
 
 1. Go to "SQL Editor" in left sidebar
-2. Run this SQL to create briefings table:
+2. Run this SQL to create briefings table:ay
 
 ```sql
 -- Briefings table for caching
@@ -82,20 +83,21 @@ CREATE TRIGGER update_briefings_updated_at
 ## STEP 3: Railway Project Deployment
 
 1. **Create Railway Project**:
+
    - Go to Railway dashboard
    - Click "New Project"
    - Select "Deploy from GitHub repo"
    - Authorize Railway to access your GitHub
    - Select `SITREP` repository
    - Railway will detect Python and start deploying
-
 2. **Configure Root Directory**:
+
    - Click on your service
    - Go to "Settings" tab
    - Under "Build", set Root Directory: `api`
    - Click "Save"
-
 3. **Add Environment Variables**:
+
    - Still in "Settings" tab
    - Scroll to "Variables" section
    - Add the following variables:
@@ -108,16 +110,17 @@ CREATE TRIGGER update_briefings_updated_at
    ```
 
    Get Supabase credentials from:
+
    - Project Settings → API
    - Copy "Project URL" → SUPABASE_URL
    - Copy "anon public" key → SUPABASE_KEY
-
 4. **Deploy**:
+
    - Railway will auto-deploy after adding variables
    - Monitor "Deployments" tab for build logs
    - Wait for "Success" status (~3-5 minutes)
-
 5. **Get Production URL**:
+
    - Go to "Settings" tab
    - Under "Networking", click "Generate Domain"
    - Copy the generated URL (e.g., `sitrep-production.up.railway.app`)
@@ -128,12 +131,13 @@ CREATE TRIGGER update_briefings_updated_at
 ## STEP 4: Railway Cron Job Setup
 
 1. **Create Cron Service**:
+
    - In Railway project dashboard
    - Click "+ New"
    - Select "Empty Service"
    - Name it "Weekly Briefing Cron"
-
 2. **Configure Cron**:
+
    - Click the cron service
    - Go to "Settings" tab
    - Set Root Directory: `api`
@@ -141,17 +145,18 @@ CREATE TRIGGER update_briefings_updated_at
      ```
      0 6 * * 0
      ```
-     (Runs every Sunday at 6:00 AM UTC)
 
+     (Runs every Sunday at 6:00 AM UTC)
 3. **Add Cron Command**:
+
    - In "Settings" → "Deploy"
    - Set Start Command:
      ```
      python -c "import requests; requests.post('https://YOUR-RAILWAY-URL.up.railway.app/pipeline/run-weekly')"
      ```
    - Replace `YOUR-RAILWAY-URL` with your actual Railway domain
-
 4. **Share Environment Variables**:
+
    - The cron service needs the same environment variables
    - In main service, go to Variables
    - Click "Share Variables" → select cron service
@@ -162,18 +167,21 @@ CREATE TRIGGER update_briefings_updated_at
 ## STEP 5: Verify Deployment
 
 1. **Test Health Endpoint**:
+
    ```bash
    curl https://YOUR-RAILWAY-URL.up.railway.app/health
    ```
-   Expected: `{"status":"ok","version":"0.9.0"}`
 
+   Expected: `{"status":"ok","version":"0.9.0"}`
 2. **Test Manual Pipeline Trigger**:
+
    ```bash
    curl -X POST https://YOUR-RAILWAY-URL.up.railway.app/pipeline/run-weekly
    ```
-   Expected: Pipeline runs and caches briefings to Supabase
 
+   Expected: Pipeline runs and caches briefings to Supabase
 3. **Check Supabase**:
+
    - Go to Supabase project → Table Editor
    - Select `briefings` table
    - Verify 4 rows exist (one per region)
@@ -185,10 +193,10 @@ CREATE TRIGGER update_briefings_updated_at
 Update mobile API base URL to point to Railway:
 
 1. Edit `mobile/api/client.ts`:
+
    ```typescript
    const API_BASE_URL = 'https://YOUR-RAILWAY-URL.up.railway.app';
    ```
-
 2. Test mobile app with production backend
 
 ---
@@ -196,21 +204,25 @@ Update mobile API base URL to point to Railway:
 ## Troubleshooting
 
 ### Build Fails
+
 - Check Railway logs in "Deployments" tab
 - Verify `requirements.txt` is in `api/` directory
 - Verify Python version is 3.11+
 
 ### API Returns 500 Errors
+
 - Check Railway logs in "Deployments" → "View Logs"
 - Verify environment variables are set correctly
 - Check Supabase connection (wrong URL/key)
 
 ### Cron Job Not Running
+
 - Verify cron schedule syntax: `0 6 * * 0` (Sunday 6AM UTC)
 - Check cron service logs
 - Manually trigger to test: POST to `/pipeline/run-weekly`
 
 ### Playwright Fails in Railway
+
 - Playwright requires system dependencies
 - Add to `nixpacks.toml` if needed (Railway uses Nixpacks)
 
@@ -224,9 +236,36 @@ Update mobile API base URL to point to Railway:
 
 ---
 
+## v0.10 Deployment Status (2026-05-26)
+
+**✅ DEPLOYED AND OPERATIONAL**
+
+- **Production URL**: https://sitrep-production-6aac.up.railway.app
+- **Version**: v0.10.0
+- **Build System**: Dockerfile (replaced Nixpacks for Playwright compatibility)
+- **Cron Job**: Configured for Sunday 6 AM UTC
+- **Last Pipeline Run**: 16 articles scraped, 4/4 regions processed, 0 errors
+
+**Key Technical Decisions:**
+- Switched from Nixpacks to Dockerfile to persist Playwright Chromium installation
+- Data paths use `data/*` (not `../data/*`) since WORKDIR is `/app/api`
+- Supabase caching falls back to file storage (ON CONFLICT constraint issue remains)
+- Only ISW scraper operational (Defense One, Breaking Defense, IISS deferred to v0.3+)
+
+**Verified Working:**
+- ✅ Scraping (16 ISW articles)
+- ✅ Region filtering (Middle East, Indo-Pacific, Europe/Africa)
+- ✅ LLM synthesis (DeepSeek V4 Flash, $0.001/briefing)
+- ✅ PDF generation (all 4 regions)
+- ✅ File-based briefing storage
+- ✅ Mobile API integration
+- ✅ Weekly cron automation
+
+---
+
 ## Next Steps After Deployment
 
-1. Monitor first cron execution (check logs Sunday 6AM UTC)
+1. ✅ Monitor first cron execution (check logs Sunday 6AM UTC)
 2. Verify 2 consecutive weeks of successful runs
 3. Add Sentry for error tracking (v0.11)
 4. Add Mixpanel for analytics (v0.11)
