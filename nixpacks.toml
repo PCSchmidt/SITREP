@@ -1,10 +1,9 @@
 [phases.setup]
-nixPkgs = ["python311", "pip"]
+nixPkgs = ["python311", "pip", "chromium", "nss", "freetype", "harfbuzz", "libjpeg", "libpng"]
 
 [phases.install]
 cmds = [
-  "cd api && pip install -r requirements.txt",
-  "cd api && playwright install --with-deps chromium"
+  "cd api && pip install -r requirements.txt"
 ]
 
 [phases.build]
