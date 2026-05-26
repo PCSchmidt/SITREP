@@ -1,0 +1,54 @@
+{
+  "region": "Middle East",
+  "bluf": "US-Iran negotiations remain deadlocked over Iran's nuclear enrichment and Strait of Hormuz demands, with Iran leveraging a protection racket to normalize control of the waterway. The US has maintained military readiness, canceling a planned strike but preparing for large-scale operations, while international efforts to secure the strait gain momentum as Iran reconstitutes its arsenal during the ceasefire.",
+  "sections": [
+    {
+      "title": "Negotiations and Nuclear Stalemate",
+      "content": "US-Iran talks have achieved only 'slight progress' with highly enriched uranium (HEU) and Strait of Hormuz control remaining core sticking points. Iran's latest counterproposal failed to commit to suspending enrichment or surrendering its HEU stockpile, as demanded by the US. Internal Iranian divisions over nuclear concessions have emerged, with reports indicating disagreement over whether to transfer HEU abroad. The US has outlined five conditions, including transferring 400 kg of uranium, limiting Iran to one nuclear facility, and rejecting war reparations, but Iran has not submitted a formal response.",
+      "sources": [
+        "Iran Update Special Report, May 22, 2026",
+        "Iran Update Special Report, May 21, 2026",
+        "Iran Update Special Report, May 18, 2026",
+        "Iran Update Special Report, May 17, 2026"
+      ]
+    },
+    {
+      "title": "Strait of Hormuz: Iran's Protection Racket and International Response",
+      "content": "Iran is institutionalizing a de facto blockade by compelling vessels to obtain Iranian 'permission' and pay 'security fees' under threat of attack, framing this as legitimate maritime security. The IRGC Navy claimed 35 vessels transited the strait on May 22 after obtaining Iranian authorization. The US has seized Iranian-linked tankers, while NATO countries plan an escort mission beginning July 2026. South Korea is reviewing participation in the US-led 'Maritime Freedom Construct' after an attack on its vessel Namu-ho in the strait, which Seoul attributes to Iran with high confidence.",
+      "sources": [
+        "Iran Update Special Report, May 22, 2026",
+        "Iran Update Special Report, May 20, 2026",
+        "Iran Update Special Report, May 19, 2026",
+        "Korean Peninsula Update, May 19, 2026"
+      ]
+    },
+    {
+      "title": "Military Posture and Covert Actions",
+      "content": "President Trump canceled a planned large-scale strike on Iran on May 18 at the request of Qatari, Emirati, and Saudi leaders, but ordered the military to remain ready for immediate action. Iran is using the ceasefire to reconstitute its drone and missile program, which is difficult to degrade long-term. Likely Iranian drones targeted the Barakah Nuclear Power Plant in Abu Dhabi on May 17, though radiation levels remained normal. IRGC-affiliated media used the attack to sow discord between the UAE and Saudi Arabia. Iran also analyzed US aircraft flight patterns to improve targeting capabilities.",
+      "sources": [
+        "Iran Update Special Report, May 18, 2026",
+        "Iran Update Special Report, May 17, 2026",
+        "Iran Update Special Report, May 19, 2026"
+      ]
+    }
+  ],
+  "key_developments": [
+    "US-Iran negotiations stall on HEU and Strait of Hormuz; Iran's counterproposal does not meet US demands.",
+    "Iran normalizes Strait of Hormuz protection racket, demanding fees and permission from vessels.",
+    "US cancels planned strike but retains readiness for large-scale assault; Iran reconstitutes drone and missile capabilities.",
+    "NATO plans July escort mission; South Korea likely to join after Iran-linked attack on its vessel.",
+    "Likely Iranian drone strike on UAE nuclear plant on May 17; Iran studied US aircraft patterns for future strikes."
+  ],
+  "outlook": "Diplomatic resolution appears unlikely unless one side yields on the Strait of Hormuz control issue, which Iran views as a war-winning demand. The risk of renewed military escalation is high as Iran rebuilds its arsenal and international efforts to break the blockade converge, potentially triggering a direct US-Iran confrontation in the coming weeks.",
+  "generated_at": "2026-05-23T12:00:00Z",
+  "metadata": {
+    "model_id": "deepseek/deepseek-v4-flash",
+    "prompt_tokens": 5154,
+    "completion_tokens": 1389,
+    "total_tokens": 6543,
+    "finish_reason": "stop",
+    "model_used": "DeepSeek V4 Flash",
+    "cost_estimate": "$0.001/briefing"
+  },
+  "article_count": 10
+}

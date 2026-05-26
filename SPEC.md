@@ -5,8 +5,8 @@
 ## PROJECT
 
 **App name**: SITREP  
-**Current gate**: v0.8 - COMPLETE  
-**Status**: READY FOR v0.9  
+**Current gate**: v0.9 - COMPLETE  
+**Status**: READY FOR v0.10  
 **Build type**: Production / GA  
 **Target launch**: 2026-08-21 (3 months)  
 
@@ -469,6 +469,43 @@ Scraping → LLM Synthesis Pipeline
 **Estimated hours**: 6h  
 **Actual hours**: ~6h (3h initial setup + native module debugging, 2h build time, 1h testing/fixes)  
 **Status**: ✅ COMPLETE (2026-05-25)
+
+---
+
+## v0.9 Regional Filtering - COMPLETE
+
+**Goal**: Enable all 4 geographic regions with unique briefings and region filter persistence
+
+**What Shipped**:
+- ✅ Backend briefings generated for all 4 regions (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere)
+- ✅ Backend PDFs generated for all 4 regions
+- ✅ Mobile region filter persistence with AsyncStorage (remembers user's last selection)
+- ✅ Debug PDF test button removed from home screen
+- ✅ API endpoints verified working for all regions
+
+**Regional Briefing Content**:
+- Middle East: US-Iran negotiations, Strait of Hormuz protection racket (5.0KB JSON, 7.4KB PDF)
+- Indo-Pacific: Taiwan arms sales, South Korea maritime security, Sino-Russian relations (6.2KB JSON, 8.0KB PDF)
+- Europe/Africa: Ukraine war stabilization, Russia nuclear posturing, Iran negotiations (6.2KB JSON, 8.7KB PDF)
+- Western Hemisphere: No recent intelligence (minimal content, 286B JSON, 3.4KB PDF)
+
+**Technical Details**:
+- AsyncStorage installed (@react-native-async-storage/async-storage)
+- Region persistence key: `@sitrep_selected_region`
+- useEffect hooks for loading and saving region selection
+- All 4 /briefing/latest?region= endpoints tested and working
+- TypeScript compilation passes with no errors
+
+**Completion criteria**:
+- ✅ All 4 regions have unique briefings generated
+- ✅ Backend API serves all 4 regions correctly
+- ✅ Mobile region filter persistence implemented
+- ✅ PDFs generated for all 4 regions
+- ✅ End-to-end testing verified
+
+**Estimated hours**: 6h  
+**Actual hours**: ~6h (2h backend synthesis, 1h PDF generation, 2h mobile AsyncStorage, 1h testing)  
+**Status**: ✅ COMPLETE (2026-05-26)
 
 ---
 

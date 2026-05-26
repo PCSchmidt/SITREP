@@ -1,17 +1,46 @@
-import { View, ScrollView, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
-import { router } from 'expo-router';
+import { View, ScrollView, Text, ActivityIndicator } from 'react-native';
+import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import DisclaimerBanner from '../components/DisclaimerBanner';
 import RegionTab from '../components/RegionTab';
 import BriefingCard from '../components/BriefingCard';
 import { useAllBriefings } from '../hooks/useBriefings';
-import { Spacing, Colors, Typography } from '../constants/tokens';
+import { Spacing } from '../constants/tokens';
+
+const REGION_STORAGE_KEY = '@sitrep_selected_region';
 
 export default function HomeScreen() {
   const [activeRegion, setActiveRegion] = useState('all');
   const [showDisclaimer, setShowDisclaimer] = useState(true);
+  const [isLoadingRegion, setIsLoadingRegion] = useState(true);
 
   const { data: briefings, isLoading, error } = useAllBriefings();
+
+  // Load saved region preference on mount
+  useEffect(() => {
+    const loadRegion = async () => {
+      try {
+        const savedRegion = await AsyncStorage.getItem(REGION_STORAGE_KEY);
+        if (savedRegion) {
+          setActiveRegion(savedRegion);
+        }
+      } catch (err) {
+        console.warn('Failed to load saved region:', err);
+      } finally {
+        setIsLoadingRegion(false);
+      }
+    };
+    loadRegion();
+  }, []);
+
+  // Save region preference when it changes
+  useEffect(() => {
+    if (!isLoadingRegion) {
+      AsyncStorage.setItem(REGION_STORAGE_KEY, activeRegion).catch(err =>
+        console.warn('Failed to save region:', err)
+      );
+    }
+  }, [activeRegion, isLoadingRegion]);
 
   // Filter briefings by active region
   const filteredBriefings = briefings?.filter(briefing => {
@@ -25,24 +54,6 @@ export default function HomeScreen() {
         <DisclaimerBanner dismissible onDismiss={() => setShowDisclaimer(false)} />
       )}
       <RegionTab activeRegion={activeRegion} onRegionChange={setActiveRegion} />
-
-      {/* DEBUG: Direct PDF test button */}
-      <TouchableOpacity
-        onPress={() => router.push('/pdf/2026-05-23')}
-        style={{
-          marginHorizontal: Spacing.lg,
-          marginTop: Spacing.xl * 2,
-          marginBottom: Spacing.lg,
-          padding: Spacing.md,
-          backgroundColor: Colors.amber,
-          borderRadius: 8,
-          alignItems: 'center',
-        }}
-      >
-        <Text style={{ color: Colors.trueBlack, ...Typography.body, fontWeight: '600' }}>
-          TEST PDF VIEWER (Europe/Africa 2026-05-23)
-        </Text>
-      </TouchableOpacity>
 
       <ScrollView style={{ flex: 1, paddingHorizontal: Spacing.lg, paddingTop: Spacing.lg }}>
         {isLoading && (

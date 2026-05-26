@@ -4,28 +4,26 @@
 
 ---
 
-## CURRENT WORK (v0.9+ - Next Gates)
+## CURRENT WORK (v0.10+ - Next Gates)
 
-**v0.8 COMPLETE** (PDF Mobile Integration - 6h actual vs 6h estimated, 0% variance)
+**v0.9 COMPLETE** (Regional Filtering - 6h actual vs 6h estimated, 0% variance)
 
-**What Shipped (2026-05-25):**
-- ✅ react-native-pdf library integrated with custom Expo development build
-- ✅ react-native-blob-util native module compiled (custom build required)
-- ✅ Full-screen PDF viewer at [mobile/app/pdf/[id].tsx](mobile/app/pdf/[id].tsx)
-- ✅ Share button opens Android/iOS share sheet (Drive, Gmail, Messages, Print)
-- ✅ Save button downloads PDF to Downloads folder
-- ✅ Centered header layout (Share/Save buttons don't overlap gear icon)
-- ✅ Lazy-loaded PDF component prevents startup errors
-- ✅ Comprehensive error handling with detailed logging ([PDF Share], [PDF Save] prefixes)
-- ✅ Backend PDF endpoint verified working (3-page PDF, 5.8KB)
+**What Shipped (2026-05-26):**
+- ✅ Backend briefings generated for all 4 regions (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere)
+- ✅ Backend PDFs generated for all 4 regions (7.4KB, 8.0KB, 8.7KB, 3.4KB respectively)
+- ✅ Mobile region filter persistence with AsyncStorage (remembers user's last selection)
+- ✅ API endpoints working for all regions (/briefing/latest?region=...)
+- ✅ Debug PDF test button removed from home screen
+- ✅ TypeScript compilation passes with no errors
+- ✅ End-to-end testing verified for all 4 regions
 
-**Known Limitations:**
-- ⚠️ Android may kill app when Share dialog opens (OS memory management, not a bug)
-- ⚠️ Requires custom development build (~35min Android build time with native modules)
-- ⚠️ PDF caching uses device storage (expo-file-system cacheDirectory)
+**Regional Content Quality:**
+- Middle East: 3 sections (US-Iran negotiations, Strait of Hormuz, military posture)
+- Indo-Pacific: 3 sections (Taiwan strait, maritime security, Sino-Russian relations)
+- Europe/Africa: 3 sections (Ukraine war, Russia nuclear posturing, Iran negotiations)
+- Western Hemisphere: No recent intelligence (expected, limited Western Hemisphere coverage in ISW sources)
 
 **Upcoming Gates** (per VERSION_ROADMAP.md):
-- v0.9: Regional Filtering (all 4 regions) - 6h estimated
 - v0.10: Weekly Automation (Railway Cron) - 10h estimated
 - v0.11: Analytics Integration (Mixpanel + Sentry) - 6h estimated
 - v0.12: Legal & Disclaimers - 4h estimated
@@ -33,14 +31,13 @@
 - v0.14: Beta Testing - 8-16h estimated
 - v1.0: Production Live - 6-12h estimated
 
-**Immediate Next Steps** (v0.9 - Regional Filtering):
-1. Backend: Generate briefings for all 4 regions (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere)
-2. Backend: Update /briefing/latest endpoint to accept region parameter
-3. Mobile: Implement region tabs UI component (horizontal scroll or dropdown)
-4. Mobile: Wire region selection to API calls
-5. Mobile: Add region filter persistence (remember user's last selection)
-6. Test: Verify all 4 regions display unique content
-7. Polish: Smooth transitions between region views
+**Immediate Next Steps** (v0.10 - Weekly Automation):
+1. Deploy backend to Railway
+2. Set up Railway Cron job to trigger weekly scraping → synthesis → PDF generation
+3. Configure Supabase database for briefing caching
+4. Add monitoring/logging for pipeline failures
+5. Create manual trigger endpoint for testing
+6. Verify pipeline runs successfully for 2 consecutive weeks
 
 ---
 
