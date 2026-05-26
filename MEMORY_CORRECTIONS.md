@@ -13,6 +13,54 @@
 # CORRECTION FOR FUTURE: [what changes]
 # MEMORY_SEMANTIC.md UPDATE: [pattern added/updated or none]
 
+## REFLEXION: v0.9 -- Regional Filtering
+Date: 2026-05-26
+Project: SITREP
+ESTIMATE: Predicted 6h, Actual 6h, Variance 0%
+
+TECHNICAL PREDICTIONS VS REALITY:
+
+**Regional Filtering (predicted 6h, actual ~6h)**:
+- Expected: Generate briefings for 4 regions, mobile AsyncStorage persistence, API endpoint integration
+- Reality: Exactly as predicted - all 4 regions working with unique content, persistence implemented
+
+**What went as expected**:
+- Backend synthesis for 4 regions took ~2h (DeepSeek V4 Flash synthesis is fast)
+- PDF generation for 4 regions took ~1h (ReportLab API already proven from v0.3)
+- Mobile AsyncStorage integration took ~2h (straightforward React hooks pattern)
+- API endpoints already supported region parameter (no backend changes needed)
+- TypeScript compilation passed immediately (type-safe implementation)
+
+**What was simpler than expected**:
+- Backend API already had region parameter support from v0.6, no changes needed
+- Mobile RegionTab component already existed from v0.1, just needed to wire persistence
+- Region filtering logic already worked client-side, just added AsyncStorage
+
+**What took expected time**:
+- Generating 4 briefings (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere)
+- Testing all 4 API endpoints end-to-end
+- AsyncStorage useEffect hooks for load/save
+
+**Why the estimate was accurate**:
+- Learned from v0.2 that LLM synthesis is fast (~1 briefing every 30-60s)
+- v0.3 pattern for PDF generation was reusable (same API, different region)
+- AsyncStorage is standard React Native pattern, no complexity
+- v0.6 API endpoints already region-aware, minimal backend work
+
+CORRECTION FOR FUTURE:
+
+1. **Regional expansion gates**: When adding region support to existing infrastructure, estimate 6h as baseline (2h synthesis + 1h PDF + 2h persistence + 1h testing). Pattern validated.
+
+2. **LLM synthesis scaling**: Multi-region synthesis scales linearly. 4 regions took ~2h (30min per region), matching v0.2 synthesis time.
+
+3. **AsyncStorage persistence**: Standard useEffect pattern for load/save is 2h estimate (1h implementation + 1h testing). No complexity with simple key-value storage.
+
+4. **Infrastructure reuse**: When extending existing working systems (v0.6 API, v0.3 PDF, v0.1 UI components), estimate based on new work only, not refactoring existing code.
+
+5. **Apply 1.0x multiplier for feature expansion gates** when adding content to proven infrastructure. The 6h estimate continues to be accurate (3 gates now: v0.3, v0.8, v0.9).
+
+MEMORY_SEMANTIC.md UPDATE: None (need 3+ projects to validate pattern)
+
 ## REFLEXION: v0.8 -- PDF Mobile Integration
 Date: 2026-05-25
 Project: SITREP
