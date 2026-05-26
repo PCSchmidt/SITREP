@@ -7,6 +7,7 @@
 
 | Date | Project | Gate | Outcome | Tests | Notes |
 |------|---------|------|---------|-------|-------|
+| 2026-05-26 | SITREP | v0.9 | ✅ COMPLETE | N/A | Regional Filtering: All 4 regions with briefings/PDFs, AsyncStorage persistence. 6h actual vs 6h estimated (0% variance). Middle East (3 sections), Indo-Pacific (3 sections), Europe/Africa (3 sections), Western Hemisphere (minimal content). TypeScript passes, all API endpoints working. |
 | 2026-05-25 | SITREP | v0.8 | ✅ COMPLETE | N/A | PDF Mobile Integration: react-native-pdf viewer with Share/Save. 6h actual vs 6h estimated (0% variance). Native module build required, Share/Save both working. Android backgrounding behavior noted for future optimization. |
 
 ## STOP EVENTS
@@ -1181,4 +1182,16 @@ Resume: /start option 2
 Session ended (crash or manual stop).
 Gate in progress: 
 Last git commit: ece9997 v0.8 - PDF Mobile Integration Complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T12:25:16Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 5e72810 Add v0.9 reflexion entry to MEMORY_CORRECTIONS.md
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-26T12:43:48Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 5e72810 Add v0.9 reflexion entry to MEMORY_CORRECTIONS.md
 Resume: /start option 2
