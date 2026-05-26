@@ -2,7 +2,10 @@
 nixPkgs = ["python311", "pip"]
 
 [phases.install]
-cmds = ["cd api && pip install -r requirements.txt"]
+cmds = [
+  "cd api && pip install -r requirements.txt",
+  "cd api && playwright install --with-deps chromium"
+]
 
 [phases.build]
 cmds = []
