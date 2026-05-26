@@ -1,8 +1,8 @@
 import { Briefing } from '../types/briefing';
 
 // API Configuration
-// Use local IP for physical device testing, localhost for web/simulator
-const API_BASE_URL = 'http://10.0.0.201:8001';
+// Production Railway URL
+const API_BASE_URL = 'https://sitrep-production-6aac.up.railway.app';
 
 // Backend API Response Types
 interface BackendBriefingSection {
