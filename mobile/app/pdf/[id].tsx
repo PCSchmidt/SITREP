@@ -6,7 +6,7 @@ import * as Sharing from 'expo-sharing';
 import { cacheDirectory, documentDirectory, downloadAsync } from 'expo-file-system/legacy';
 import { Colors, Typography, Spacing } from '../../constants/tokens';
 
-const API_BASE_URL = 'http://10.0.0.201:8001';
+const API_BASE_URL = 'https://sitrep-production-6aac.up.railway.app';
 
 export default function PDFViewerScreen() {
   const { id } = useLocalSearchParams();

@@ -12,21 +12,21 @@ export default function DetailScreen() {
 
   if (isLoading) {
     return (
-      <View className="flex-1 bg-true-black items-center justify-center">
+      <View style={{ flex: 1, backgroundColor: '#000000', alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size="large" color="#FFA500" />
-        <Text className="text-amber-500 mt-4 text-base">Loading briefing...</Text>
+        <Text style={{ color: '#FFA500', marginTop: 16, fontSize: 15 }}>Loading briefing...</Text>
       </View>
     );
   }
 
   if (error || !briefing) {
     return (
-      <View className="flex-1 bg-true-black items-center justify-center px-4">
-        <Text className="text-red-500 text-base text-center">
+      <View style={{ flex: 1, backgroundColor: '#000000', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16 }}>
+        <Text style={{ color: '#FF4444', fontSize: 15, textAlign: 'center' }}>
           {error ? 'Failed to load briefing' : 'Briefing not found'}
         </Text>
         {error && (
-          <Text className="text-gray-400 text-sm mt-2 text-center">
+          <Text style={{ color: '#888888', fontSize: 12, marginTop: 8, textAlign: 'center' }}>
             {(error as Error).message}
           </Text>
         )}
@@ -35,7 +35,7 @@ export default function DetailScreen() {
   }
 
   return (
-    <View className="flex-1 bg-true-black">
+    <View style={{ flex: 1, backgroundColor: '#000000' }}>
       <DisclaimerBanner />
       <ScrollView style={{ flex: 1 }}>
         <View style={{ padding: Spacing.lg }}>

@@ -1,5 +1,5 @@
-import { ScrollView, Pressable, Text } from 'react-native';
-import { Colors, Typography, Spacing, Regions } from '../constants/tokens';
+import { View, Pressable, Text } from 'react-native';
+import { Colors, Spacing, Regions } from '../constants/tokens';
 
 interface RegionTabProps {
   activeRegion: string;
@@ -8,14 +8,11 @@ interface RegionTabProps {
 
 export default function RegionTab({ activeRegion, onRegionChange }: RegionTabProps) {
   return (
-    <ScrollView
-      horizontal={false}
-      showsVerticalScrollIndicator={false}
-      style={{ flexGrow: 0, maxHeight: 350 }}
-      contentContainerStyle={{
+    <View
+      style={{
         paddingHorizontal: Spacing.lg,
         paddingTop: Spacing.sm,
-        paddingBottom: Spacing.xl
+        paddingBottom: Spacing.md
       }}
     >
       {Regions.map((region) => {
@@ -47,6 +44,6 @@ export default function RegionTab({ activeRegion, onRegionChange }: RegionTabPro
           </Pressable>
         );
       })}
-    </ScrollView>
+    </View>
   );
 }

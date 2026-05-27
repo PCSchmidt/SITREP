@@ -16,6 +16,16 @@ export default function HomeScreen() {
 
   const { data: briefings, isLoading, error } = useAllBriefings();
 
+  // Debug logging
+  useEffect(() => {
+    console.log('HomeScreen state:', {
+      briefingsCount: briefings?.length ?? 0,
+      isLoading,
+      error: error?.message,
+      activeRegion
+    });
+  }, [briefings, isLoading, error, activeRegion]);
+
   // Load saved region preference on mount
   useEffect(() => {
     const loadRegion = async () => {
@@ -48,33 +58,42 @@ export default function HomeScreen() {
     return briefing.regions.includes(activeRegion);
   }) || [];
 
+  // Debug filtered briefings
+  useEffect(() => {
+    console.log('Filtered briefings:', {
+      count: filteredBriefings.length,
+      activeRegion,
+      briefings: filteredBriefings.map(b => ({ id: b.id, regions: b.regions }))
+    });
+  }, [filteredBriefings, activeRegion]);
+
   return (
-    <View className="flex-1 bg-true-black">
+    <View style={{ flex: 1, backgroundColor: '#000000' }}>
       {showDisclaimer && (
         <DisclaimerBanner dismissible onDismiss={() => setShowDisclaimer(false)} />
       )}
       <RegionTab activeRegion={activeRegion} onRegionChange={setActiveRegion} />
 
-      <ScrollView style={{ flex: 1, paddingHorizontal: Spacing.lg, paddingTop: Spacing.lg }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ paddingHorizontal: Spacing.lg, paddingTop: Spacing.lg, paddingBottom: Spacing.xl }}
+      >
         {isLoading && (
-          <View className="flex-1 items-center justify-center py-12">
+          <View style={{ padding: Spacing.xl, alignItems: 'center' }}>
             <ActivityIndicator size="large" color="#FFA500" />
-            <Text className="text-amber-500 mt-4 text-base">Loading briefings...</Text>
+            <Text style={{ color: '#FFA500', marginTop: Spacing.md }}>Loading briefings...</Text>
           </View>
         )}
         {error && (
-          <View className="flex-1 items-center justify-center py-12">
-            <Text className="text-red-500 text-base text-center px-4">
-              Failed to load briefings. Make sure the backend is running on localhost:8001.
-            </Text>
-            <Text className="text-gray-400 text-sm mt-2 text-center px-4">
-              {error.message}
+          <View style={{ padding: Spacing.xl }}>
+            <Text style={{ color: '#FF4444', textAlign: 'center' }}>
+              Failed to load briefings. {error.message}
             </Text>
           </View>
         )}
         {!isLoading && !error && filteredBriefings.length === 0 && (
-          <View className="flex-1 items-center justify-center py-12">
-            <Text className="text-gray-400 text-base">No briefings available for this region.</Text>
+          <View style={{ padding: Spacing.xl }}>
+            <Text style={{ color: '#888888', textAlign: 'center' }}>No briefings available for this region.</Text>
           </View>
         )}
         {!isLoading && !error && filteredBriefings.map((briefing) => (

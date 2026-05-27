@@ -14,10 +14,19 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile dev
 
 **Build Type**: Production / GA (App Store + Play Store deployment)
 **Timeline**: 3 months (~114-124 hours total)
-**Current Gate**: v0.10 Production Deployment ✅ COMPLETE
+**Current Gate**: v0.10 Production Deployment ✅ COMPLETE (Mobile App Fully Functional)
 **Next Gate**: v0.11 Analytics Integration
 **Production URL**: <https://sitrep-production-6aac.up.railway.app>
 **Portfolio**: [pcschmidt.github.io](https://pcschmidt.github.io)
+
+### v0.10 Accomplishments
+
+✅ **Backend Production Deployment**: Railway hosting with Nixpacks, Supabase caching, weekly cron automation  
+✅ **Mobile App Fully Functional**: Development build with USB debugging, all screens rendering correctly  
+✅ **Regional Briefings**: 4 regions (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere) working  
+✅ **PDF Viewer**: Integrated react-native-pdf loading Railway backend PDFs  
+✅ **Navigation**: All routes (Home → Detail → PDF) tested on physical device (Samsung S25+)  
+✅ **Layout Fix**: Resolved RegionTab ScrollView conflict preventing content rendering
 
 ### What is SITREP?
 
@@ -201,33 +210,33 @@ SITREP/
 
 ## 📋 Development Roadmap
 
-**Current Gate**: v0.8 PDF Mobile Integration ✅
+**Current Gate**: v0.10 Production Deployment ✅
 
 Built using **Blueprint v11** methodology with 16-gate phased development:
 
-| Version | Gate                       | Description                                           | Hours           | Status       |
-| ------- | -------------------------- | ----------------------------------------------------- | --------------- | ------------ |
-| v0.0    | Foundation                 | Project scaffold, dependencies, documentation         | 4h (4h actual)  | ✅ COMPLETE  |
-| v0.1    | Mobile Foundation          | App config, design system, component library, screens | 8h (3h actual)  | ✅ COMPLETE  |
-| v0.2    | Scraping Pipeline          | Playwright scraping, ISW working (16 articles)        | 8h (4h actual)  | ✅ COMPLETE  |
-| v0.2    | LLM Synthesis              | DeepSeek V4 Flash via Open Router, BLUF generation    | 12h (3h actual) | ✅ COMPLETE  |
-| v0.3    | PDF Generation Backend     | ReportLab PDF generation, 3-page output               | 8h (2h actual)  | ✅ COMPLETE  |
-| v0.4    | Mobile Scaffold            | (Skipped - completed in v0.1)                         | -               | ⏭️ SKIPPED |
-| v0.5    | UI Design System           | (Skipped - completed in v0.1)                         | -               | ⏭️ SKIPPED |
-| v0.6    | Backend API                | FastAPI endpoints, file-based caching                 | 8h (4h actual)  | ✅ COMPLETE  |
-| v0.7    | Mobile-Backend Integration | TanStack Query, API client, vertical region tabs      | 6h (8h actual)  | ✅ COMPLETE  |
-| v0.8    | PDF Mobile Integration     | react-native-pdf, custom build, share/save working    | 6h (6h actual)  | ✅ COMPLETE  |
-| v0.9    | Regional Filtering         | Multi-region briefings, filter logic, navigation      | 6h              | 📅 Next      |
-| v0.10   | Weekly Automation          | Railway Cron setup, failure alerts, monitoring        | 10h             | 📅 Planned   |
-| v0.11   | Analytics Integration      | Mixpanel events, Sentry crash tracking                | 6h              | 📅 Planned   |
-| v0.12   | Legal & Disclaimers        | Privacy Policy, ToS, AI content warnings              | 4h              | 📅 Planned   |
-| v0.13   | App Store Prep             | Icons, screenshots, metadata, build signing           | 6h              | 📅 Planned   |
-| v0.14   | Beta Testing               | TestFlight, internal testing, bug fixes               | 8-16h           | 📅 Planned   |
-| v1.0    | Production Live            | App Store + Play Store deployment, launch             | 6-12h           | 📅 Planned   |
+| Version | Gate                       | Description                                           | Hours            | Status       |
+| ------- | -------------------------- | ----------------------------------------------------- | ---------------- | ------------ |
+| v0.0    | Foundation                 | Project scaffold, dependencies, documentation         | 4h (4h actual)   | ✅ COMPLETE  |
+| v0.1    | Mobile Foundation          | App config, design system, component library, screens | 8h (3h actual)   | ✅ COMPLETE  |
+| v0.2    | Scraping Pipeline          | Playwright scraping, ISW working (16 articles)        | 8h (4h actual)   | ✅ COMPLETE  |
+| v0.2    | LLM Synthesis              | DeepSeek V4 Flash via Open Router, BLUF generation    | 12h (3h actual)  | ✅ COMPLETE  |
+| v0.3    | PDF Generation Backend     | ReportLab PDF generation, 3-page output               | 8h (2h actual)   | ✅ COMPLETE  |
+| v0.4    | Mobile Scaffold            | (Skipped - completed in v0.1)                         | -                | ⏭️ SKIPPED |
+| v0.5    | UI Design System           | (Skipped - completed in v0.1)                         | -                | ⏭️ SKIPPED |
+| v0.6    | Backend API                | FastAPI endpoints, file-based caching                 | 8h (4h actual)   | ✅ COMPLETE  |
+| v0.7    | Mobile-Backend Integration | TanStack Query, API client, vertical region tabs      | 6h (8h actual)   | ✅ COMPLETE  |
+| v0.8    | PDF Mobile Integration     | react-native-pdf, custom build, share/save working    | 6h (6h actual)   | ✅ COMPLETE  |
+| v0.9    | Regional Filtering         | Multi-region briefings, filter logic, navigation      | 6h (6h actual)   | ✅ COMPLETE  |
+| v0.10   | Production Deployment      | Railway deployment, mobile app fully functional       | 10h (16h actual) | ✅ COMPLETE  |
+| v0.11   | Analytics Integration      | Mixpanel events, Sentry crash tracking                | 6h               | 📅 Next      |
+| v0.12   | Legal & Disclaimers        | Privacy Policy, ToS, AI content warnings              | 4h               | 📅 Planned   |
+| v0.13   | App Store Prep             | Icons, screenshots, metadata, build signing           | 6h               | 📅 Planned   |
+| v0.14   | Beta Testing               | TestFlight, internal testing, bug fixes               | 8-16h            | 📅 Planned   |
+| v1.0    | Production Live            | App Store + Play Store deployment, launch             | 6-12h            | 📅 Planned   |
 
 **Total Estimated**: 114-124 hours over 3 months  
-**Total Actual (v0.0-v0.8)**: 34 hours  
-**Remaining**: 80-90 hours  
+**Total Actual (v0.0-v0.10)**: 56 hours  
+**Remaining**: 58-68 hours  
 **Target Launch**: 2026-08-21
 
 See [VERSION_ROADMAP.md](VERSION_ROADMAP.md) for detailed gate descriptions and hour breakdowns.
@@ -462,6 +471,29 @@ MIT License - see [LICENSE](LICENSE) for details
 
 ---
 
-**Status**: v0.8 PDF Mobile Integration Complete (2026-05-25)
-**Next**: v0.9 Regional Filtering (Multi-region briefings + navigation)
+**Status**: v0.10 Production Deployment Complete (2026-05-27)
+**Next**: v0.11 Analytics Integration (Mixpanel + Sentry)
 **Target Launch**: 2026-08-21 (App Store + Play Store)
+
+---
+
+## 📱 Mobile Development Setup (v0.10)
+
+### Running on Physical Device (Samsung S25+)
+
+The development build is installed and can be launched via USB:
+
+```bash
+# 1. Connect phone via USB with debugging enabled
+# 2. Set up ADB reverse port forwarding
+"C:/Users/pchri/AppData/Local/Android/Sdk/platform-tools/adb.exe" devices
+"C:/Users/pchri/AppData/Local/Android/Sdk/platform-tools/adb.exe" reverse tcp:8081 tcp:8081
+
+# 3. Start Metro bundler
+cd mobile
+npx expo start
+
+# 4. On phone: Open SITREP app, enter exp://localhost:8081
+```
+
+**Note**: The development build includes all native modules (react-native-pdf, react-native-blob-util) and connects to the Railway production backend via mobile data.

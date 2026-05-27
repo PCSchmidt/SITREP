@@ -17,8 +17,8 @@ export default function BriefingCard({ id, timestamp, title, preview, regions }:
     <Pressable
       onPress={() => router.push(`/detail/${id}`)}
       style={{
-        backgroundColor: Colors.trueBlack,
-        borderLeftWidth: 1,
+        backgroundColor: Colors.cardBg,
+        borderLeftWidth: 3,
         borderLeftColor: Colors.amber,
         padding: Spacing.md,
         marginBottom: Spacing.lg,
