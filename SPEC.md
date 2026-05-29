@@ -76,13 +76,15 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 
 ## SCRAPING SOURCES
 
-**Active (v0.11, 6 sources, ~84 articles/week):**
-- ISW - Ukraine/Russia, Iran daily assessments (Playwright)
-- Defense One - Pentagon policy, military tech (RSS)
-- Breaking Defense - Defense procurement, emerging tech (RSS)
-- War on the Rocks - Strategic analysis, replaces paywalled IISS (RSS)
-- The War Zone - Military aviation, weapons systems, hardware (RSS)
-- Al Jazeera - Non-Western perspective, Middle East/Africa (RSS, topic-filtered)
+**Active (v0.15, 7 sources):**
+- ISW - Ukraine/Russia, Iran daily assessments (Playwright, ~15 articles/week)
+- Defense One - Pentagon policy, military tech (RSS, ~14/week)
+- Breaking Defense - Defense procurement, emerging tech (RSS, ~7/week)
+- War on the Rocks - Strategic analysis, replaces paywalled IISS (RSS, ~18/week)
+- The War Zone - Military aviation, weapons systems, hardware (RSS, ~20/week)
+- Al Jazeera - Non-Western perspective, Middle East/Africa (RSS, ~11/week)
+- GDELT DOC 2.0 - LatAm, sub-Saharan Africa, SE Asia/Oceania local-language sources
+  (up to 50 articles/week from 3 regional queries; best-effort, rate-limited locally)
 
 **Wave 2 targets (v1.1, RSS confirmed working):**
 - The Diplomat - Asia-Pacific geopolitics (96 items/feed)
