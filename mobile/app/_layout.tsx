@@ -63,6 +63,20 @@ function RootLayout() {
           }}
         />
         <Stack.Screen
+          name="privacy"
+          options={{
+            title: 'Privacy Policy',
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="terms"
+          options={{
+            title: 'Terms of Service',
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
           name="pdf/[id]"
           options={{
             title: 'PDF Viewer',

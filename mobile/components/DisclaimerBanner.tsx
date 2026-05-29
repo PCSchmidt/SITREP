@@ -29,7 +29,7 @@ export default function DisclaimerBanner({ onDismiss, dismissible = false }: Dis
           ⚠️ AI GENERATED CONTENT
         </Text>
         <Text style={{ color: Colors.trueBlack, ...Typography.caption }}>
-          Not official intelligence. Use at your own discretion.
+          Not official intelligence. Accuracy not guaranteed. Use at your own discretion.
         </Text>
       </View>
       {dismissible && onDismiss && (
