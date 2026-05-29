@@ -10,6 +10,7 @@ from .breakingdefense_scraper import BreakingDefenseScraper
 from .warontherocks_scraper import WarOnTheRocksScraper
 from .thewarzone_scraper import TheWarZoneScraper
 from .aljazeera_scraper import AlJazeeraScraper
+from .gdelt_scraper import GDELTScraper
 from .base import Article
 
 logging.basicConfig(
@@ -30,6 +31,7 @@ class ScraperOrchestrator:
             WarOnTheRocksScraper(), # RSS - strategic analysis (replaces IISS)
             TheWarZoneScraper(),    # RSS - military aviation, weapons systems
             AlJazeeraScraper(),     # RSS - non-Western perspective, Middle East/Africa
+            GDELTScraper(),         # GDELT DOC 2.0 - LatAm, Africa, SE Asia local sources
         ]
 
     async def scrape_all_sources(self, days: int = 7, max_retries: int = 2) -> Dict[str, List[Article]]:

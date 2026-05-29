@@ -38,11 +38,12 @@ with a note on what drives the uncertainty.
 | v0.12 | **Global Briefing** | **GET /briefing/global + synthesize_global() with cross-regional system prompt (thematic sections: Great Power Competition, Energy Coercion, Alliance Dynamics). ALL tab uses useGlobalBriefing() hook. Weekly pipeline generates global briefing as Step 4. Debug console.logs removed.** | **6h** | **5h** | **✅ DONE** |
 | v0.13 | **Analytics Integration** | **@sentry/react-native + mixpanel-react-native installed. services/analytics.ts wrapper with graceful degradation. 5 events instrumented: app_open (_layout), briefing_view (detail), region_filter (index), pdf_view + pdf_share (pdf). Root wrapped with Sentry.wrap(). Tokens via EXPO_PUBLIC_ env vars. Rebuild required to activate native modules.** | **6h** | **4h** | **✅ DONE** |
 | v0.14 | **Legal & Disclaimers** | **PRIVACY_POLICY.md + TERMS_OF_SERVICE.md. In-app privacy.tsx + terms.tsx screens. About screen rewritten with stronger disclaimer + nav links. DisclaimerBanner updated. PDF gets per-page footer disclaimer on every page via onFirstPage/onLaterPages hooks. TypeScript clean.** | **4h** | **3h** | **✅ DONE** |
-| v0.15 | App Store Prep | App icons (1024x1024), splash screens, app store screenshots (iOS + Android showing PDF viewer). App store listing copy written. Bundle IDs configured. Signing certificates ready. | 6h | - | pending |
-| v0.16 | Beta Testing | TestFlight (iOS) + Play Store Beta (Android) deployed. 5-10 beta testers recruited. Bug fixes from feedback. PDF generation/viewing tested on real devices. Crash-free rate > 99%. | 8-16h (depends on feedback volume) | - | pending |
+| v0.15 | GDELT Integration | GDELTScraper using the free GDELT DOC 2.0 API. 5 region-focused queries targeting Latin America, sub-Saharan Africa, Pacific Islands, and Southeast Asia with source-country filters to pull from LOCAL sources. Fills coverage gap for Western Hemisphere and Oceania. No new dependencies; integrates with existing httpx + BeautifulSoup pipeline. | 4-6h | - | pending |
+| v0.16 | App Store Prep | App icons (1024x1024), splash screens, app store screenshots (iOS + Android showing PDF viewer). App store listing copy written. Bundle IDs configured. Signing certificates ready. | 6h | - | pending |
+| v0.17 | Beta Testing | TestFlight (iOS) + Play Store Beta (Android) deployed. 5-10 beta testers recruited. Bug fixes from feedback. PDF generation/viewing tested on real devices. Crash-free rate > 99%. | 8-16h (depends on feedback volume) | - | pending |
 | v1.0 | Production Live | App Store submission approved. Google Play Store submission approved. App live and discoverable. Portfolio page (pcschmidt.github.io) updated with app store links and screenshots. | 6-12h (depends on review times) | - | pending |
 
-**Total Estimated Hours**: ~132-146h (added v0.11 Source Expansion +12-16h, v0.12 Global Briefing +6h)  
+**Total Estimated Hours**: ~136-152h (added v0.15 GDELT Integration +4-6h)  
 **Timeline at 10-15h/week**: 8-12 weeks (~2-3 months)
 
 ## RULES
