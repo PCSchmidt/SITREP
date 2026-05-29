@@ -5,8 +5,8 @@
 ## PROJECT
 
 **App name**: SITREP  
-**Current gate**: v0.10 - COMPLETE  
-**Status**: READY FOR v0.11  
+**Current gate**: v0.12 - COMPLETE  
+**Status**: READY FOR v0.13  
 **Build type**: Production / GA  
 **Target launch**: 2026-08-21 (3 months)  
 
@@ -39,7 +39,7 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - ✅ Save/bookmark briefings locally on device
 - ✅ Offline reading support
 - ✅ Smooth navigation and loading states
-- 🔲 ALL tab shows global combined briefing (cross-regional synthesis) instead of 4 separate cards (v0.12)
+- ✅ ALL tab shows global combined briefing (cross-regional synthesis) instead of 4 separate cards
 
 ### Infrastructure
 - ✅ FastAPI backend on Railway
@@ -47,8 +47,8 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - ✅ Playwright for scraping open-source news (CloakBrowser optional for paywalls)
 - ✅ Multi-model LLM synthesis (DeepSeek V4 Flash → V3.2 → Kimi K2.5 fallback via Open Router, 99% cost reduction)
 - ✅ Cost-optimized: single cached briefing per week served to all users (~$0.001/briefing)
-- 🔲 8-10 working scrapers at v1.0 (ISW + 3 fixed Tier 1 + 3-5 new free sources) (v0.11)
-- 🔲 Global combined briefing endpoint /briefing/global for cross-regional synthesis (v0.12)
+- ✅ 6 working scrapers (ISW + Defense One + Breaking Defense + War on the Rocks + The War Zone + Al Jazeera, ~84 articles/week)
+- ✅ Global combined briefing endpoint /briefing/global for cross-regional synthesis
 
 ### Monitoring & Analytics
 - 🔲 Mixpanel for user behavior tracking (v0.11)
