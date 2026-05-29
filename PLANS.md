@@ -36,19 +36,34 @@
 
 **Upcoming Gates** (per VERSION_ROADMAP.md):
 
-- v0.11: Analytics Integration (Mixpanel + Sentry) - 6h estimated
-- v0.12: Legal & Disclaimers - 4h estimated
-- v0.13: App Store Prep - 6h estimated
-- v0.14: Beta Testing - 8-16h estimated
+- v0.11: Source Expansion - 12-16h estimated
+- v0.12: Global Briefing ("ALL" tab) - 6h estimated
+- v0.13: Analytics Integration (Mixpanel + Sentry) - 6h estimated
+- v0.14: Legal & Disclaimers - 4h estimated
+- v0.15: App Store Prep - 6h estimated
+- v0.16: Beta Testing - 8-16h estimated
 - v1.0: Production Live - 6-12h estimated
 
-**Immediate Next Steps** (v0.11 - Analytics Integration):
+**Immediate Next Steps** (v0.11 - Source Expansion):
 
-1. Integrate Mixpanel SDK for user event tracking
-2. Integrate Sentry SDK for crash reporting and error tracking
-3. Add event tracking: app_open, briefing_view, region_filter, pdf_view, pdf_share
-4. Verify telemetry in Mixpanel and Sentry dashboards
-5. Test crash reporting and error tracking
+**Part A: Fix 3 broken Tier 1 scrapers (~6h)**
+1. Fix Defense One scraper - debug HTML selectors, validate JSON output
+2. Fix Breaking Defense scraper - debug HTML selectors, validate JSON output
+3. Fix IISS scraper - debug HTML selectors, validate JSON output
+
+**Part B: Add 3-5 new free sources (~6-10h)**
+Priority candidates (high value, likely scrapeable without paywalls):
+- CSIS (Center for Strategic and International Studies) - policy analysis
+- Reuters - wire service, broad geopolitical coverage
+- Al Jazeera - Middle East + global perspective
+- The War Zone (thedrive.com/the-war-zone) - defense tech, military ops
+- Defense News - procurement, strategy
+
+**Success Criteria for v0.11:**
+- 8-10 total working scrapers
+- All sources validated: article extraction, region tagging, JSON output
+- Pipeline test: run full scrape → synthesize → PDF with expanded source set
+- Article count per region increases from ~16 to 30+
 
 ---
 
