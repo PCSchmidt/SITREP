@@ -56,8 +56,8 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - ✅ Weekly automation monitoring with failure alerts
 
 ### Compliance
-- 🔲 Privacy Policy (v0.12)
-- 🔲 Terms of Service (v0.12)
+- ✅ Privacy Policy (PRIVACY_POLICY.md + in-app privacy screen)
+- ✅ Terms of Service (TERMS_OF_SERVICE.md + in-app terms screen)
 - 🔲 App Store and Play Store approval (v1.0)
 - ✅ AI content disclaimers throughout UI
 
