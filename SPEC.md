@@ -51,8 +51,8 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - ✅ Global combined briefing endpoint /briefing/global for cross-regional synthesis
 
 ### Monitoring & Analytics
-- 🔲 Mixpanel for user behavior tracking (v0.11)
-- 🔲 Sentry for crash reporting and error tracking (v0.11)
+- ✅ Mixpanel for user behavior tracking (services/analytics.ts, 5 events)
+- ✅ Sentry for crash reporting and error tracking (Sentry.wrap root, EXPO_PUBLIC_SENTRY_DSN)
 - ✅ Weekly automation monitoring with failure alerts
 
 ### Compliance
