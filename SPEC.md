@@ -5,8 +5,8 @@
 ## PROJECT
 
 **App name**: SITREP  
-**Current gate**: v0.15 - COMPLETE  
-**Status**: READY FOR v0.16  
+**Current gate**: v0.16 - COMPLETE (automatable portion)  
+**Status**: READY FOR v0.17 (pending manual steps — see STORE_SUBMISSION_CHECKLIST.md)  
 **Build type**: Production / GA  
 **Target launch**: 2026-08-21 (3 months)  
 
