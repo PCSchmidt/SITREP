@@ -195,3 +195,10 @@ Session backup saved to: .claude/backups/
 Resume with /start option 2 and read this file carefully.
 Last git state: d31fc05 Fix: Remove railway.toml to let Dockerfile CMD control start command
 Tests: 1 failed, 5 passed, 4 skipped, 8 warnings, 5 errors in 51.10s
+
+## AUTO-COMPACT WARNING: 2026-05-27T13:29:46Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: f3dca97 Docs: Update deployment status for v0.10 completion
+Tests: 6 passed, 4 skipped, 9 warnings, 5 errors in 63.54s (0:01:03)

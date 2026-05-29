@@ -156,6 +156,8 @@ Generate briefings that match this quality standard."""
             cleaned_response = cleaned_response.strip()
 
             briefing = json.loads(cleaned_response)
+            # Force correct region name (LLMs sometimes shorten "Europe/Africa" to "Europe")
+            briefing['region'] = region
             briefing['metadata'] = metadata
             briefing['article_count'] = len(region_articles)
             return briefing
