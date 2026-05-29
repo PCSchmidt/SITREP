@@ -50,3 +50,9 @@ dist/
 *.tmp
 *.temp
 .cache/
+
+# App Store / EAS secrets (never commit these)
+mobile/google-service-account.json
+mobile/*.p8
+mobile/*.p12
+mobile/*.mobileprovision
