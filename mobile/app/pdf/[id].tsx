@@ -2,6 +2,7 @@ import { View, Text, ActivityIndicator, TouchableOpacity, Alert, Platform } from
 import { useLocalSearchParams, router } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { trackPdfView, trackPdfShare } from '../../services/analytics';
 import * as Sharing from 'expo-sharing';
 import { cacheDirectory, documentDirectory, downloadAsync } from 'expo-file-system/legacy';
 import { Colors, Typography, Spacing } from '../../constants/tokens';
@@ -14,6 +15,11 @@ export default function PDFViewerScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [PdfComponent, setPdfComponent] = useState<any>(null);
+
+  // Track pdf_view on mount
+  useEffect(() => {
+    trackPdfView(id as string);
+  }, [id]);
 
   // Lazy load PDF component to avoid native module errors at app startup
   useEffect(() => {
@@ -35,6 +41,7 @@ export default function PDFViewerScreen() {
   };
 
   const handleShare = async () => {
+    trackPdfShare(id as string);
     console.log('[PDF Share] Button pressed');
     try {
       // Check if sharing is available first

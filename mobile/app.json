@@ -34,7 +34,8 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "@sentry/react-native/expo"
     ],
     "experiments": {
       "typedRoutes": true

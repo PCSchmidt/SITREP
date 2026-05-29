@@ -1,14 +1,26 @@
 import { View, Text, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
+import { useEffect } from 'react';
 import DisclaimerBanner from '../../components/DisclaimerBanner';
 import BLUFSection from '../../components/BLUFSection';
 import SourceCitation from '../../components/SourceCitation';
 import { useBriefingById } from '../../hooks/useBriefings';
+import { trackBriefingView } from '../../services/analytics';
 import { Colors, Typography, Spacing } from '../../constants/tokens';
 
 export default function DetailScreen() {
   const { id } = useLocalSearchParams();
   const { data: briefing, isLoading, error } = useBriefingById(id as string);
+
+  useEffect(() => {
+    if (briefing) {
+      trackBriefingView(
+        briefing.id,
+        briefing.regions[0] ?? 'unknown',
+        briefing.title
+      );
+    }
+  }, [briefing?.id]);
 
   if (isLoading) {
     return (

@@ -5,6 +5,7 @@ import DisclaimerBanner from '../components/DisclaimerBanner';
 import RegionTab from '../components/RegionTab';
 import BriefingCard from '../components/BriefingCard';
 import { useAllBriefings, useGlobalBriefing } from '../hooks/useBriefings';
+import { trackRegionFilter } from '../services/analytics';
 import { Spacing } from '../constants/tokens';
 
 const REGION_STORAGE_KEY = '@sitrep_selected_region';
@@ -39,12 +40,13 @@ export default function HomeScreen() {
     loadRegion();
   }, []);
 
-  // Save region preference when it changes
+  // Save region preference and track filter change when it changes
   useEffect(() => {
     if (!isLoadingRegion) {
       AsyncStorage.setItem(REGION_STORAGE_KEY, activeRegion).catch(err =>
         console.warn('Failed to save region:', err)
       );
+      trackRegionFilter(activeRegion);
     }
   }, [activeRegion, isLoadingRegion]);
 
