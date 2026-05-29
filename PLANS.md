@@ -67,9 +67,35 @@ Priority candidates (high value, likely scrapeable without paywalls):
 
 ---
 
-## DEFERRED WORK (Post-v0.2)
+## DEFERRED WORK (Post-v1.0)
 
-### Scraper Fixes (v0.3 or later)
+### Source Expansion Wave 2 (v1.1+)
+
+**Goal**: Reach 20-50 sources. CloakBrowser is the key tool for paywalled sources.
+
+**CloakBrowser candidates** (require stealth browser to bypass paywalls/bot detection):
+- IISS (iiss.org) - 403 Forbidden on standard requests, high-value strategic analysis
+- Defense News (defensenews.com) - DNS resolution issues, likely anti-scraping
+- Bellingcat (bellingcat.com) - OSINT investigations, may have bot protection
+- Jane's (janes.com) - paywalled, premium equipment/order-of-battle data
+- Foreign Policy (foreignpolicy.com) - partially paywalled
+
+**Free RSS candidates to add** (should work without CloakBrowser):
+- Reuters world news (feeds may have moved; try different URL on Railway)
+- Bellingcat RSS (may work with correct headers)
+- The Soufan Center (thesoufancenter.org/feed/)
+- Lawfare (lawfaremedia.org/feed)
+- Just Security (justsecurity.org/feed)
+- RAND blog (rand.org/blog.rss)
+- CFR (cfr.org/rss/all)
+- Atlantic Council (atlanticcouncil.org/feed)
+
+**Playwright candidates** (JS-rendered but no paywall):
+- CSIS (csis.org/analysis) - RSS feed is stale (2016), need Playwright scraping
+- GlobalSecurity.org - basic HTML, worth adding
+- Strategy Page (strategypage.com)
+
+### Scraper Archive (v0.2 era - no longer active)
 
 **Defense One** (`api/scrapers/defenseone_scraper.py`):
 - Status: Scaffold created, selectors untested
