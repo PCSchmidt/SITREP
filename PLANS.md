@@ -4,29 +4,33 @@
 
 ---
 
-## CURRENT WORK (v0.13 - Analytics Integration)
+## CURRENT WORK (v0.16 - App Store Prep)
 
-**v0.11 COMPLETE** (Source Expansion - 12h actual vs 12-16h estimated)
-- RSSBaseScraper base class. 6 working scrapers: ISW, Defense One, Breaking Defense, War on the Rocks, The War Zone, Al Jazeera. ~84 articles/week.
+**Recent completions (2026-05-29):**
 
-**v0.12 COMPLETE** (Global Briefing - 5h actual vs 6h estimated)
-- GET /briefing/global, synthesize_global() with cross-regional system prompt. ALL tab now shows single thematic global card. Weekly pipeline generates global briefing as Step 4.
+- **v0.11 COMPLETE** (Source Expansion, 12h) — RSSBaseScraper; 6 scrapers; ~84 articles/week
+- **v0.12 COMPLETE** (Global Briefing, 5h) — /briefing/global; synthesize_global(); ALL tab
+- **v0.13 COMPLETE** (Analytics, 4h) — Mixpanel + Sentry; 5 events; services/analytics.ts
+- **v0.14 COMPLETE** (Legal, 3h) — PRIVACY_POLICY.md + TERMS_OF_SERVICE.md; in-app screens; PDF footer
+- **v0.15 COMPLETE** (GDELT, 4h) — GDELTScraper; 3 regional queries; LatAm/Africa/SE Asia local sources; 7 total scrapers
 
 **Upcoming Gates** (per VERSION_ROADMAP.md):
 
-- v0.13: Analytics Integration (Mixpanel + Sentry) - 6h estimated ← NEXT
-- v0.14: Legal & Disclaimers - 4h estimated
-- v0.15: App Store Prep - 6h estimated
-- v0.16: Beta Testing - 8-16h estimated
-- v1.0: Production Live - 6-12h estimated
+- v0.16: App Store Prep - 6h ← NEXT
+- v0.17: Beta Testing - 8-16h
+- v1.0: Production Live - 6-12h
 
-**Immediate Next Steps** (v0.13 - Analytics Integration):
+**Immediate Next Steps** (v0.16 - App Store Prep):
 
-1. Install Mixpanel React Native SDK in mobile app
-2. Track events: app_open, briefing_view, region_filter, pdf_view, pdf_share
-3. Install Sentry React Native SDK
-4. Configure crash reporting + error tracking
-5. Verify telemetry appears in Mixpanel and Sentry dashboards
+1. App icons — 1024×1024 for iOS + Android adaptive icon
+2. Splash screen — dark military aesthetic, SITREP wordmark
+3. App store screenshots — iOS (6.7") + Android showing home, detail, PDF viewer
+4. App store listing copy — title, description, keywords, category
+5. Bundle ID verified — com.pcschmidt.sitrep (already set in app.json)
+6. Android signing keystore — generate release keystore
+7. iOS signing — configure Expo managed credentials
+8. Privacy Policy URL — host PRIVACY_POLICY.md at pcschmidt.github.io/sitrep/privacy
+9. Rebuild dev APK to activate analytics native modules (Mixpanel + Sentry)
 
 ---
 

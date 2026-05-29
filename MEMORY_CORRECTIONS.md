@@ -13,6 +13,113 @@
 # CORRECTION FOR FUTURE: [what changes]
 # MEMORY_SEMANTIC.md UPDATE: [pattern added/updated or none]
 
+## REFLEXION: v0.15 -- GDELT Integration
+Date: 2026-05-29
+Project: SITREP
+ESTIMATE: Predicted 4-6h, Actual 4h, Variance -17% to 0%
+
+TECHNICAL PREDICTIONS VS REALITY:
+- Expected: Would need CloakBrowser or complex auth for global coverage
+- Reality: GDELT DOC 2.0 API is completely free, no auth, works immediately
+- Unexpected: Multi-country OR syntax requires parentheses for correct parsing
+- Unexpected: Local IP gets rate-limited after 2-3 requests; Railway IP won't
+- Content fetch: Same httpx + BeautifulSoup pattern reused from RSSBaseScraper
+
+CORRECTION FOR FUTURE:
+1. GDELT is a first-class free intelligence API — probe it before reaching for scrapers
+2. Always test API syntax with a probe script before building the scraper
+3. Rate limits vary per IP; local dev rate limits don't predict production behavior
+
+MEMORY_SEMANTIC.md UPDATE: PAT-005 added (free intelligence APIs first)
+
+## REFLEXION: v0.14 -- Legal & Disclaimers
+Date: 2026-05-29
+Project: SITREP
+ESTIMATE: Predicted 4h, Actual 3h, Variance -25%
+
+TECHNICAL PREDICTIONS VS REALITY:
+- Faster than expected: Legal text for a free personal app with no user accounts is simple
+- PDF per-page footer via onFirstPage/onLaterPages callback was clean ReportLab pattern
+- TypeScript: ReactNode type needed for mixed JSX children (template literals create arrays)
+
+CORRECTION FOR FUTURE:
+1. For personal/portfolio apps with no auth: legal docs take ~1h each (simple scope)
+2. ReportLab page callbacks are the right pattern for consistent PDF headers/footers
+3. Always use ReactNode (not string) for components that accept JSX children with {'\n\n'}
+
+MEMORY_SEMANTIC.md UPDATE: PAT-004 added (ReactNode for mixed JSX children)
+
+## REFLEXION: v0.13 -- Analytics Integration
+Date: 2026-05-29
+Project: SITREP
+ESTIMATE: Predicted 6h, Actual 4h, Variance -33%
+
+TECHNICAL PREDICTIONS VS REALITY:
+- Faster: Creating a graceful wrapper service (analytics.ts) was simpler than SDK-per-screen
+- Sentry.wrap() root component pattern is clean; 5 events instrumented quickly
+- Key insight: Native modules require dev build rebuild — code is ready, activation is manual
+
+CORRECTION FOR FUTURE:
+1. Abstract SDK calls into a service wrapper before instrumenting — simplifies all call sites
+2. Graceful no-op when tokens missing: use process.env.EXPO_PUBLIC_ prefix for client vars
+3. Sentry.wrap() on root component is the correct pattern for native crash capture in Expo
+
+MEMORY_SEMANTIC.md UPDATE: PAT-003 added (analytics service wrapper pattern)
+
+## REFLEXION: v0.12 -- Global Briefing
+Date: 2026-05-29
+Project: SITREP
+ESTIMATE: Predicted 6h, Actual 5h, Variance -17%
+
+TECHNICAL PREDICTIONS VS REALITY:
+- GLOBAL_SYSTEM_PROMPT approach worked on first try — thematic sections, not regional
+- synthesize_global() sampling (6 articles per region) balanced coverage well
+- Mobile: conditional hook pattern (isGlobal ? useGlobalBriefing() : useAllBriefings()) was clean
+
+CORRECTION FOR FUTURE:
+1. Cross-regional analysis is a different prompt task than regional — needs its own system prompt
+2. For thematic synthesis, instruct LLM explicitly: "sections are themes, not regions"
+3. Sampling N articles per region prevents any one region dominating the global brief
+
+MEMORY_SEMANTIC.md UPDATE: None (pattern too SITREP-specific)
+
+## REFLEXION: v0.11 -- Source Expansion
+Date: 2026-05-29
+Project: SITREP
+ESTIMATE: Predicted 12-16h, Actual 12h, Variance -25% to 0%
+
+TECHNICAL PREDICTIONS VS REALITY:
+- RSS feeds far more reliable than HTML selectors — every target source had a feed
+- IISS confirmed paywalled (403); War on the Rocks is an excellent free replacement
+- RSSBaseScraper using stdlib XML + httpx (no feedparser) proved clean and reliable
+- Breaking Defense: some article pages return 403; graceful skip works fine
+
+CORRECTION FOR FUTURE:
+1. Always probe RSS availability before writing HTML scrapers — saves hours of selector debugging
+2. For paywalled sources: check RSS first, then find a free equivalent, then consider CloakBrowser
+3. stdlib XML + httpx > feedparser for simple RSS (no new dependency, same capability)
+
+MEMORY_SEMANTIC.md UPDATE: PAT-001 added (RSS-first scraping strategy)
+
+## REFLEXION: v0.10 -- Production Deployment
+Date: 2026-05-26
+Project: SITREP
+ESTIMATE: Predicted 10h, Actual 16h, Variance +60%
+
+TECHNICAL PREDICTIONS VS REALITY:
+- Underestimated: Playwright/Chromium installation in Docker (multiple iterations to get right)
+- Underestimated: Railway nixpacks vs Dockerfile decision (nixpacks failed, Dockerfile worked)
+- Underestimated: Path resolution differences between local dev (api/) and Railway container
+- Faster than expected: Supabase integration was clean once schema was defined
+
+CORRECTION FOR FUTURE:
+1. Docker-based deployments with Playwright: always add `RUN playwright install chromium` explicitly
+2. For Railway: Dockerfile is more reliable than nixpacks when non-standard deps (Chromium) needed
+3. Path resolution: test with paths relative to working directory, not relative to script location
+4. Deployment gates for apps with browser dependencies: estimate 15h not 10h
+
+MEMORY_SEMANTIC.md UPDATE: PAT-002 added (Docker + Playwright deployment pattern)
+
 ## REFLEXION: v0.9 -- Regional Filtering
 Date: 2026-05-26
 Project: SITREP

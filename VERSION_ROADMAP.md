@@ -11,8 +11,10 @@ Ends at: **v1.0 Production Live** (App Store + Play Store deployment)
 
 ## CALIBRATION MULTIPLIER
 
-Multiplier applied to raw estimates: **2.0x**
-Source: Default (fewer than 3 ESTIMATION entries in MEMORY_CORRECTIONS.md)
+Multiplier applied to raw estimates: **1.0x** (revised from 2.0x default)
+Source: 9 completed gates with actual hour data. SITREP consistently runs
+under estimate — average variance is -35% (faster than predicted). Raw
+estimates have proven accurate; no inflation needed for this project type.
 
 ## ROADMAP
 
