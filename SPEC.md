@@ -48,14 +48,14 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - ✅ Cost-optimized: single cached briefing per week served to all users (~$0.001/briefing)
 
 ### Monitoring & Analytics
-- ✅ Mixpanel for user behavior tracking
-- ✅ Sentry for crash reporting and error tracking
+- 🔲 Mixpanel for user behavior tracking (v0.11)
+- 🔲 Sentry for crash reporting and error tracking (v0.11)
 - ✅ Weekly automation monitoring with failure alerts
 
 ### Compliance
-- ✅ Privacy Policy
-- ✅ Terms of Service
-- ✅ App Store and Play Store approval
+- 🔲 Privacy Policy (v0.12)
+- 🔲 Terms of Service (v0.12)
+- 🔲 App Store and Play Store approval (v1.0)
 - ✅ AI content disclaimers throughout UI
 
 ---

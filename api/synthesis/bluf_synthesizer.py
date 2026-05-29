@@ -32,7 +32,7 @@ Generate a JSON object with this exact structure:
 
 ```json
 {
-  "region": "Middle East",
+  "region": "<REGION_NAME>",
   "bluf": "2-3 sentence executive summary highlighting the most critical developments and their strategic implications.",
   "sections": [
     {
@@ -57,6 +57,8 @@ Generate a JSON object with this exact structure:
 ```
 
 ## ANALYSIS GUIDELINES
+
+0. **Region Field**: CRITICAL - Set the "region" field to EXACTLY match the region name specified in the user prompt. Do NOT shorten or modify it (e.g., if user says "Europe/Africa", use "Europe/Africa" not "Europe").
 
 1. **BLUF (Bottom Line Up Front)**: Start with the most important takeaway. What does leadership need to know RIGHT NOW?
 
