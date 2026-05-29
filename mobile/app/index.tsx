@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DisclaimerBanner from '../components/DisclaimerBanner';
 import RegionTab from '../components/RegionTab';
 import BriefingCard from '../components/BriefingCard';
-import { useAllBriefings } from '../hooks/useBriefings';
+import { useAllBriefings, useGlobalBriefing } from '../hooks/useBriefings';
 import { Spacing } from '../constants/tokens';
 
 const REGION_STORAGE_KEY = '@sitrep_selected_region';
@@ -14,17 +14,13 @@ export default function HomeScreen() {
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [isLoadingRegion, setIsLoadingRegion] = useState(true);
 
-  const { data: briefings, isLoading, error } = useAllBriefings();
+  // Global briefing for ALL tab; regional briefings for specific region tabs
+  const globalQuery = useGlobalBriefing();
+  const regionalQuery = useAllBriefings();
 
-  // Debug logging
-  useEffect(() => {
-    console.log('HomeScreen state:', {
-      briefingsCount: briefings?.length ?? 0,
-      isLoading,
-      error: error?.message,
-      activeRegion
-    });
-  }, [briefings, isLoading, error, activeRegion]);
+  const isGlobal = activeRegion === 'all';
+  const isLoading = isGlobal ? globalQuery.isLoading : regionalQuery.isLoading;
+  const error = isGlobal ? globalQuery.error : regionalQuery.error;
 
   // Load saved region preference on mount
   useEffect(() => {
@@ -52,20 +48,10 @@ export default function HomeScreen() {
     }
   }, [activeRegion, isLoadingRegion]);
 
-  // Filter briefings by active region
-  const filteredBriefings = briefings?.filter(briefing => {
-    if (activeRegion === 'all') return true;
-    return briefing.regions.includes(activeRegion);
-  }) || [];
-
-  // Debug filtered briefings
-  useEffect(() => {
-    console.log('Filtered briefings:', {
-      count: filteredBriefings.length,
-      activeRegion,
-      briefings: filteredBriefings.map(b => ({ id: b.id, regions: b.regions }))
-    });
-  }, [filteredBriefings, activeRegion]);
+  // Determine which briefings to show
+  const displayedBriefings = isGlobal
+    ? (globalQuery.data ? [globalQuery.data] : [])
+    : (regionalQuery.data?.filter(b => b.regions.includes(activeRegion)) ?? []);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#000000' }}>
@@ -87,16 +73,16 @@ export default function HomeScreen() {
         {error && (
           <View style={{ padding: Spacing.xl }}>
             <Text style={{ color: '#FF4444', textAlign: 'center' }}>
-              Failed to load briefings. {error.message}
+              Failed to load briefings. {(error as Error).message}
             </Text>
           </View>
         )}
-        {!isLoading && !error && filteredBriefings.length === 0 && (
+        {!isLoading && !error && displayedBriefings.length === 0 && (
           <View style={{ padding: Spacing.xl }}>
             <Text style={{ color: '#888888', textAlign: 'center' }}>No briefings available for this region.</Text>
           </View>
         )}
-        {!isLoading && !error && filteredBriefings.map((briefing) => (
+        {!isLoading && !error && displayedBriefings.map((briefing) => (
           <BriefingCard
             key={briefing.id}
             id={briefing.id}

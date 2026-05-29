@@ -95,8 +95,169 @@ This BLUF:
 
 Generate briefings that match this quality standard."""
 
+    GLOBAL_SYSTEM_PROMPT = """You are a senior strategic intelligence analyst at a global analysis center. Your task is to synthesize open-source intelligence from multiple theaters into a single cross-regional strategic briefing.
+
+CRITICAL: This is a GLOBAL briefing, not a regional one. Do NOT summarize each region separately. Instead:
+- Find connections and cascading effects BETWEEN regions
+- Identify shared drivers (great power competition, energy, proxy networks, technology)
+- Provide a unified global strategic picture
+- Connect the dots across theaters
+
+## OUTPUT FORMAT
+
+Generate a JSON object with this exact structure:
+
+```json
+{
+  "region": "Global",
+  "bluf": "3-4 sentence executive summary of the most significant cross-regional strategic developments and their global implications.",
+  "sections": [
+    {
+      "title": "Thematic Cross-Regional Title",
+      "content": "Analysis connecting events across multiple regions. Identify how actions in one theater affect others.",
+      "sources": ["Article title 1", "Article title 2"]
+    }
+  ],
+  "key_developments": [
+    "Cross-regional bullet 1",
+    "Cross-regional bullet 2"
+  ],
+  "outlook": "Global strategic forecast: what the combined picture means for the next 30-90 days.",
+  "generated_at": "2026-01-01T00:00:00Z"
+}
+```
+
+## SECTION THEMES (use the most relevant 3-4)
+
+Good global section themes:
+- **Great Power Competition** — US-China-Russia strategic maneuvering across theaters
+- **Proxy Warfare Networks** — Iran, Russia, and non-state actors operating across regions
+- **Energy and Economic Warfare** — sanctions, pipelines, chokepoints, supply chain as weapons
+- **Technology and Emerging Domains** — drones, cyber, space, AI across multiple theaters
+- **Alliance Dynamics** — NATO, Indo-Pacific partnerships, normalization deals
+- **Nuclear and Escalation Risk** — posturing, doctrine shifts, red lines across regions
+
+## ANALYSIS GUIDELINES
+
+0. **Region Field**: ALWAYS set "region" to exactly "Global".
+1. **Connect the dots**: A drone attack in the Strait of Hormuz affects energy prices in Europe. Russia's nuclear posturing enables Iran's boldness. Cite these linkages explicitly.
+2. **Thematic, not regional**: Do NOT have sections titled "Europe/Africa" or "Middle East". Use strategic themes.
+3. **3-4 sections max**: Focus on the highest-impact cross-regional dynamics.
+4. **5 key developments max**: These should be the single most important facts a senior decision-maker needs.
+5. **Source every claim**: Cite article titles in the sources array.
+
+## WHAT TO AVOID
+
+- Listing each region's news separately (that's a regional briefing, not a global one)
+- Generic observations without cross-regional connections
+- More than 4 sections (keep it tight and high-impact)"""
+
     def __init__(self, openrouter_client: Optional[OpenRouterClient] = None):
         self.client = openrouter_client
+
+    async def synthesize_global(
+        self,
+        articles: List[Dict],
+        articles_per_region: int = 6
+    ) -> Dict:
+        """
+        Generate a cross-regional global BLUF briefing from all scraped articles.
+
+        Takes the top N articles per region to ensure balanced coverage, then
+        synthesizes a thematic cross-regional analysis.
+
+        Args:
+            articles: All scraped articles (all regions combined)
+            articles_per_region: Max articles to include per region
+
+        Returns:
+            Global briefing dict with cross-regional thematic sections
+        """
+        REGIONS = ["Middle East", "Indo-Pacific", "Europe/Africa", "Western Hemisphere"]
+
+        # Take top N articles per region for balanced coverage
+        selected: List[Dict] = []
+        for region in REGIONS:
+            region_articles = [
+                a for a in articles
+                if region in a.get('region_tags', [])
+            ][:articles_per_region]
+            selected.extend(region_articles)
+
+        # Also include any "Global" tagged articles
+        global_articles = [
+            a for a in articles
+            if a.get('region_tags') == ['Global'] or 'Global' in a.get('region_tags', [])
+        ][:4]
+        selected.extend(global_articles)
+
+        if not selected:
+            logger.warning("No articles available for global synthesis")
+            return self._empty_briefing("Global")
+
+        logger.info(f"Global synthesis: {len(selected)} articles across {len(REGIONS)} regions")
+
+        user_prompt = self._build_global_prompt(selected)
+        messages = [
+            {"role": "system", "content": self.GLOBAL_SYSTEM_PROMPT},
+            {"role": "user", "content": user_prompt}
+        ]
+
+        async with self.client or OpenRouterClient() as client:
+            response_text, metadata = await client.chat_completion(
+                messages=messages,
+                max_tokens=4096,
+                temperature=0.7
+            )
+
+        try:
+            cleaned = response_text.strip()
+            if cleaned.startswith('```json'):
+                cleaned = cleaned[7:]
+            if cleaned.startswith('```'):
+                cleaned = cleaned[3:]
+            if cleaned.endswith('```'):
+                cleaned = cleaned[:-3]
+            cleaned = cleaned.strip()
+
+            briefing = json.loads(cleaned)
+            briefing['region'] = 'Global'  # Always force correct region name
+            briefing['metadata'] = metadata
+            briefing['article_count'] = len(selected)
+            return briefing
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse global synthesis response: {e}")
+            raise
+
+    def _build_global_prompt(self, articles: List[Dict]) -> str:
+        """Build the user prompt for global synthesis, grouped by region."""
+        REGIONS = ["Middle East", "Indo-Pacific", "Europe/Africa", "Western Hemisphere", "Global"]
+
+        prompt_parts = [
+            "Synthesize the following open-source intelligence articles into a cross-regional GLOBAL strategic briefing. "
+            "Identify connections BETWEEN regions, not just within them.\n"
+        ]
+
+        for region in REGIONS:
+            region_articles = [a for a in articles if region in a.get('region_tags', [])]
+            if not region_articles:
+                continue
+            prompt_parts.append(f"\n## {region} Articles\n")
+            for i, article in enumerate(region_articles, 1):
+                content = article['content'][:1500]
+                prompt_parts.append(
+                    f"### {region} Article {i}: {article['title']}\n"
+                    f"Source: {article['source']}\n"
+                    f"Content:\n{content}\n"
+                )
+
+        prompt_parts.append(
+            "\n---\n\n"
+            "Now synthesize these articles into a cross-regional GLOBAL intelligence briefing. "
+            "Focus on connections BETWEEN regions. Return ONLY the JSON object."
+        )
+
+        return "\n".join(prompt_parts)
 
     async def synthesize_region(
         self,

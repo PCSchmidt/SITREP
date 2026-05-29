@@ -221,6 +221,117 @@ async def get_latest_briefing(region: str = "Europe/Africa"):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error retrieving briefing: {str(e)}")
 
+@app.get("/briefing/global")
+async def get_global_briefing():
+    """
+    Get the latest cached cross-regional global intelligence briefing.
+
+    This briefing synthesizes articles from all regions into a thematic
+    cross-regional analysis, identifying connections between theaters.
+
+    Returns:
+        Global briefing JSON
+    """
+    try:
+        # Try Supabase first
+        if USE_SUPABASE and supabase:
+            try:
+                supabase_briefing = await supabase.get_latest_briefing("Global")
+                if supabase_briefing:
+                    return {
+                        "status": "success",
+                        "region": "Global",
+                        "briefing": supabase_briefing["briefing_data"],
+                        "source": "supabase",
+                        "timestamp": datetime.now(timezone.utc).isoformat()
+                    }
+            except Exception as e:
+                logger.warning(f"Supabase global lookup failed, falling back to files: {e}")
+
+        # Fall back to file-based storage
+        briefing_dir = Path("data/briefings")
+        if not briefing_dir.exists():
+            raise HTTPException(status_code=404, detail="No briefings available")
+
+        briefing_files = list(briefing_dir.glob("global_*.json"))
+        if not briefing_files:
+            raise HTTPException(status_code=404, detail="No global briefing found. Run /synthesize/global to generate one.")
+
+        latest = max(briefing_files, key=lambda p: p.stat().st_mtime)
+        with open(latest, 'r', encoding='utf-8') as f:
+            briefing = json.load(f)
+
+        return {
+            "status": "success",
+            "region": "Global",
+            "briefing": briefing,
+            "source": "file",
+            "source_file": str(latest.name),
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error retrieving global briefing: {str(e)}")
+
+
+@app.post("/synthesize/global")
+async def synthesize_global_briefing():
+    """
+    Generate a cross-regional global intelligence briefing from all scraped articles.
+
+    Synthesizes thematic cross-regional analysis identifying connections between theaters.
+
+    Returns:
+        Generated global briefing and metadata
+    """
+    try:
+        from synthesis.bluf_synthesizer import BLUFSynthesizer
+
+        scraped_dir = Path("data/scraped")
+        if not scraped_dir.exists():
+            raise HTTPException(status_code=404, detail="No scraped articles found. Run /scrape first.")
+
+        all_articles = []
+        for json_file in scraped_dir.glob("*.json"):
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                if isinstance(data, list):
+                    all_articles.extend(data)
+                elif isinstance(data, dict) and 'articles' in data:
+                    all_articles.extend(data['articles'])
+
+        if not all_articles:
+            raise HTTPException(status_code=404, detail="No articles to synthesize")
+
+        synthesizer = BLUFSynthesizer()
+        briefing = await synthesizer.synthesize_global(all_articles)
+
+        # Save to file
+        briefing_dir = Path("data/briefings")
+        briefing_dir.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        briefing_file = briefing_dir / f"global_{timestamp}.json"
+
+        with open(briefing_file, 'w', encoding='utf-8') as f:
+            json.dump(briefing, f, indent=2, ensure_ascii=False)
+
+        return {
+            "status": "success",
+            "region": "Global",
+            "briefing": briefing,
+            "source_articles": len(all_articles),
+            "briefing_file": str(briefing_file),
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Global synthesis failed: {str(e)}")
+
+
 @app.get("/briefing/latest/pdf")
 async def get_latest_pdf():
     """
@@ -407,6 +518,55 @@ async def run_weekly_pipeline():
                 error_msg = f"{region} processing failed: {str(e)}"
                 logger.error(error_msg)
                 pipeline_results["errors"].append(error_msg)
+
+        # Step 4: Generate Global cross-regional briefing
+        try:
+            logger.info("Step 4: Generating global cross-regional briefing")
+            from synthesis.bluf_synthesizer import BLUFSynthesizer
+
+            scraped_dir = Path("data/scraped")
+            all_articles = []
+            for json_file in scraped_dir.glob("*.json"):
+                with open(json_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    if isinstance(data, list):
+                        all_articles.extend(data)
+                    elif isinstance(data, dict) and 'articles' in data:
+                        all_articles.extend(data['articles'])
+
+            synthesizer = BLUFSynthesizer()
+            global_briefing = await synthesizer.synthesize_global(all_articles)
+
+            briefing_dir = Path("data/briefings")
+            briefing_dir.mkdir(parents=True, exist_ok=True)
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+            global_file = briefing_dir / f"global_{timestamp}.json"
+
+            with open(global_file, 'w', encoding='utf-8') as f:
+                json.dump(global_briefing, f, indent=2, ensure_ascii=False)
+
+            if USE_SUPABASE and supabase:
+                try:
+                    await supabase.save_briefing(
+                        region="Global",
+                        briefing_data=global_briefing,
+                        pdf_url=None
+                    )
+                    logger.info("Cached Global briefing to Supabase")
+                except Exception as e:
+                    logger.warning(f"Supabase caching failed for Global: {e}")
+
+            pipeline_results["global_briefing"] = {
+                "file": str(global_file),
+                "sections": len(global_briefing.get("sections", [])),
+                "article_count": global_briefing.get("article_count", 0)
+            }
+            logger.info(f"Global briefing complete: {len(global_briefing.get('sections', []))} sections")
+
+        except Exception as e:
+            error_msg = f"Global briefing failed: {str(e)}"
+            logger.error(error_msg)
+            pipeline_results["errors"].append(error_msg)
 
         # Summary
         pipeline_results["total_regions"] = len(regions)

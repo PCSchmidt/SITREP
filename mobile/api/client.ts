@@ -53,6 +53,7 @@ function transformBriefing(
     'Middle East': 'middle-east',
     'Indo-Pacific': 'indo-pacific',
     'Western Hemisphere': 'western-hemisphere',
+    'Global': 'all',
   };
 
   const regionCode = regionMap[briefing.region] || briefing.region;
@@ -108,6 +109,17 @@ export async function fetchLatestBriefing(region: string = 'Europe/Africa'): Pro
 
   if (!response.ok) {
     throw new Error(`Failed to fetch briefing: ${response.status} ${response.statusText}`);
+  }
+
+  const data: BackendBriefingResponse = await response.json();
+  return transformBriefing(data);
+}
+
+export async function fetchGlobalBriefing(): Promise<Briefing> {
+  const response = await fetch(`${API_BASE_URL}/briefing/global`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch global briefing: ${response.status} ${response.statusText}`);
   }
 
   const data: BackendBriefingResponse = await response.json();

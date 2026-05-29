@@ -21,7 +21,6 @@ mobile/web-build/
 mobile/expo-env.d.ts
 mobile/.metro-health-check*
 mobile/mobile/
-mobile/api/
 
 # Logs
 *.log

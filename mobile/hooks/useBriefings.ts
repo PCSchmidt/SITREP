@@ -1,13 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchLatestBriefing, fetchAllRegionBriefings } from '../api/client';
+import { fetchLatestBriefing, fetchAllRegionBriefings, fetchGlobalBriefing } from '../api/client';
 import { Briefing } from '../types/briefing';
 
 // Query keys
 export const briefingKeys = {
   all: ['briefings'] as const,
+  global: () => [...briefingKeys.all, 'global'] as const,
   allRegions: () => [...briefingKeys.all, 'all-regions'] as const,
   byRegion: (region: string) => [...briefingKeys.all, 'region', region] as const,
 };
+
+// Hook to fetch the global cross-regional briefing (for ALL tab)
+export function useGlobalBriefing() {
+  return useQuery<Briefing>({
+    queryKey: briefingKeys.global(),
+    queryFn: fetchGlobalBriefing,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+}
 
 // Hook to fetch all region briefings
 export function useAllBriefings() {
