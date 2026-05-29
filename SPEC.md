@@ -76,18 +76,42 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 
 ## SCRAPING SOURCES
 
-**Tier 1 (v0.1-v0.2):**
-- ISW (Institute for the Study of War) - Ukraine/Russia, Iran analysis
-- Defense One - Pentagon insider news, military tech
-- Breaking Defense - Emerging defense tech, procurement
-- IISS (International Institute for Strategic Studies) - Strategic analysis
+**Active (v0.11, 6 sources, ~84 articles/week):**
+- ISW - Ukraine/Russia, Iran daily assessments (Playwright)
+- Defense One - Pentagon policy, military tech (RSS)
+- Breaking Defense - Defense procurement, emerging tech (RSS)
+- War on the Rocks - Strategic analysis, replaces paywalled IISS (RSS)
+- The War Zone - Military aviation, weapons systems, hardware (RSS)
+- Al Jazeera - Non-Western perspective, Middle East/Africa (RSS, topic-filtered)
 
-**Tier 2 (future expansion):**
-- CSIS - Policy analysis
-- Janes - Equipment specs (paywalled, optional CloakBrowser)
-- Reuters, Al Jazeera, BBC - General geopolitical
-- GTAC Intelligence Hub - Aggregated defense data
-- PizzINT - Real-time geopolitical intel feed
+**Wave 2 targets (v1.1, RSS confirmed working):**
+- The Diplomat - Asia-Pacific geopolitics (96 items/feed)
+- The Africa Report - Pan-African political/business coverage
+- Americas Society/AS-COA - Latin America policy and economics
+- Council on Foreign Relations (CFR) - Multi-region expert analysis
+- International Crisis Group - Conflict-focused, country-level depth
+- Foreign Policy - Broad international, significant free content
+
+**Wave 2 targets (v1.1, RSS likely on Railway):**
+- East Asia Forum (ANU) - Indo-Pacific economics and security
+- Lowy Institute - Australia foreign policy, South Pacific focus
+- ISS Africa - Sub-Saharan Africa conflict and governance
+- NACLA - Latin American politics and social movements
+- SIPRI - Arms, conflict, security economics globally
+
+**Wave 3 targets (v1.2+, need CloakBrowser or special handling):**
+- IISS - Military Balance data; 403 on all requests
+- Chatham House - UK foreign policy research; 403 on RSS
+- Africa Confidential - Diplomat-grade Africa intelligence; paywalled
+- Jane's - Order-of-battle, equipment specs; paywalled
+- Geopolitical Futures (deeper) - George Friedman; soft paywall
+- Defense News, Bellingcat, Foreign Policy (deeper)
+
+**API/structured data (future, different integration pattern):**
+- World Bank API - Economic indicators, all countries
+- CEPAL/ECLAC API - Latin American macroeconomic data
+- AfDB API - African Development Bank, 54-country data
+- SIPRI datasets - Arms trade, military expenditure structured exports
 
 ---
 

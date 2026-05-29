@@ -4,66 +4,29 @@
 
 ---
 
-## CURRENT WORK (v0.11+ - Next Gates)
+## CURRENT WORK (v0.13 - Analytics Integration)
 
-**v0.10 COMPLETE** (Production Deployment - 10h actual vs 10h estimated, 0% variance)
+**v0.11 COMPLETE** (Source Expansion - 12h actual vs 12-16h estimated)
+- RSSBaseScraper base class. 6 working scrapers: ISW, Defense One, Breaking Defense, War on the Rocks, The War Zone, Al Jazeera. ~84 articles/week.
 
-**What Shipped (2026-05-26):**
-
-- ✅ Railway deployment with Dockerfile (Playwright + Chromium)
-- ✅ Supabase PostgreSQL database integration for briefing caching
-- ✅ Railway cron job for weekly automation (Sundays 6 AM UTC)
-- ✅ Production URL configured: <https://sitrep-production-6aac.up.railway.app>
-- ✅ Mobile API client updated to Railway production URL
-- ✅ Environment variables configured (OPENROUTER_API_KEY, SUPABASE_URL, SUPABASE_KEY)
-- ✅ End-to-end pipeline verified: scraping → region filtering → LLM synthesis → PDF generation
-- ✅ Manual pipeline trigger endpoint working (/pipeline/run-weekly)
-- ✅ All 4 regions processing successfully (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere)
-- ✅ DeepSeek V4 Flash LLM generating briefings ($0.001/briefing)
-
-**Infrastructure Details:**
-
-- Railway service: SITREP (main API) - Online, fully functional
-- Railway cron service: humorous-manifestation - Next run Sunday 6 AM UTC
-- Supabase project: sitrep-production with briefings table (RLS configured, fallback to file storage working)
-- Deployment configs: Dockerfile, nixpacks.toml
-- Last pipeline run: 16 articles scraped, 3 regions with content, 4/4 regions successful, 0 errors
-
-**Technical Fixes During v0.10:**
-- Fixed Playwright browser installation in Docker (RUN playwright install chromium)
-- Fixed path mismatch issue (changed ../data/* to data/* in main.py)
-- Fixed OpenRouter API authentication
+**v0.12 COMPLETE** (Global Briefing - 5h actual vs 6h estimated)
+- GET /briefing/global, synthesize_global() with cross-regional system prompt. ALL tab now shows single thematic global card. Weekly pipeline generates global briefing as Step 4.
 
 **Upcoming Gates** (per VERSION_ROADMAP.md):
 
-- v0.11: Source Expansion - 12-16h estimated
-- v0.12: Global Briefing ("ALL" tab) - 6h estimated
-- v0.13: Analytics Integration (Mixpanel + Sentry) - 6h estimated
+- v0.13: Analytics Integration (Mixpanel + Sentry) - 6h estimated ← NEXT
 - v0.14: Legal & Disclaimers - 4h estimated
 - v0.15: App Store Prep - 6h estimated
 - v0.16: Beta Testing - 8-16h estimated
 - v1.0: Production Live - 6-12h estimated
 
-**Immediate Next Steps** (v0.11 - Source Expansion):
+**Immediate Next Steps** (v0.13 - Analytics Integration):
 
-**Part A: Fix 3 broken Tier 1 scrapers (~6h)**
-1. Fix Defense One scraper - debug HTML selectors, validate JSON output
-2. Fix Breaking Defense scraper - debug HTML selectors, validate JSON output
-3. Fix IISS scraper - debug HTML selectors, validate JSON output
-
-**Part B: Add 3-5 new free sources (~6-10h)**
-Priority candidates (high value, likely scrapeable without paywalls):
-- CSIS (Center for Strategic and International Studies) - policy analysis
-- Reuters - wire service, broad geopolitical coverage
-- Al Jazeera - Middle East + global perspective
-- The War Zone (thedrive.com/the-war-zone) - defense tech, military ops
-- Defense News - procurement, strategy
-
-**Success Criteria for v0.11:**
-- 8-10 total working scrapers
-- All sources validated: article extraction, region tagging, JSON output
-- Pipeline test: run full scrape → synthesize → PDF with expanded source set
-- Article count per region increases from ~16 to 30+
+1. Install Mixpanel React Native SDK in mobile app
+2. Track events: app_open, briefing_view, region_filter, pdf_view, pdf_share
+3. Install Sentry React Native SDK
+4. Configure crash reporting + error tracking
+5. Verify telemetry appears in Mixpanel and Sentry dashboards
 
 ---
 
@@ -71,31 +34,77 @@ Priority candidates (high value, likely scrapeable without paywalls):
 
 ### Source Expansion Wave 2 (v1.1+)
 
-**Goal**: Reach 20-50 sources. CloakBrowser is the key tool for paywalled sources.
+**Goal**: Reach 20-50 sources. Current count: 6 (v0.11). Target: 20+ by v1.1, 50 long-term.
 
-**CloakBrowser candidates** (require stealth browser to bypass paywalls/bot detection):
-- IISS (iiss.org) - 403 Forbidden on standard requests, high-value strategic analysis
-- Defense News (defensenews.com) - DNS resolution issues, likely anti-scraping
-- Bellingcat (bellingcat.com) - OSINT investigations, may have bot protection
-- Jane's (janes.com) - paywalled, premium equipment/order-of-battle data
-- Foreign Policy (foreignpolicy.com) - partially paywalled
+RSS probed 2026-05-29. "Confirmed" = tested locally. "Likely" = DNS failed locally but should work on Railway Linux (same pattern as Reuters, Defense News from earlier probes).
 
-**Free RSS candidates to add** (should work without CloakBrowser):
-- Reuters world news (feeds may have moved; try different URL on Railway)
-- Bellingcat RSS (may work with correct headers)
-- The Soufan Center (thesoufancenter.org/feed/)
-- Lawfare (lawfaremedia.org/feed)
-- Just Security (justsecurity.org/feed)
-- RAND blog (rand.org/blog.rss)
-- CFR (cfr.org/rss/all)
-- Atlantic Council (atlanticcouncil.org/feed)
+#### Asia-Pacific
 
-**Playwright candidates** (JS-rendered but no paywall):
-- CSIS (csis.org/analysis) - RSS feed is stale (2016), need Playwright scraping
-- GlobalSecurity.org - basic HTML, worth adding
-- Strategy Page (strategypage.com)
+| Source | URL | RSS Status | Feed URL | Notes |
+|--------|-----|------------|----------|-------|
+| The Diplomat | thediplomat.com | **Confirmed** (96 items) | `/feed/` | Top Asia-Pacific geopolitics magazine |
+| East Asia Forum | eastasiaforum.org | Likely (DNS local) | `/feed/` | ANU academic-policy; Indo-Pacific economics + security |
+| Lowy Institute | lowyinstitute.org | Likely (DNS local) | `/rss.xml` | Australia's premier foreign policy think tank; South Pacific coverage |
+| CSIS | csis.org | Partial (stale feed) | `/rss.xml` stale; need Playwright | Washington Asia programs; free content |
 
-### Scraper Archive (v0.2 era - no longer active)
+#### Africa
+
+| Source | URL | RSS Status | Feed URL | Notes |
+|--------|-----|------------|----------|-------|
+| ISS Africa | issafrica.org | Likely (DNS local) | `/rss.xml` | Johannesburg-based; conflict, governance, crime across sub-Saharan Africa |
+| The Africa Report | theafricareport.com | **Confirmed** (10 items) | `/feed/` | Pan-African business and political coverage |
+| Chatham House Africa | chathamhouse.org | Blocked (403) | n/a | UK think tank; need CloakBrowser or Playwright |
+| Africa Confidential | africa-confidential.com | Paywalled | n/a | Diplomat-grade Africa intelligence; need CloakBrowser |
+
+#### Latin America
+
+| Source | URL | RSS Status | Feed URL | Notes |
+|--------|-----|------------|----------|-------|
+| Americas Society / AS-COA | as-coa.org | **Confirmed** (10 items) | `/rss.xml` | Business, policy, LatAm economics |
+| NACLA | nacla.org | Likely (DNS local) | `/feed/` | Politics, social movements, US-LatAm relations |
+| CEPAL/ECLAC | cepal.org | API/structured | REST API | UN body; authoritative LatAm macroeconomic data |
+| LADB | ladb.unm.edu | Subscription | n/a | UNM news aggregator; institutional subscription needed |
+
+#### Multi-Region
+
+| Source | URL | RSS Status | Feed URL | Notes |
+|--------|-----|------------|----------|-------|
+| Council on Foreign Relations | cfr.org | **Confirmed** (24 items) | `/feed` | Expert-authored briefs + Global Conflict Tracker |
+| Crisis Group | crisisgroup.org | **Confirmed** (10 items) | `/rss.xml` | Conflict-focused; country-level granularity across Africa, Asia, LatAm |
+| Geopolitical Futures | geopoliticalfutures.com | **Confirmed** (5 items) | `/feed/` | George Friedman; data-driven forecasting; limited free tier |
+| Foreign Policy | foreignpolicy.com | **Confirmed** (25 items) | `/feed/` | Broad international; significant free content |
+| SIPRI | sipri.org | Likely (DNS local) | `/rss.xml` | Arms, conflict, security economics; strong Africa + Asia-Pacific datasets |
+| World Bank Blog | blogs.worldbank.org | 404 (wrong URL) | Try `/en/topic/*/rss` | Economic/development analysis; try topic-specific feeds |
+| Chatham House | chathamhouse.org | Blocked (403) | n/a | UK foreign policy think tank; need CloakBrowser |
+| AfDB | afdb.org | API/structured | REST API | African Development Bank; 54-country economic data |
+
+#### CloakBrowser Priority Targets
+
+When CloakBrowser is integrated (post-v1.0), these unlock high-signal paywalled content:
+
+| Source | Why It Matters |
+|--------|---------------|
+| IISS (iiss.org) | Military Balance data; Strategic Survey; 403 on all requests |
+| Africa Confidential | Diplomat-grade Africa intelligence; most Africa analysts subscribe |
+| Chatham House | 403 on RSS; flagship UK foreign policy research |
+| Geopolitical Futures (deeper) | Full articles behind soft paywall |
+| Jane's (janes.com) | Order-of-battle data; premium military equipment specs |
+| Defense News | DNS failures locally; procurement + strategy |
+| Bellingcat | OSINT investigations; may need headers or CloakBrowser |
+| Foreign Policy (deeper) | Some long-form analysis is paywalled |
+
+#### API/Structured Data Sources (different integration pattern)
+
+These are authoritative but require REST API integration rather than RSS scraping. Useful for adding economic/data context to briefings.
+
+| Source | API | Value |
+|--------|-----|-------|
+| World Bank | data.worldbank.org/api | Economic indicators for all countries |
+| CEPAL/ECLAC | api.cepal.org | LatAm macroeconomic forecasts + data |
+| AfDB | api.afdb.org | African development data; 54 countries |
+| SIPRI datasets | sipri.org/databases | Arms trade, military expenditure, conflict data |
+
+### Scraper Archive (v0.2 era - superseded)
 
 **Defense One** (`api/scrapers/defenseone_scraper.py`):
 - Status: Scaffold created, selectors untested

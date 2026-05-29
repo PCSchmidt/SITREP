@@ -42,39 +42,40 @@ SITREP was conceived as an **improvement** over The LOWDOWN newsletter (the insp
 
 ## THE VISION: v1.1+ ROADMAP
 
-### v1.1: Source Parity (Est: 6-8h)
+### v1.1: Source Expansion Wave 2 (Est: 12-16h)
 
-**Goal**: Match The LOWDOWN's source diversity (12+ sources per region)
+**Goal**: Reach 15-20 working sources. v0.11 completed the base expansion (6 sources, ~84 articles/week). Wave 2 adds regional depth — particularly Asia-Pacific, Africa, and Latin America which remain underrepresented.
 
-**Tasks**:
-1. Fix Defense One scraper (~2h)
-   - Debug HTML selectors
-   - Test article extraction
-   - Validate JSON output
-2. Fix Breaking Defense scraper (~2h)
-   - Debug HTML selectors
-   - Test article extraction
-   - Validate JSON output
-3. Fix IISS scraper (~2h)
-   - Debug HTML selectors
-   - Test article extraction
-   - Validate JSON output
-4. Add 8 additional scrapers from Tier 2 sources (~8-12h)
-   - CSIS (Center for Strategic and International Studies)
-   - Reuters (geopolitical coverage)
-   - Al Jazeera (Middle East perspective)
-   - BBC News (international coverage)
-   - GTAC Intelligence Hub (aggregated defense data)
-   - PizzINT (real-time geopolitical intel)
-   - Jane's (equipment specs, if CloakBrowser budget allows)
-   - The Aviationist (military aviation)
+**Status**: v0.11 COMPLETE (2026-05-29)
+- ✅ Defense One, Breaking Defense: rewritten to RSS (were broken HTML scrapers)
+- ✅ IISS replaced with War on the Rocks (IISS is 403 Forbidden)
+- ✅ Added: The War Zone, Al Jazeera (topic-filtered)
+- ✅ RSSBaseScraper base class — zero new dependencies, fast, reliable
+
+**Wave 2 tasks (all RSS-based, use RSSBaseScraper)**:
+
+RSS confirmed working (tested 2026-05-29):
+1. The Diplomat (`/feed/`, 96 items) — Asia-Pacific focus, strong Indo-Pacific depth
+2. The Africa Report (`/feed/`, 10 items) — Sub-Saharan Africa political/business
+3. Americas Society/AS-COA (`/rss.xml`, 10 items) — Latin America policy, economics
+4. Council on Foreign Relations (`/feed`, 24 items) — multi-region expert analysis
+5. International Crisis Group (`/rss.xml`, 10 items) — conflict-focused, country-level
+6. Foreign Policy (`/feed/`, 25 items) — broad international, free tier
+
+RSS likely working on Railway (DNS blocked locally, same pattern as earlier sources):
+7. East Asia Forum (ANU) — Indo-Pacific economics and security
+8. Lowy Institute — Australia foreign policy, South Pacific coverage
+9. ISS Africa — Sub-Saharan Africa conflict and governance
+10. NACLA — Latin American politics and social movements
+11. SIPRI — Arms, conflict, security economics
 
 **Success Criteria**:
-- ✅ All 4 Tier 1 scrapers working (ISW, Defense One, Breaking Defense, IISS)
-- ✅ 30+ articles per region per week (up from ~16)
-- ✅ Source diversity score > 10 per region
+- 15+ working scrapers
+- Africa and Latin America have ≥20 articles/week each
+- Asia-Pacific has ≥30 articles/week (currently Indo-Pacific underserved)
+- Source diversity score > 8 per region
 
-**Deferred to**: v1.1 gate
+**Deferred to**: v1.1 gate (post-v1.0)
 
 ---
 
