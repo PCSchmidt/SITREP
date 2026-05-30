@@ -186,14 +186,14 @@ Run the app on a physical device or simulator and capture these 5 screens:
 
 | Step | Item | Status |
 |------|------|--------|
-| 1 | EAS account + eas init | ⬜ Pending |
-| 2 | App icon 1024×1024 | ⬜ Pending |
-| 2 | Splash screen | ⬜ Pending |
-| 3 | Mixpanel token configured | ⬜ Pending |
-| 3 | Sentry DSN configured | ⬜ Pending |
-| 3 | Analytics dev APK rebuilt | ⬜ Pending |
-| 4 | Privacy policy hosted | ⬜ Pending |
-| 4 | Terms of service hosted | ⬜ Pending |
+| 1 | EAS account + eas init | ✅ Complete (2026-05-30) |
+| 2 | App icon 1024×1024 | ✅ Complete (pre-existing) |
+| 2 | Splash screen | ✅ Complete (pre-existing) |
+| 3 | Mixpanel token configured | ✅ Complete (2026-05-30) |
+| 3 | Sentry DSN configured | ✅ Complete (2026-05-30) |
+| 3 | Analytics dev APK rebuilt | ⬜ Pending (v0.17) |
+| 4 | Privacy policy hosted | ✅ Complete (2026-05-30) |
+| 4 | Terms of service hosted | ✅ Complete (2026-05-30) |
 | 5 | Android AAB production build | ⬜ Pending |
 | 5 | iOS IPA production build | ⬜ Pending |
 | 6 | App Store Connect listing created | ⬜ Pending |
