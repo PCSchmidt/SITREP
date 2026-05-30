@@ -47,7 +47,7 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - ✅ Playwright for scraping open-source news (CloakBrowser optional for paywalls)
 - ✅ Multi-model LLM synthesis (DeepSeek V4 Flash → V3.2 → Kimi K2.5 fallback via Open Router, 99% cost reduction)
 - ✅ Cost-optimized: single cached briefing per week served to all users (~$0.001/briefing)
-- ✅ 9 working scrapers (ISW + Defense One + Breaking Defense + War on the Rocks + The War Zone + Al Jazeera + GDELT + Foreign Policy + CFR + Americas Quarterly, ~100+ articles/week)
+- ✅ 7 working scrapers (ISW + Defense One + War on the Rocks + The War Zone + Al Jazeera + Foreign Policy + CFR, 109 articles from latest scrape)
 - ✅ Global combined briefing endpoint /briefing/global for cross-regional synthesis
 
 ### Monitoring & Analytics
@@ -76,15 +76,21 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 
 ## SCRAPING SOURCES
 
-**Active (v0.15, 7 sources):**
-- ISW - Ukraine/Russia, Iran daily assessments (Playwright, ~15 articles/week)
-- Defense One - Pentagon policy, military tech (RSS, ~14/week)
-- Breaking Defense - Defense procurement, emerging tech (RSS, ~7/week)
-- War on the Rocks - Strategic analysis, replaces paywalled IISS (RSS, ~18/week)
-- The War Zone - Military aviation, weapons systems, hardware (RSS, ~20/week)
-- Al Jazeera - Non-Western perspective, Middle East/Africa (RSS, ~11/week)
-- GDELT DOC 2.0 - LatAm, sub-Saharan Africa, SE Asia/Oceania local-language sources
-  (up to 50 articles/week from 3 regional queries; best-effort, rate-limited locally)
+**Active (v0.17, 7 sources working, 109 articles latest scrape):**
+
+- ISW - Ukraine/Russia, Iran daily assessments (Playwright, 17 articles)
+- Defense One - Pentagon policy, military tech (RSS via httpx, 15 articles)
+- War on the Rocks - Strategic analysis (RSS via httpx, 18 articles)
+- The War Zone - Military aviation, weapons systems (RSS via httpx, 20 articles)
+- Al Jazeera - Non-Western perspective, Middle East/Africa (RSS via httpx, 8 articles)
+- Foreign Policy - Geopolitical analysis (RSS via httpx, 20 articles)
+- Council on Foreign Relations (CFR) - Expert analysis (RSS via httpx, 11 articles)
+
+**Not working (DNS/feed issues):**
+
+- Breaking Defense - Feed returning DNS errors
+- Americas Quarterly - Feed returning DNS errors
+- GDELT DOC 2.0 - Rate limited to 0 articles in recent runs
 
 **Wave 2 targets (v1.1, RSS confirmed working):**
 - The Diplomat - Asia-Pacific geopolitics (96 items/feed)

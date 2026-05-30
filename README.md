@@ -21,11 +21,12 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile dev
 
 ### Recent Accomplishments (v0.15-v0.17)
 
-✅ **GDELT Integration**: Local-language sources for LatAm, Africa, SE Asia via free GDELT DOC 2.0 API  
+✅ **Multi-Source Intelligence**: 7 working sources (ISW, Defense One, War on the Rocks, The War Zone, Al Jazeera, Foreign Policy, CFR) producing 109 articles  
+✅ **RSS Scraper Fix**: Replaced urllib with httpx for reliability, fixing DNS resolution issues  
+✅ **Western Hemisphere Coverage**: Now has full briefings with 12 articles from 5 sources (was empty)  
+✅ **Navigation Bug Fix**: Unique briefing IDs prevent all regions from showing Europe/Africa content  
 ✅ **App Store Prep**: EAS build system, analytics tokens, privacy policy hosting, icons verified  
-✅ **Western Hemisphere Sources**: Foreign Policy, CFR, Americas Quarterly RSS scrapers added  
-✅ **Enhanced Global Briefing**: 2x articles (48+ vs 24), longer sections (8192 tokens), comprehensive cross-regional analysis  
-✅ **Device Testing**: Android APK fully functional on Samsung S25+, React dependencies fixed  
+✅ **Device Testing**: Android APK fully functional on Samsung S25+, multi-source briefings verified  
 ✅ **Beta Ready**: Android preview builds working, preparing Play Store Internal Testing
 
 ### What is SITREP?
@@ -48,7 +49,7 @@ SITREP is a mobile intelligence briefing platform that replicates and enhances "
 - ✅ **BLUF format** - Bottom Line Up Front military intelligence structure
 - ✅ **4 geographic regions** - Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere
 - ✅ **Cited sources** - All claims linked to original Tier 1 publications
-- ✅ **100+ articles/week** - ISW, Defense One, Breaking Defense, War on the Rocks, The War Zone, Al Jazeera, GDELT, Foreign Policy, CFR, Americas Quarterly
+- ✅ **109 articles/scrape** - ISW (17), Defense One (15), War on the Rocks (18), The War Zone (20), Al Jazeera (8), Foreign Policy (20), CFR (11)
 - ✅ **AI-generated content disclaimers** - Heavy compliance focus for App Store approval
 
 ### PDF Features
