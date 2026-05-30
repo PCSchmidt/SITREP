@@ -103,6 +103,14 @@ CRITICAL: This is a GLOBAL briefing, not a regional one. Do NOT summarize each r
 - Provide a unified global strategic picture
 - Connect the dots across theaters
 
+## CONTENT REQUIREMENTS
+
+- Produce 4-6 substantive thematic sections (minimum 300 words each)
+- Each section must connect events from AT LEAST two different regions
+- Include 8-12 key developments (cross-regional bullets)
+- Write comprehensive analysis with specific details, actors, timelines
+- This is a macro-level intelligence report - be thorough and analytical
+
 ## OUTPUT FORMAT
 
 Generate a JSON object with this exact structure:
@@ -114,15 +122,16 @@ Generate a JSON object with this exact structure:
   "sections": [
     {
       "title": "Thematic Cross-Regional Title",
-      "content": "Analysis connecting events across multiple regions. Identify how actions in one theater affect others.",
-      "sources": ["Article title 1", "Article title 2"]
+      "content": "Comprehensive analysis connecting events across multiple regions (300+ words). Identify how actions in one theater affect others. Include specific actors, timelines, and strategic implications.",
+      "sources": ["Article title 1", "Article title 2", "Article title 3"]
     }
   ],
   "key_developments": [
-    "Cross-regional bullet 1",
-    "Cross-regional bullet 2"
+    "Cross-regional bullet 1 with specific details",
+    "Cross-regional bullet 2 with specific details",
+    "... (8-12 total bullets)"
   ],
-  "outlook": "Global strategic forecast: what the combined picture means for the next 30-90 days.",
+  "outlook": "Global strategic forecast (200+ words): what the combined picture means for the next 30-90 days. Be specific about escalation risks, alliance dynamics, and probable courses of action.",
   "generated_at": "2026-01-01T00:00:00Z"
 }
 ```
@@ -158,7 +167,7 @@ Good global section themes:
     async def synthesize_global(
         self,
         articles: List[Dict],
-        articles_per_region: int = 6
+        articles_per_region: int = 12
     ) -> Dict:
         """
         Generate a cross-regional global BLUF briefing from all scraped articles.
@@ -168,7 +177,7 @@ Good global section themes:
 
         Args:
             articles: All scraped articles (all regions combined)
-            articles_per_region: Max articles to include per region
+            articles_per_region: Max articles to include per region (default 12)
 
         Returns:
             Global briefing dict with cross-regional thematic sections
@@ -188,7 +197,7 @@ Good global section themes:
         global_articles = [
             a for a in articles
             if a.get('region_tags') == ['Global'] or 'Global' in a.get('region_tags', [])
-        ][:4]
+        ][:8]
         selected.extend(global_articles)
 
         if not selected:
@@ -206,7 +215,7 @@ Good global section themes:
         async with self.client or OpenRouterClient() as client:
             response_text, metadata = await client.chat_completion(
                 messages=messages,
-                max_tokens=4096,
+                max_tokens=8192,  # Increased from 4096 for longer global briefings
                 temperature=0.7
             )
 
@@ -244,7 +253,7 @@ Good global section themes:
                 continue
             prompt_parts.append(f"\n## {region} Articles\n")
             for i, article in enumerate(region_articles, 1):
-                content = article['content'][:1500]
+                content = article['content'][:2500]  # Increased from 1500 to 2500
                 prompt_parts.append(
                     f"### {region} Article {i}: {article['title']}\n"
                     f"Source: {article['source']}\n"
