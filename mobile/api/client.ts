@@ -58,6 +58,9 @@ function transformBriefing(
 
   const regionCode = regionMap[briefing.region] || briefing.region;
 
+  // Create unique ID combining region and date to prevent collisions
+  const uniqueId = `${regionCode}-${dateStr}`;
+
   // Calculate read time (rough estimate: 200 words per minute)
   const wordCount = briefing.sections.reduce(
     (acc, section) => acc + section.content.split(' ').length,
@@ -85,7 +88,7 @@ function transformBriefing(
   );
 
   return {
-    id: dateStr,
+    id: uniqueId,
     timestamp: new Date(briefing.generated_at).toISOString().replace('T', ' ').substring(0, 19) + ' UTC',
     title: `${briefing.region} Intelligence Briefing`,
     preview,
