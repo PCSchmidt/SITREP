@@ -10,8 +10,8 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_MIXPANEL_TOKEN": "",
-        "EXPO_PUBLIC_SENTRY_DSN": ""
+        "EXPO_PUBLIC_MIXPANEL_TOKEN": "fe3c6d60ac1e9d29ec40dbbf77c72a76",
+        "EXPO_PUBLIC_SENTRY_DSN": "https://c4401f5b2ed218db3c1f5fc6ed8d8a1f@o4509273300533248.ingest.us.sentry.io/4511478594011136"
       }
     },
     "preview": {

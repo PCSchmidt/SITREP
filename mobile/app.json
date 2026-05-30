@@ -50,8 +50,10 @@
     },
     "extra": {
       "eas": {
-        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
-      }
-    }
+        "projectId": "c0284b13-8077-4be7-acc5-e0cafbf0f3e2"
+      },
+      "router": {}
+    },
+    "owner": "pcschmidt"
   }
 }
