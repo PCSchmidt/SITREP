@@ -27,7 +27,7 @@
     },
     "android": {
       "package": "com.pcschmidt.sitrep",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "backgroundColor": "#000000",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -42,14 +42,7 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router",
-      [
-        "@sentry/react-native/expo",
-        {
-          "organization": "pcschmidt",
-          "project": "sitrep"
-        }
-      ]
+      "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
