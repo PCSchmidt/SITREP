@@ -1,6 +1,5 @@
 # Base RSS scraper - fetches feed metadata, pulls full content via httpx
 import xml.etree.ElementTree as ET
-import urllib.request
 import re
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
@@ -49,7 +48,7 @@ class RSSBaseScraper(BaseScraper):
         super().__init__(source_name)
 
     async def scrape_recent_articles(self, days: int = 7) -> List[Article]:
-        feed_items = self._fetch_feed()
+        feed_items = await self._fetch_feed()
         if not feed_items:
             self.logger.warning(f"No items from {self.FEED_URL}")
             return []
@@ -100,12 +99,14 @@ class RSSBaseScraper(BaseScraper):
         self.logger.info(f"Scraped {len(articles)} articles from {self.source_name}")
         return articles
 
-    def _fetch_feed(self) -> List[dict]:
+    async def _fetch_feed(self) -> List[dict]:
         """Fetch and parse RSS/Atom feed, return list of item dicts."""
         try:
-            req = urllib.request.Request(self.FEED_URL, headers=HEADERS)
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                raw = resp.read()
+            # Use httpx instead of urllib for better reliability
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                resp = await client.get(self.FEED_URL, headers=HEADERS, follow_redirects=True)
+                resp.raise_for_status()
+                raw = resp.content
             root = ET.fromstring(raw)
         except Exception as e:
             self.logger.error(f"Failed to fetch feed {self.FEED_URL}: {e}")

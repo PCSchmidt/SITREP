@@ -10,7 +10,7 @@ class CFRScraper(RSSBaseScraper):
     migration, trade, and regional security.
     """
 
-    FEED_URL = "https://www.cfr.org/rss/all.xml"
+    FEED_URL = "https://www.cfr.org/feed"
 
     def __init__(self):
         super().__init__("Council on Foreign Relations")
