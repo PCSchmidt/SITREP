@@ -47,12 +47,24 @@ export function useBriefingById(id: string) {
   return useQuery({
     queryKey: [...briefingKeys.all, 'by-id', id],
     queryFn: async () => {
+      // Check regional briefings first
       const allBriefings = await fetchAllRegionBriefings();
-      const briefing = allBriefings.find(b => b.id === id);
-      if (!briefing) {
-        throw new Error(`Briefing with id ${id} not found`);
+      const regionalBriefing = allBriefings.find(b => b.id === id);
+      if (regionalBriefing) {
+        return regionalBriefing;
       }
-      return briefing;
+
+      // If not found, check global briefing
+      try {
+        const globalBriefing = await fetchGlobalBriefing();
+        if (globalBriefing.id === id) {
+          return globalBriefing;
+        }
+      } catch (error) {
+        // Global briefing might not exist, continue to error
+      }
+
+      throw new Error(`Briefing with id ${id} not found`);
     },
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
