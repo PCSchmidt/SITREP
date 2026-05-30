@@ -1,0 +1,52 @@
+{
+  "region": "Europe",
+  "bluf": "Ukraine's defensive operations have stabilized the frontline and enabled territorial gains, inflicting unsustainable casualties on Russian forces (over 1,000 per day in 2026). Meanwhile, Russia's unannounced strategic nuclear exercises with Belarus signal an escalation posture aimed at deterring Western support, but the Kremlin's failure to secure a key energy deal with China highlights strategic isolation. The war remains in a deadlock, with both sides pursuing deep strike campaigns against critical infrastructure.",
+  "sections": [
+    {
+      "title": "Military Operations",
+      "content": "Ukraine's forces have regained territory following Russia's loss of Starlink access in February 2026, according to US DIA assessment. NATO Secretary General Rutte confirmed Ukraine's stabilizing defenses and territorial gains. Ukrainian long-range strikes have disrupted Russian logistics, including strikes on the Moscow Oil Refinery and Angstrem Semiconductor Plant on May 16-17, degrading Russia's defense industrial base. Russia continues large-scale missile and drone strikes, launching 546 drones and missiles on May 17-18, targeting civilian infrastructure. Ukrainian forces are leveraging their Fortress Belt of four major cities to optimize defensive terrain, making Russian advances costly.",
+      "sources": [
+        "Russian Offensive Campaign Assessment, May 22, 2026",
+        "Ukraine’s Fortress Belt: The Key to Sustaining the Frontline",
+        "Russian Offensive Campaign Assessment, May 18, 2026",
+        "Russian Offensive Campaign Assessment, May 17, 2026"
+      ]
+    },
+    {
+      "title": "Strategic Posture & Nuclear Signaling",
+      "content": "Russia conducted unannounced strategic nuclear exercises from May 19-21, involving over 64,000 personnel and 200 missile launchers, including joint operations with Belarusian forces. This marks an early and larger-than-usual exercise, likely intended to influence Western policy debates on Ukraine support. President Putin and Belarusian President Lukashenko presided over the second stage of combined nuclear exercises, highlighting Russia's deepening control over Belarus. Meanwhile, Putin's visit to China failed to secure the Power of Siberia-2 gas pipeline deal, indicating limits to Sino-Russian cooperation despite joint statements on multipolarity.",
+      "sources": [
+        "Russian Offensive Campaign Assessment, May 21, 2026",
+        "Russian Offensive Campaign Assessment, May 19, 2026",
+        "Russian Offensive Campaign Assessment, May 20, 2026"
+      ]
+    },
+    {
+      "title": "Occupation & Humanitarian Impact",
+      "content": "Russian occupation authorities continue systematic forced transfers of Ukrainian children, including a child from Oleshky Boarding School for medical treatment in Russia, potentially violating international law. Over 80 residents from the boarding school have been transferred or deported. Russia is also expanding bureaucratic integration, automatically assigning SNILS numbers to newborns in occupied Luhansk, and promoting Russian banking and real estate investment. Cultural integration efforts include funding for 'cultural integration' projects and a video game valorizing the occupation of Mariupol.",
+      "sources": [
+        "Russian Occupation Update, May 21, 2026"
+      ]
+    }
+  ],
+  "key_developments": [
+    "Ukraine stabilizes frontline and makes territorial gains after Russia's Starlink loss.",
+    "Russian forces suffer average of 1,021 casualties per day in 2026, with 59,000 seriously wounded.",
+    "Russia conducts unannounced strategic nuclear exercise with Belarus, involving majority of ICBM launchers.",
+    "Putin fails to secure Power of Siberia-2 pipeline deal with Xi Jinping.",
+    "Ukrainian deep strikes hit Moscow oil refinery and semiconductor plant.",
+    "Russia continues forced deportation of Ukrainian children and cultural integration of occupied territories."
+  ],
+  "outlook": "Russia will likely sustain high-intensity operations but faces growing manpower and logistics constraints. Ukraine's long-range strike campaign will increasingly pressure Russia's war industry. Nuclear signaling may escalate further as Russia seeks to fracture Western support, but strategic isolation deepens as China withholds energy concessions.",
+  "generated_at": "2026-05-23T13:00:00Z",
+  "metadata": {
+    "model_id": "deepseek/deepseek-v4-flash",
+    "prompt_tokens": 7243,
+    "completion_tokens": 2742,
+    "total_tokens": 9985,
+    "finish_reason": "stop",
+    "model_used": "DeepSeek V4 Flash",
+    "cost_estimate": "$0.001/briefing"
+  },
+  "article_count": 15
+}

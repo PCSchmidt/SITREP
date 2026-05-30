@@ -1,0 +1,48 @@
+{
+  "region": "Western Hemisphere",
+  "bluf": "U.S.-Mexico relations are deteriorating as trade negotiations falter and Mexico diversifies its partnerships, including an expanded EU trade deal and hosting Iran's World Cup team. Simultaneously, Washington's pressure campaign on Cuba is backfiring as Cuban emigration increasingly shifts to Latin American countries rather than the United States, creating downstream costs for regional partners.",
+  "sections": [
+    {
+      "title": "Political and Trade Dynamics",
+      "content": "U.S.-Mexico bilateral relations have reached a breaking point amid the USMCA review and trade negotiations. Mexico is proactively diversifying its economic ties, signing an expanded free trade agreement with the European Union that covers services, farm produce, and investment protections. The Trump administration's insistence on hardline immigration policies and tariff threats is pushing Mexico toward alternative partnerships, exemplified by Mexico's agreement to host Iran's national soccer team for World Cup training after the team relocated from Arizona due to U.S.-Iran tensions. The exclusion of Canada from U.S.-Mexico trade talks further strains regional unity.",
+      "sources": [
+        "As Trade Talks Begin, U.S.-Mexico Ties Falter",
+        "What’s Behind the EU-Mexico Trade Deal?",
+        "What in the World?"
+      ]
+    },
+    {
+      "title": "Cuba Migration Shift and Policy Failure",
+      "content": "The Trump administration's comprehensive pressure campaign against Cuba—including an oil embargo, indictment of Raúl Castro, and calls for military intervention—aims to foment internal dissent but has failed to topple the regime. Instead, Cuba's emigration release valve remains functional, with an increasing share of migrants heading to Latin American countries such as Brazil and Mexico rather than the United States. This shift imposes downstream costs on regional partners, giving them leverage that could shape their responses to future U.S. actions in the hemisphere.",
+      "sources": [
+        "Cubans Abandon the American Dream"
+      ]
+    },
+    {
+      "title": "Economic Fallout from Global Disruptions",
+      "content": "Although the U.S.-Iran conflict is centered in the Middle East, the closure of the Strait of Hormuz is causing supply chain disruptions that reach the Western Hemisphere. Critical commodities such as sulfur, helium, nitrogen, aluminum, and plastics—many of which are downstream from Persian Gulf fossil fuels—are strained, affecting industries from consumer goods to medical supplies in North and South America. The ongoing blockade, despite a U.S.-Iran cease-fire, underscores the hemisphere's vulnerability to global choke points.",
+      "sources": [
+        "No Commodity Is Safe From the Iran War"
+      ]
+    }
+  ],
+  "key_developments": [
+    "U.S.-Mexico relations deteriorate as USMCA trade talks begin amid tariff threats and immigration policy clashes.",
+    "Mexico signs an expanded EU trade deal, signaling strategic economic diversification away from U.S. dependence.",
+    "Cuban emigration increasingly flows to Latin American countries (Brazil, Mexico) as U.S. pressure campaign fails to destabilize the regime.",
+    "Mexico agrees to host Iran's World Cup team after U.S.-Iran tensions forced relocation from Arizona.",
+    "Global commodity supply disruptions from the Strait of Hormuz blockade threaten industries across the Western Hemisphere."
+  ],
+  "outlook": "Near-term risks include further erosion of U.S.-Mexico cooperation, potential economic strain from supply chain shortages, and increased migration burden on Latin American states as Cuba's emigration pattern shifts. Mexico's pivot toward Europe and willingness to accommodate Iranian assets may deepen diplomatic friction with Washington.",
+  "generated_at": "2026-05-29T21:00:00Z",
+  "metadata": {
+    "model_id": "deepseek/deepseek-v4-flash",
+    "prompt_tokens": 6482,
+    "completion_tokens": 1372,
+    "total_tokens": 7854,
+    "finish_reason": "stop",
+    "model_used": "DeepSeek V4 Flash",
+    "cost_estimate": "$0.001/briefing"
+  },
+  "article_count": 12
+}
