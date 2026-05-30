@@ -256,3 +256,10 @@ Session backup saved to: .claude/backups/
 Resume with /start option 2 and read this file carefully.
 Last git state: f3dca97 Docs: Update deployment status for v0.10 completion
 Tests: 6 passed, 4 skipped, 9 warnings, 5 errors in 63.54s (0:01:03)
+
+## AUTO-COMPACT WARNING: 2026-05-30T14:45:14Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: b79357b Fix: Temporarily disable Sentry plugin for production build
+Tests: 6 passed, 4 skipped, 9 warnings, 6 errors in 62.17s (0:01:02)

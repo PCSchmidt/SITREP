@@ -6,27 +6,27 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile dev
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-lightgrey)
-![Status](https://img.shields.io/badge/status-v0.10%20Production%20Deployed-green)
+![Status](https://img.shields.io/badge/status-v0.17%20Beta%20Testing-orange)
 
 ---
 
 ## 🎯 Project Overview
 
-**Build Type**: Production / GA (App Store + Play Store deployment)
-**Timeline**: 3 months (~114-124 hours total)
-**Current Gate**: v0.10 Production Deployment ✅ COMPLETE (Mobile App Fully Functional)
-**Next Gate**: v0.11 Analytics Integration
-**Production URL**: <https://sitrep-production-6aac.up.railway.app>
+**Build Type**: Production / GA (App Store + Play Store deployment)  
+**Timeline**: 3 months (~136-152 hours total)  
+**Current Gate**: v0.17 Beta Testing 🔨 IN PROGRESS  
+**Next Gate**: v1.0 Production Live  
+**Production URL**: <https://sitrep-production-6aac.up.railway.app>  
 **Portfolio**: [pcschmidt.github.io](https://pcschmidt.github.io)
 
-### v0.10 Accomplishments
+### Recent Accomplishments (v0.15-v0.17)
 
-✅ **Backend Production Deployment**: Railway hosting with Nixpacks, Supabase caching, weekly cron automation  
-✅ **Mobile App Fully Functional**: Development build with USB debugging, all screens rendering correctly  
-✅ **Regional Briefings**: 4 regions (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere) working  
-✅ **PDF Viewer**: Integrated react-native-pdf loading Railway backend PDFs  
-✅ **Navigation**: All routes (Home → Detail → PDF) tested on physical device (Samsung S25+)  
-✅ **Layout Fix**: Resolved RegionTab ScrollView conflict preventing content rendering
+✅ **GDELT Integration**: Local-language sources for LatAm, Africa, SE Asia via free GDELT DOC 2.0 API  
+✅ **App Store Prep**: EAS build system, analytics tokens, privacy policy hosting, icons verified  
+✅ **Western Hemisphere Sources**: Foreign Policy, CFR, Americas Quarterly RSS scrapers added  
+✅ **Enhanced Global Briefing**: 2x articles (48+ vs 24), longer sections (8192 tokens), comprehensive cross-regional analysis  
+✅ **Device Testing**: Android APK fully functional on Samsung S25+, React dependencies fixed  
+✅ **Beta Ready**: Android preview builds working, preparing Play Store Internal Testing
 
 ### What is SITREP?
 
@@ -48,7 +48,7 @@ SITREP is a mobile intelligence briefing platform that replicates and enhances "
 - ✅ **BLUF format** - Bottom Line Up Front military intelligence structure
 - ✅ **4 geographic regions** - Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere
 - ✅ **Cited sources** - All claims linked to original Tier 1 publications
-- ✅ **80+ OSINT sources** - ISW, Defense One, IISS, CSIS, Breaking Defense, Reuters, Al Jazeera, and more
+- ✅ **100+ articles/week** - ISW, Defense One, Breaking Defense, War on the Rocks, The War Zone, Al Jazeera, GDELT, Foreign Policy, CFR, Americas Quarterly
 - ✅ **AI-generated content disclaimers** - Heavy compliance focus for App Store approval
 
 ### PDF Features

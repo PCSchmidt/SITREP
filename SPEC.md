@@ -5,8 +5,8 @@
 ## PROJECT
 
 **App name**: SITREP  
-**Current gate**: v0.16 - COMPLETE  
-**Status**: READY FOR v0.17 Beta Testing  
+**Current gate**: v0.17 - IN PROGRESS  
+**Status**: Beta Testing Phase - Android functional, working toward Play Store Internal Testing  
 **Build type**: Production / GA  
 **Target launch**: 2026-08-21 (3 months)  
 
@@ -47,7 +47,7 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - ✅ Playwright for scraping open-source news (CloakBrowser optional for paywalls)
 - ✅ Multi-model LLM synthesis (DeepSeek V4 Flash → V3.2 → Kimi K2.5 fallback via Open Router, 99% cost reduction)
 - ✅ Cost-optimized: single cached briefing per week served to all users (~$0.001/briefing)
-- ✅ 6 working scrapers (ISW + Defense One + Breaking Defense + War on the Rocks + The War Zone + Al Jazeera, ~84 articles/week)
+- ✅ 9 working scrapers (ISW + Defense One + Breaking Defense + War on the Rocks + The War Zone + Al Jazeera + GDELT + Foreign Policy + CFR + Americas Quarterly, ~100+ articles/week)
 - ✅ Global combined briefing endpoint /briefing/global for cross-regional synthesis
 
 ### Monitoring & Analytics

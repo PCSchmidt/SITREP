@@ -188,18 +188,19 @@ Run the app on a physical device or simulator and capture these 5 screens:
 |------|------|--------|
 | 1 | EAS account + eas init | ✅ Complete (2026-05-30) |
 | 2 | App icon 1024×1024 | ✅ Complete (pre-existing) |
-| 2 | Splash screen | ✅ Complete (pre-existing) |
+| 2 | Splash screen config | ✅ Complete (deprecated property removed, SDK 56) |
 | 3 | Mixpanel token configured | ✅ Complete (2026-05-30) |
 | 3 | Sentry DSN configured | ✅ Complete (2026-05-30) |
-| 3 | Analytics dev APK rebuilt | ⬜ Pending (v0.17) |
+| 3 | Analytics APK tested on device | ✅ Complete (Samsung S25+, 2026-05-30) |
 | 4 | Privacy policy hosted | ✅ Complete (2026-05-30) |
 | 4 | Terms of service hosted | ✅ Complete (2026-05-30) |
-| 5 | Android AAB production build | ⬜ Pending |
-| 5 | iOS IPA production build | ⬜ Pending |
-| 6 | App Store Connect listing created | ⬜ Pending |
-| 6 | iOS screenshots uploaded | ⬜ Pending |
-| 6 | iOS submitted for review | ⬜ Pending |
-| 7 | Google Play Console account | ⬜ Pending |
-| 7 | Android screenshots uploaded | ⬜ Pending |
-| 7 | Android internal track uploaded | ⬜ Pending |
-| 8 | Screenshots taken (5 screens) | ⬜ Pending |
+| 5 | Android preview APK tested | ✅ Complete (functional on device) |
+| 5 | Android AAB production build | 🔨 Next step |
+| 5 | iOS IPA production build | ⬜ Deferred (Android-first strategy) |
+| 6 | App Store Connect listing created | ⬜ Deferred |
+| 6 | iOS screenshots uploaded | ⬜ Deferred |
+| 6 | iOS submitted for review | ⬜ Deferred |
+| 7 | Google Play Console account | 🔨 Next step |
+| 7 | Android screenshots taken | 🔨 Next step |
+| 7 | Android internal track uploaded | 🔨 Next step |
+| 8 | Beta testing link shared | ⬜ Pending (after internal track) |
