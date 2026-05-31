@@ -14,7 +14,11 @@ from .gdelt_scraper import GDELTScraper
 from .foreignpolicy_scraper import ForeignPolicyScraper
 from .cfr_scraper import CFRScraper
 from .americasquarterly_scraper import AmericasQuarterlyScraper
+from .rss_scraper import RSSFeedScraper
+from .guardian_api_scraper import GuardianAPIScraper
+from .gov_scraper import GovernmentScraper
 from .base import Article
+import os
 
 logging.basicConfig(
     level=logging.INFO,
@@ -31,14 +35,23 @@ class ScraperOrchestrator:
             ISWScraper(),           # Playwright - deep analysis, Ukraine/Iran
             DefenseOneScraper(),    # RSS - Pentagon policy, military tech
             BreakingDefenseScraper(),  # RSS - defense procurement, emerging tech
-            WarOnTheRocksScraper(), # RSS - strategic analysis (replaces IISS)
+            WarOnTheRocksScraper(), # RSS - strategic analysis
             TheWarZoneScraper(),    # RSS - military aviation, weapons systems
             AlJazeeraScraper(),     # RSS - non-Western perspective, Middle East/Africa
             GDELTScraper(),         # GDELT DOC 2.0 - LatAm, Africa, SE Asia local sources
             ForeignPolicyScraper(), # RSS - US foreign policy, global affairs
-            CFRScraper(),           # RSS - US foreign relations, Western Hemisphere
+            CFRScraper(),           # RSS - US foreign relations
             AmericasQuarterlyScraper(), # RSS - Latin America dedicated coverage
+            RSSFeedScraper(),       # RSS - 20+ feeds (Defense, Reuters, BBC, Guardian, Bloomberg, FT, Economist, etc.)
+            GovernmentScraper(),    # RSS - US/UK government press releases
         ]
+
+        # Add Guardian API if key available
+        if os.getenv('GUARDIAN_API_KEY'):
+            self.scrapers.append(GuardianAPIScraper())
+            logger.info("Guardian API scraper enabled")
+        else:
+            logger.warning("GUARDIAN_API_KEY not set - Guardian API scraper disabled")
 
     async def scrape_all_sources(self, days: int = 7, max_retries: int = 2) -> Dict[str, List[Article]]:
         """
