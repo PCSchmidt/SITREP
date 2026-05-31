@@ -16,6 +16,22 @@ export default function PDFViewerScreen() {
   const [error, setError] = useState<string | null>(null);
   const [PdfComponent, setPdfComponent] = useState<any>(null);
 
+  // Extract region from briefing ID (e.g., "middle-east-2026-05-31" -> "Middle East")
+  const getRegionFromId = (briefingId: string): string => {
+    const regionMap: Record<string, string> = {
+      'europe-africa': 'Europe/Africa',
+      'middle-east': 'Middle East',
+      'indo-pacific': 'Indo-Pacific',
+      'western-hemisphere': 'Western Hemisphere',
+      'all': 'Global',
+    };
+
+    const regionCode = (briefingId as string).split('-').slice(0, -3).join('-');
+    return regionMap[regionCode] || 'Europe/Africa';
+  };
+
+  const region = getRegionFromId(id as string);
+
   // Track pdf_view on mount
   useEffect(() => {
     trackPdfView(id as string);
@@ -36,7 +52,7 @@ export default function PDFViewerScreen() {
   }, []);
 
   const pdfSource = {
-    uri: `${API_BASE_URL}/briefing/latest/pdf`,
+    uri: `${API_BASE_URL}/briefing/latest/pdf?region=${encodeURIComponent(region)}`,
     cache: true,
   };
 
@@ -58,7 +74,7 @@ export default function PDFViewerScreen() {
       console.log('[PDF Share] Downloading PDF to:', localUri);
 
       const downloadResult = await downloadAsync(
-        `${API_BASE_URL}/briefing/latest/pdf`,
+        `${API_BASE_URL}/briefing/latest/pdf?region=${encodeURIComponent(region)}`,
         localUri
       );
       console.log('[PDF Share] Download result:', downloadResult.status);
@@ -89,7 +105,7 @@ export default function PDFViewerScreen() {
       console.log('[PDF Save] Saving PDF to:', localUri);
 
       const downloadResult = await downloadAsync(
-        `${API_BASE_URL}/briefing/latest/pdf`,
+        `${API_BASE_URL}/briefing/latest/pdf?region=${encodeURIComponent(region)}`,
         localUri
       );
       console.log('[PDF Save] Save result:', downloadResult.status);

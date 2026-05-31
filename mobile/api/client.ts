@@ -77,14 +77,50 @@ function transformBriefing(
     content: section.content,
   }));
 
-  // Create sources from section sources
+  // Create sources from section sources with inferred publication
+  const inferPublication = (title: string): { publication: string; url: string } => {
+    const titleLower = title.toLowerCase();
+
+    if (titleLower.includes('iran update') || titleLower.includes('russian offensive') ||
+        titleLower.includes('occupation update') || titleLower.includes('korean peninsula')) {
+      return { publication: 'ISW', url: 'https://understandingwar.org' };
+    }
+    if (titleLower.includes('defense one') || titleLower.includes('pentagon')) {
+      return { publication: 'Defense One', url: 'https://www.defenseone.com' };
+    }
+    if (titleLower.includes('war zone') || titleLower.includes('carriers as of')) {
+      return { publication: 'The War Zone', url: 'https://www.twz.com' };
+    }
+    if (titleLower.includes('foreign policy')) {
+      return { publication: 'Foreign Policy', url: 'https://foreignpolicy.com' };
+    }
+    if (titleLower.includes('cfr') || titleLower.includes('council on foreign')) {
+      return { publication: 'CFR', url: 'https://www.cfr.org' };
+    }
+    if (titleLower.includes('al jazeera')) {
+      return { publication: 'Al Jazeera', url: 'https://www.aljazeera.com' };
+    }
+    if (titleLower.includes('war on the rocks')) {
+      return { publication: 'War on the Rocks', url: 'https://warontherocks.com' };
+    }
+    if (titleLower.includes('breaking defense')) {
+      return { publication: 'Breaking Defense', url: 'https://breakingdefense.com' };
+    }
+
+    // Default for unknown sources - use title as publication name
+    return { publication: 'Various Sources', url: '#' };
+  };
+
   const sources = briefing.sections.flatMap((section) =>
-    section.sources.map((sourceTitle) => ({
-      title: sourceTitle,
-      publication: 'ISW', // Default publication
-      date: dateStr,
-      url: 'https://understandingwar.org', // Default URL
-    }))
+    section.sources.map((sourceTitle) => {
+      const { publication, url } = inferPublication(sourceTitle);
+      return {
+        title: sourceTitle,
+        publication,
+        date: dateStr,
+        url,
+      };
+    })
   );
 
   return {
