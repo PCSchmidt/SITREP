@@ -266,6 +266,8 @@ Good global section themes:
             briefing['region'] = 'Global'  # Always force correct region name
             briefing['metadata'] = metadata
             briefing['article_count'] = len(selected)
+            filled = self._backfill_source_urls(briefing, selected)
+            logger.info(f"Global: back-filled {filled} source URLs for hyperlinks")
             return briefing
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse global synthesis response: {e}")
@@ -378,6 +380,8 @@ Good global section themes:
             briefing['region'] = region
             briefing['metadata'] = metadata
             briefing['article_count'] = len(region_articles)
+            filled = self._backfill_source_urls(briefing, region_articles)
+            logger.info(f"{region}: back-filled {filled} source URLs for hyperlinks")
             return briefing
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse LLM response as JSON: {e}")
@@ -407,6 +411,39 @@ Good global section themes:
         )
 
         return "\n".join(prompt_parts)
+
+    @staticmethod
+    def _norm_title(title: str) -> str:
+        """Normalize a title for matching (collapse whitespace, lowercase)."""
+        return ' '.join((title or '').split()).lower()
+
+    def _backfill_source_urls(self, briefing: Dict, articles: List[Dict]) -> int:
+        """Fill empty citation URLs by matching titles to scraped articles.
+
+        The LLM emits source citations but leaves 'url' blank because the
+        synthesis prompt does not include article URLs. We map each scraped
+        article's title -> url and back-fill the citations deterministically
+        so the PDF can render clickable source hyperlinks (no reliance on the
+        model to reproduce URLs).
+
+        Returns the number of URLs filled.
+        """
+        url_map: Dict[str, str] = {}
+        for a in articles:
+            title = self._norm_title(a.get('title', ''))
+            url = a.get('url', '')
+            if title and url:
+                url_map.setdefault(title, url)
+
+        filled = 0
+        for section in briefing.get('sections', []):
+            for src in (section.get('sources') or []):
+                if not src.get('url'):
+                    match = url_map.get(self._norm_title(src.get('title', '')))
+                    if match:
+                        src['url'] = match
+                        filled += 1
+        return filled
 
     def _empty_briefing(self, region: str) -> Dict:
         """Return empty briefing when no articles available"""

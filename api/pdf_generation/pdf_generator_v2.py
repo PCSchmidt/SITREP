@@ -297,7 +297,7 @@ class PDFGeneratorV2:
         elements = []
 
         # === BLUF ===
-        elements.append(Paragraph("BLUF (BOTTOM LINE UP FRONT)", self.styles['SectionTitle']))
+        elements.append(Paragraph("BLUF", self.styles['SectionTitle']))
         elements.append(Spacer(1, 8))
 
         # BLUF in clean box with left border accent
