@@ -1,6 +1,6 @@
 # DEPLOYMENT_CONFIG.md
 # SITREP | Production Deployment Configuration
-# Updated: 2026-05-29
+# Updated: 2026-05-31
 
 ---
 

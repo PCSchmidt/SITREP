@@ -39,7 +39,7 @@ AI_FALLBACK_2:         moonshotai/kimi-k2.5 ($0.40/$1.90 per 1M tokens)
 AI_COST_TARGET:        ~$0.001/briefing (99% reduction vs GPT-4o Mini)
 EMBEDDINGS:            None
 OBSERVABILITY:         Mixpanel (analytics) + Sentry (crash tracking)
-AUTOMATION:            Railway Cron (weekly briefing + PDF generation)
+AUTOMATION:            Internal APScheduler (daily briefing + PDF generation)
 BILLING:               None
 
 ---
@@ -60,7 +60,7 @@ PORTFOLIO_URL:         https://pcschmidt.github.io
 
 SYNTHESIS_MODEL:       Multi-model waterfall (Open Router)
 SYNTHESIS_PURPOSE:     Scrape → Analyze → Generate BLUF-format intelligence briefings
-SYNTHESIS_FREQUENCY:   Weekly automated (Railway Cron)
+SYNTHESIS_FREQUENCY:   Daily automated (Internal APScheduler)
 SYNTHESIS_REGIONS:     Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere
 SYNTHESIS_OUTPUT:      JSON briefing cached in Supabase, served to all users
 COST_OPTIMIZATION:     Single cached briefing per week (no per-user generation)
@@ -74,7 +74,7 @@ BUILD_COST_TARGET:         < $50 total LLM usage during development
 FREE_APP:                  No monetization (portfolio piece)
 MIN_TEST_COVERAGE:         70% line coverage (pytest + vitest)
 ACCESSIBILITY:             WCAG AA minimum
-UPDATE_FREQUENCY:          Weekly automated briefing generation
+UPDATE_FREQUENCY:          Daily automated briefing generation
 CONTENT_DISCLAIMERS:       Heavy AI-generated warnings (like LOWDOWN)
 
 ---
@@ -86,7 +86,7 @@ The following are explicitly banned on this project:
 
 | Technology | Use Instead | Reason |
 |-----------|-------------|--------|
-| Per-user LLM generation | Cached weekly briefing | Violates cost ceiling |
+| Per-user LLM generation | Cached daily briefing | Violates cost ceiling |
 | Daily briefing updates | Weekly updates | Cost and complexity |
 | Social media scraping | News outlet scraping | Unreliable, moderation burden |
 | Real-time news streaming | Weekly batch generation | Cost and complexity |

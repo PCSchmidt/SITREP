@@ -21,7 +21,7 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 ## v1.0 FEATURES
 
 ### Core Intelligence Briefing
-- ✅ Weekly automated briefing generation (Railway Cron)
+- ✅ Daily automated briefing generation (Internal APScheduler)
 - ✅ BLUF (Bottom Line Up Front) format matching The LOWDOWN aesthetic
 - ✅ 4 geographic regions: Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere
 - ✅ Cited sources from Tier 1 defense publications
@@ -137,7 +137,7 @@ Scraping → LLM Synthesis Pipeline
 ```
 
 **Weekly Pipeline:**
-1. Railway Cron triggers scraping (Sunday 06:00 UTC)
+1. Internal APScheduler triggers scraping (Sunday 06:00 UTC)
 2. Playwright scrapes sources → raw articles JSON
 3. Multi-model LLM synthesis (DeepSeek V4 Flash primary, V3.2/Kimi K2.5 fallback)
 4. Generate BLUF briefing per region with ReportLab PDF

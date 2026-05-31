@@ -128,7 +128,7 @@ CREATE TRIGGER update_briefings_updated_at
 
 ---
 
-## STEP 4: Railway Cron Job Setup
+## STEP 4: Internal APScheduler Job Setup
 
 1. **Create Cron Service**:
 
@@ -215,7 +215,7 @@ Update mobile API base URL to point to Railway:
 - Verify environment variables are set correctly
 - Check Supabase connection (wrong URL/key)
 
-### Cron Job Not Running
+### Automated Scheduler Not Running
 
 - Verify cron schedule syntax: `0 6 * * 0` (Sunday 6AM UTC)
 - Check cron service logs
@@ -243,7 +243,7 @@ Update mobile API base URL to point to Railway:
 - **Production URL**: https://sitrep-production-6aac.up.railway.app
 - **Version**: v0.10.0
 - **Build System**: Dockerfile (replaced Nixpacks for Playwright compatibility)
-- **Cron Job**: Configured for Sunday 6 AM UTC
+- **Automated Scheduler**: Configured for Sunday 6 AM UTC
 - **Last Pipeline Run**: 16 articles scraped, 4/4 regions processed, 0 errors
 
 **Key Technical Decisions:**

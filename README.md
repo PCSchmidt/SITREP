@@ -45,7 +45,7 @@ SITREP is a mobile intelligence briefing platform that replicates and enhances "
 
 ### Intelligence Briefing
 
-- ✅ **Weekly automated generation** - Railway Cron triggers Sunday 06:00 UTC
+- ✅ **Daily automated generation** - Internal APScheduler triggers Sunday 06:00 UTC
 - ✅ **BLUF format** - Bottom Line Up Front military intelligence structure
 - ✅ **4 geographic regions** - Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere
 - ✅ **Cited sources** - All claims linked to original Tier 1 publications
@@ -204,7 +204,7 @@ SITREP/
 - **Database**: Supabase Free Tier (500MB database, 1GB storage)
 - **Analytics**: Mixpanel Free Tier (100k events/month)
 - **Monitoring**: Sentry Free Tier (5k errors/month)
-- **Automation**: Railway Cron (weekly briefing generation)
+- **Automation**: Internal APScheduler (daily briefing generation)
 - **CI/CD**: GitHub Actions (planned for v0.13+)
 
 ---
@@ -279,7 +279,7 @@ See [VERSION_ROADMAP.md](VERSION_ROADMAP.md) for detailed gate descriptions and 
 │  │  • Blob storage for generated PDFs                   │    │
 │  └─────────────────────────────────────────────────────┘    │
 └─────────────────────────┬───────────────────────────────────┘
-                          │ Railway Cron
+                          │ Internal APScheduler
                           │ (Sunday 06:00 UTC)
                           ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -300,7 +300,7 @@ Sunday 06:00 UTC
     │
     ↓
 ┌───────────────────────────────────────────────┐
-│  Railway Cron triggers POST /scrape           │
+│  Internal APScheduler triggers POST /scrape           │
 └────────────────┬──────────────────────────────┘
                  │
                  ↓
@@ -392,7 +392,7 @@ CREATE TABLE briefings (
 
 | Service                         | Tier          | Monthly Cost                                                       | Notes                                      |
 | ------------------------------- | ------------- | ------------------------------------------------------------------ | ------------------------------------------ |
-| Railway                         | Hobby         | $5                                                                 | Backend hosting, cron jobs                 |
+| Railway                         | Hobby         | $5                                                                 | Backend hosting, automated scheduling                 |
 | Supabase                        | Free          | $0                                                                 | 500MB DB, 1GB storage, 2GB bandwidth       |
 | Open Router (DeepSeek V4 Flash) | Pay-as-you-go | $0-1 | ~$0.001/briefing, 4 briefings/month = $0.004                |                                            |
 | Open Router (Fallbacks)         | Pay-as-you-go | $0                                                                 | DeepSeek V3.2/Kimi only if V4 fails (rare) |

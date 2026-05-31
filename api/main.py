@@ -25,6 +25,10 @@ except Exception as e:
     supabase = None
     logger.warning(f"Supabase not available, using file-based storage: {e}")
 
+# Initialize scheduler
+from scheduler import BriefingScheduler
+scheduler = None
+
 app = FastAPI(
     title="SITREP API",
     description="AI-powered intelligence briefing generation and synthesis",
@@ -40,13 +44,48 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Startup and shutdown events
+@app.on_event("startup")
+async def startup_event():
+    """Initialize scheduler on app startup"""
+    global scheduler
+    # Get Railway URL or fallback to localhost
+    railway_url = os.getenv("RAILWAY_PUBLIC_DOMAIN")
+    if railway_url:
+        api_url = f"https://{railway_url}"
+    else:
+        api_url = "http://localhost:8000"
+
+    scheduler = BriefingScheduler(api_base_url=api_url)
+    scheduler.start()
+    logger.info(f"Application started - scheduler configured for {api_url}")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Cleanup on app shutdown"""
+    global scheduler
+    if scheduler:
+        scheduler.shutdown()
+    logger.info("Application shutdown complete")
+
 @app.get("/")
 async def root():
-    """Root endpoint"""
+    """Root endpoint with scheduler status"""
     storage_mode = "Supabase" if USE_SUPABASE else "File-based"
+
+    scheduler_status = "Not initialized"
+    next_run = None
+    if scheduler and scheduler.scheduler.running:
+        scheduler_status = "Running - Daily at 06:00 UTC"
+        job = scheduler.scheduler.get_job('daily_briefing_pipeline')
+        if job:
+            next_run = job.next_run_time.isoformat() if job.next_run_time else None
+
     return {
-        "message": "SITREP API v0.10.0",
-        "storage": storage_mode
+        "message": "SITREP API v0.17.0",
+        "storage": storage_mode,
+        "scheduler": scheduler_status,
+        "next_scheduled_run": next_run
     }
 
 @app.get("/health")
