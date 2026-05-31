@@ -107,6 +107,11 @@ class RSSBaseScraper(BaseScraper):
                 resp = await client.get(self.FEED_URL, headers=HEADERS, follow_redirects=True)
                 resp.raise_for_status()
                 raw = resp.content
+
+            # Strip leading/trailing whitespace to handle malformed feeds
+            if isinstance(raw, bytes):
+                raw = raw.strip()
+
             root = ET.fromstring(raw)
         except Exception as e:
             self.logger.error(f"Failed to fetch feed {self.FEED_URL}: {e}")

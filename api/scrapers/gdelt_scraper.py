@@ -2,11 +2,8 @@
 import asyncio
 import json
 import logging
-import urllib.error
-import urllib.request
 from datetime import datetime, timedelta, timezone
 from typing import List, Dict
-from urllib.parse import urlencode
 
 import httpx
 from bs4 import BeautifulSoup
@@ -148,28 +145,39 @@ class GDELTScraper(BaseScraper):
             "enddatetime": end,
             "format": "json",
         }
-        url = f"{self.GDELT_URL}?{urlencode(params)}"
 
-        for attempt in range(retries + 1):
-            try:
-                req = urllib.request.Request(url, headers=HEADERS)
-                with urllib.request.urlopen(req, timeout=20) as resp:
-                    data = json.loads(resp.read().decode('utf-8', errors='replace'))
-                return data.get("articles", [])
-            except urllib.error.HTTPError as e:
-                if e.code == 429:
-                    wait = 60 * (attempt + 1)
-                    self.logger.warning(f"GDELT rate limited (attempt {attempt+1}). Waiting {wait}s...")
-                    await asyncio.sleep(wait)
-                else:
-                    self.logger.warning(f"GDELT HTTP {e.code}")
+        # Use httpx instead of urllib for better reliability
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            for attempt in range(retries + 1):
+                try:
+                    resp = await client.get(self.GDELT_URL, params=params, headers=HEADERS, follow_redirects=True)
+                    resp.raise_for_status()
+
+                    # Handle empty responses
+                    if not resp.content or len(resp.content) == 0:
+                        self.logger.warning(f"GDELT returned empty response")
+                        return []
+
+                    data = resp.json()
+                    return data.get("articles", [])
+
+                except httpx.HTTPStatusError as e:
+                    if e.response.status_code == 429:
+                        wait = 60 * (attempt + 1)
+                        self.logger.warning(f"GDELT rate limited (attempt {attempt+1}). Waiting {wait}s...")
+                        await asyncio.sleep(wait)
+                    else:
+                        self.logger.warning(f"GDELT HTTP {e.response.status_code}")
+                        return []
+                except json.JSONDecodeError as e:
+                    self.logger.warning(f"GDELT returned non-JSON response: {e}")
                     return []
-            except Exception as e:
-                self.logger.warning(f"GDELT query error: {e}")
-                if attempt < retries:
-                    await asyncio.sleep(10)
-                else:
-                    return []
+                except Exception as e:
+                    self.logger.warning(f"GDELT query error: {e}")
+                    if attempt < retries:
+                        await asyncio.sleep(10)
+                    else:
+                        return []
         return []
 
     def _parse_gdelt_date(self, date_str: str) -> datetime:
