@@ -9,10 +9,12 @@ from typing import List, Dict
 import re
 from bs4 import BeautifulSoup
 
+from .base import BaseScraper, Article
+
 logger = logging.getLogger(__name__)
 
 
-class GovernmentScraper:
+class GovernmentScraper(BaseScraper):
     """
     Scraper for official government press releases and statements.
 
@@ -61,6 +63,14 @@ class GovernmentScraper:
             'southcom', 'northcom', 'canada', 'arctic', 'greenland', 'caribbean'
         ]
     }
+
+    def __init__(self):
+        super().__init__("Government")
+
+    async def scrape_recent_articles(self, days: int = 7) -> List[Article]:
+        """Orchestrator entry point: scrape gov sources and return Article objects."""
+        raw = await self.scrape_all(max_per_source=10)
+        return [Article.from_dict(d) for d in raw]
 
     async def scrape_all(self, max_per_source: int = 10) -> List[Dict]:
         """

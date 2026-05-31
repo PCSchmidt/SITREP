@@ -7,10 +7,12 @@ from datetime import datetime
 from typing import List, Dict
 import re
 
+from .base import BaseScraper, Article
+
 logger = logging.getLogger(__name__)
 
 
-class RSSFeedScraper:
+class RSSFeedScraper(BaseScraper):
     """
     Generic RSS feed scraper for news sources.
 
@@ -86,7 +88,13 @@ class RSSFeedScraper:
     }
 
     def __init__(self):
+        super().__init__("RSS Feeds")
         self.feeds = self.FEEDS
+
+    async def scrape_recent_articles(self, days: int = 7) -> List[Article]:
+        """Orchestrator entry point: scrape all feeds and return Article objects."""
+        raw = await self.scrape_all(max_articles_per_feed=20)
+        return [Article.from_dict(d) for d in raw]
 
     async def scrape_all(self, max_articles_per_feed: int = 20) -> List[Dict]:
         """

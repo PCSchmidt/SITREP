@@ -8,10 +8,12 @@ import os
 from datetime import datetime, timedelta
 from typing import List, Dict
 
+from .base import BaseScraper, Article
+
 logger = logging.getLogger(__name__)
 
 
-class GuardianAPIScraper:
+class GuardianAPIScraper(BaseScraper):
     """
     Scraper for The Guardian using their official API.
 
@@ -40,6 +42,7 @@ class GuardianAPIScraper:
         Args:
             api_key: Guardian API key (or set GUARDIAN_API_KEY env var)
         """
+        super().__init__("The Guardian")
         self.api_key = api_key or os.getenv('GUARDIAN_API_KEY')
         if not self.api_key:
             raise ValueError(
@@ -47,6 +50,11 @@ class GuardianAPIScraper:
                 "Set GUARDIAN_API_KEY environment variable or pass api_key parameter. "
                 "Get free key at: https://open-platform.theguardian.com/access/"
             )
+
+    async def scrape_recent_articles(self, days: int = 7) -> List[Article]:
+        """Orchestrator entry point: query the Guardian API and return Article objects."""
+        raw = await self.scrape_all_regions(articles_per_region=15)
+        return [Article.from_dict(d) for d in raw]
 
     async def scrape_all_regions(self, articles_per_region: int = 15) -> List[Dict]:
         """

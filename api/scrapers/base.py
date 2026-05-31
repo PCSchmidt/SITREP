@@ -43,6 +43,38 @@ class Article:
             "scraped_at": datetime.utcnow().isoformat()
         }
 
+    @classmethod
+    def from_dict(cls, d: Dict) -> "Article":
+        """Build an Article from a loosely-typed scraper dict.
+
+        Used by the lightweight RSS/API scrapers that produce plain dicts;
+        normalizes published_date (string -> datetime) so the object matches
+        the BaseScraper/Article contract the orchestrator expects.
+        """
+        pub = d.get("published_date")
+        published = None
+        if isinstance(pub, datetime):
+            published = pub
+        elif pub:
+            for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S%z"):
+                try:
+                    published = datetime.strptime(str(pub), fmt)
+                    break
+                except (ValueError, TypeError):
+                    continue
+        if published is None:
+            published = datetime.utcnow()
+
+        return cls(
+            source=d.get("source", "Unknown"),
+            url=d.get("url", ""),
+            title=d.get("title", "Untitled"),
+            published_date=published,
+            content=d.get("content", ""),
+            author=d.get("author"),
+            region_tags=d.get("region_tags", []),
+        )
+
 
 class BaseScraper(ABC):
     """Abstract base class for all source scrapers"""
