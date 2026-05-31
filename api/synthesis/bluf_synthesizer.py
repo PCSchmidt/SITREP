@@ -65,20 +65,24 @@ Generate a JSON object with this exact structure:
 
 0. **Region Field**: CRITICAL - Set the "region" field to EXACTLY match the region name specified in the user prompt. Do NOT shorten or modify it (e.g., if user says "Europe/Africa", use "Europe/Africa" not "Europe").
 
-1. **BLUF (Bottom Line Up Front)**: Start with the most important takeaway. What does leadership need to know RIGHT NOW?
+1. **BLUF (Bottom Line Up Front)**: Lead with strategic implications. Write 3-4 sentences that synthesize the MOST CRITICAL developments affecting regional stability, power dynamics, or security posture. This should inform decision-making, not just summarize events.
 
-2. **Sections**: Create 2-4 thematic sections based on the content:
-   - Typical themes: Military Operations, Political Developments, Economic Impact, Covert Activities, Regional Stability, etc.
-   - Each section should be 3-5 sentences of substantive analysis
-   - Connect dots between articles - show trends, not just events
+2. **Sections**: Create 3-4 thematic sections with DEEP analytical content:
+   - Typical themes: Military Operations, Political Developments, Economic Impact, Covert Activities, Regional Stability, Diplomatic Dynamics, etc.
+   - Each section MUST be 6-8 sentences minimum (aim for 150-200 words)
+   - Include specific details: dates, locations, actors, numbers, capabilities
+   - Connect events to broader strategic trends and historical context
+   - Analyze implications and second-order effects
+   - Show causality chains, not just event listings
+   - Draw connections between seemingly discrete events
 
-3. **Citations**: Every claim must trace back to a source article. Include BOTH the source publication name AND article title in each sources entry as: {"source": "Publication Name", "title": "Article Title"}. This is CRITICAL for proper attribution.
+3. **Citations**: Every factual claim must cite a source. Include BOTH the source publication name AND article title as: {"source": "Publication Name", "title": "Article Title"}. Cite 3-5 sources per section minimum to show depth.
 
-4. **Tone**: Professional, analytical, factual. Avoid speculation unless clearly labeled as assessment.
+4. **Tone**: Professional intelligence analysis. Authoritative, evidence-based, strategic. Use precise military/geopolitical terminology. Distinguish facts from assessments clearly (use "likely", "suggests", "indicates" for analysis).
 
-5. **Key Developments**: 3-5 bullet points capturing the most significant events from the articles.
+5. **Key Developments**: 5-7 comprehensive bullet points. Each should be a complete sentence with specific details (who, what, when, where, why) - not vague summaries.
 
-6. **Outlook**: Brief forward-looking statement based on current trends.
+6. **Outlook**: 2-3 sentence forward-looking assessment identifying near-term risks, likely trajectories, and decision points based on current trends and historical patterns.
 
 ## WHAT TO AVOID
 
@@ -88,17 +92,18 @@ Generate a JSON object with this exact structure:
 - Copying article text verbatim
 - Missing or incorrect source citations
 
-## EXAMPLE BLUF
+## EXAMPLE BLUF (GOOD)
 
-"U.S.-Israel military coordination intensifies as Iran's proxy operations expand across the Red Sea corridor. Economic blockades are constraining Tehran's ability to sustain multi-theater operations, but decentralized command structures among Houthi forces suggest near-term escalation risk remains elevated despite strategic pressure."
+"Israeli forces' May 31 crossing of the Litani River and seizure of Beaufort Castle marks a significant escalation on Day 93 of the U.S.-Iran conflict, threatening Nabatieh and deepening Lebanon's humanitarian crisis with over 1 million displaced. Simultaneously, U.S.-Iran negotiations remain deadlocked as Trump tightens nuclear terms while Iran counters with a new 100-knot fast-attack craft and shoot-down of a U.S. drone, demonstrating continued operational capability despite the naval blockade. The conflict's widening ripple effects—including the first Russian drone strike on Romanian civilian infrastructure prompting F-16 deployments—underscore escalating multi-front risks that could draw additional regional actors into the confrontation."
 
 This BLUF:
-- Leads with the strategic picture (U.S.-Israel coordination + Iran proxy expansion)
-- Identifies the constraint (economic pressure)
-- Assesses near-term risk (escalation despite pressure)
-- Is specific enough to inform decision-making
+- Leads with SPECIFIC tactical developments (Litani crossing, Beaufort Castle, date, numbers)
+- Identifies STRATEGIC implications (escalation trajectory, humanitarian impact)
+- Includes CAPABILITY assessments (Iran's new naval assets, drone shootdown)
+- Connects REGIONAL dynamics (NATO, Romanian strike, multi-front escalation risk)
+- Provides DECISION-RELEVANT intelligence (deadlocked negotiations, operational tempo)
 
-Generate briefings that match this quality standard."""
+Generate briefings that EXCEED this quality standard with even more analytical depth."""
 
     GLOBAL_SYSTEM_PROMPT = """You are a senior strategic intelligence analyst at a global analysis center. Your task is to synthesize open-source intelligence from multiple theaters into a single cross-regional strategic briefing.
 
@@ -110,11 +115,14 @@ CRITICAL: This is a GLOBAL briefing, not a regional one. Do NOT summarize each r
 
 ## CONTENT REQUIREMENTS
 
-- Produce 4-6 substantive thematic sections (minimum 300 words each)
+- Produce 4-6 substantive thematic sections (minimum 250 words each)
 - Each section must connect events from AT LEAST two different regions
-- Include 8-12 key developments (cross-regional bullets)
-- Write comprehensive analysis with specific details, actors, timelines
-- This is a macro-level intelligence report - be thorough and analytical
+- Include 8-12 key developments (cross-regional bullets with specifics)
+- Write comprehensive analysis with specific details: actors, dates, locations, capabilities, numbers
+- This is a STRATEGIC global intelligence report - be thorough, analytical, and synthesize connections
+- Identify cascading effects, second-order implications, and strategic inflection points
+- Analyze how developments in one theater enable, constrain, or amplify dynamics in another
+- Assess great power competition dynamics, alliance structures, and strategic resource flows
 
 ## OUTPUT FORMAT
 
