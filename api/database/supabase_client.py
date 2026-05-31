@@ -45,12 +45,15 @@ class SupabaseClient:
             "generated_at": briefing_data.get("generated_at", datetime.now(timezone.utc).isoformat())
         }
 
-        # Upsert: update if exists, insert if not
-        # Match on region to ensure only one briefing per region
-        result = self.client.table("briefings").upsert(
-            data,
-            on_conflict="region"
-        ).execute()
+        # Check if briefing exists for this region
+        existing = self.client.table("briefings").select("id").eq("region", region).execute()
+
+        if existing.data:
+            # Update existing briefing
+            result = self.client.table("briefings").update(data).eq("region", region).execute()
+        else:
+            # Insert new briefing
+            result = self.client.table("briefings").insert(data).execute()
 
         return result.data[0] if result.data else None
 
