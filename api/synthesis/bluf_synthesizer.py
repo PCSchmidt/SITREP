@@ -248,7 +248,7 @@ Good global section themes:
         async with self.client or OpenRouterClient() as client:
             response_text, metadata = await client.chat_completion(
                 messages=messages,
-                max_tokens=8192,  # Increased from 4096 for longer global briefings
+                max_tokens=16000,  # cross-regional global briefing is the largest; was truncating at 8192
                 temperature=0.7
             )
 
@@ -357,7 +357,7 @@ Good global section themes:
         async with self.client or OpenRouterClient() as client:
             response_text, metadata = await client.chat_completion(
                 messages=messages,
-                max_tokens=4096,
+                max_tokens=12000,  # deep sections (5+ x 300-500 words) overflow 4096 -> truncated JSON
                 temperature=0.7
             )
 

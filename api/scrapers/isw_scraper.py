@@ -35,7 +35,9 @@ class ISWScraper(BaseScraper):
 
             try:
                 self.logger.info(f"Scraping ISW articles from {self.ARTICLES_URL}")
-                await page.goto(self.ARTICLES_URL, wait_until="networkidle")
+                # Use domcontentloaded (not networkidle, which can hang forever on
+                # sites with persistent connections) with an explicit timeout.
+                await page.goto(self.ARTICLES_URL, wait_until="domcontentloaded", timeout=30000)
 
                 # Get page HTML
                 html = await page.content()

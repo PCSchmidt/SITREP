@@ -30,6 +30,11 @@ logger = logging.getLogger(__name__)
 class ScraperOrchestrator:
     """Orchestrates all scrapers and handles errors/retries."""
 
+    # Per-attempt timeout (seconds). Prevents one slow/hung source (e.g. ISW
+    # Playwright networkidle, GDELT API) from stalling the entire pipeline in
+    # asyncio.gather, which has no timeout of its own.
+    SCRAPER_TIMEOUT = 60
+
     def __init__(self):
         self.scrapers = [
             ISWScraper(),           # Playwright - deep analysis, Ukraine/Iran
@@ -82,7 +87,19 @@ class ScraperOrchestrator:
     async def _scrape_with_retry(self, scraper, days: int, max_retries: int) -> List[Article]:
         for attempt in range(max_retries + 1):
             try:
-                return await scraper.scrape_recent_articles(days)
+                return await asyncio.wait_for(
+                    scraper.scrape_recent_articles(days),
+                    timeout=self.SCRAPER_TIMEOUT
+                )
+            except asyncio.TimeoutError:
+                e = f"timed out after {self.SCRAPER_TIMEOUT}s"
+                if attempt < max_retries:
+                    wait = 2 ** attempt
+                    logger.warning(f"{scraper.source_name} attempt {attempt + 1} {e}. Retrying in {wait}s...")
+                    await asyncio.sleep(wait)
+                else:
+                    logger.error(f"{scraper.source_name} failed after {max_retries + 1} attempts: {e}")
+                    raise
             except Exception as e:
                 if attempt < max_retries:
                     wait = 2 ** attempt
