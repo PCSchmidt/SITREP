@@ -14,6 +14,10 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Application version. Bump on each deploy so the running build can be
+# identified via GET / (used to confirm a Railway redeploy is live).
+APP_VERSION = "0.20.0"
+
 # Initialize Supabase client (optional for local dev)
 try:
     from database.supabase_client import SupabaseClient
@@ -32,7 +36,7 @@ scheduler = None
 app = FastAPI(
     title="SITREP API",
     description="AI-powered intelligence briefing generation and synthesis",
-    version="0.10.0"
+    version=APP_VERSION
 )
 
 # CORS middleware for mobile app
@@ -82,7 +86,8 @@ async def root():
             next_run = job.next_run_time.isoformat() if job.next_run_time else None
 
     return {
-        "message": "SITREP API v0.17.0",
+        "message": f"SITREP API v{APP_VERSION}",
+        "version": APP_VERSION,
         "storage": storage_mode,
         "scheduler": scheduler_status,
         "next_scheduled_run": next_run

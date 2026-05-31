@@ -85,14 +85,17 @@ class ScraperOrchestrator:
         return results
 
     async def _scrape_with_retry(self, scraper, days: int, max_retries: int) -> List[Article]:
+        # A scraper may declare its own timeout (e.g. GDELT's rate-limited
+        # multi-query run needs longer than the default).
+        timeout = getattr(scraper, "scrape_timeout", None) or self.SCRAPER_TIMEOUT
         for attempt in range(max_retries + 1):
             try:
                 return await asyncio.wait_for(
                     scraper.scrape_recent_articles(days),
-                    timeout=self.SCRAPER_TIMEOUT
+                    timeout=timeout
                 )
             except asyncio.TimeoutError:
-                e = f"timed out after {self.SCRAPER_TIMEOUT}s"
+                e = f"timed out after {timeout}s"
                 if attempt < max_retries:
                     wait = 2 ** attempt
                     logger.warning(f"{scraper.source_name} attempt {attempt + 1} {e}. Retrying in {wait}s...")

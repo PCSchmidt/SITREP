@@ -44,29 +44,40 @@ class GDELTScraper(BaseScraper):
     """
 
     GDELT_URL = "https://api.gdeltproject.org/api/v2/doc/doc"
-    DELAY_BETWEEN_QUERIES = 30   # seconds — stay well under rate limit
-    MAX_RECORDS_PER_QUERY = 25
-    MAX_ARTICLES_TOTAL = 50
+    DELAY_BETWEEN_QUERIES = 15   # seconds — stay under rate limit
+    MAX_RECORDS_PER_QUERY = 20
+    MAX_ARTICLES_TOTAL = 30
+    # GDELT's rate-limited multi-query run + per-article content fetches need
+    # more than the orchestrator's default per-scraper timeout. Honored by
+    # ScraperOrchestrator._scrape_with_retry via getattr(scraper, 'scrape_timeout').
+    scrape_timeout = 150
 
     # Three targeted region queries covering our worst coverage gaps.
-    # Country codes: ISO 3166-1 alpha-2. Each query confirmed reachable via probe.
-    # Now includes economic keywords for socio-economic context
+    #
+    # IMPORTANT: GDELT's sourcecountry: filter uses FIPS 10-4 country codes,
+    # NOT ISO 3166-1. They diverge for many countries (e.g. Chile FIPS=CI not
+    # CL, South Africa=SF not ZA, Philippines=RP not PH, Vietnam=VM, Nigeria=NI,
+    # Australia=AS). An unsupported code makes GDELT reject the whole query
+    # ("Invalid/Unsupported Country") and return zero articles.
+    #
+    # Keywords are wrapped in (a OR b OR ...): GDELT ANDs space-separated terms,
+    # so a flat keyword list would require every word to appear at once (~0 hits).
     QUERIES = [
         {
-            "keywords": "war military conflict security government protest sanctions coup trade economy inflation debt corruption cartel drug trafficking migration",
-            "countries": ["BR", "CO", "MX", "AR", "VE", "CU", "PE", "CL"],
+            "keywords": "(military OR conflict OR sanctions OR economy OR trade OR protest OR cartel OR migration)",
+            "countries": ["BR", "CO", "MX", "AR", "VE", "CU", "PE", "CI"],  # CI = Chile (FIPS)
             "region_tag": "Western Hemisphere",
             "label": "Latin America",
         },
         {
-            "keywords": "military conflict coup security peacekeeping insurgency government drought famine humanitarian crisis minerals oil economy sanctions trade",
-            "countries": ["ZA", "KE", "NG", "ET", "GH", "TZ", "CI", "SN", "RW", "UG"],
+            "keywords": "(military OR conflict OR coup OR insurgency OR humanitarian OR drought OR economy OR sanctions)",
+            "countries": ["SF", "KE", "NI", "ET", "GH", "TZ", "IV", "SG", "RW", "UG"],  # SF=S.Africa NI=Nigeria IV=Côte d'Ivoire SG=Senegal
             "region_tag": "Europe/Africa",
             "label": "Sub-Saharan Africa",
         },
         {
-            "keywords": "military maritime security sovereignty China ASEAN conflict territorial supply chain trade semiconductor rare earth economy infrastructure belt road",
-            "countries": ["ID", "PH", "VN", "TH", "MY", "MM", "AU", "NZ", "FJ", "PG"],
+            "keywords": "(military OR maritime OR sovereignty OR territorial OR semiconductor OR trade OR economy OR infrastructure)",
+            "countries": ["ID", "RP", "VM", "TH", "MY", "BM", "AS", "NZ", "FJ", "PP"],  # RP=Philippines VM=Vietnam BM=Burma AS=Australia PP=PNG
             "region_tag": "Indo-Pacific",
             "label": "Southeast Asia / Oceania",
         },
@@ -164,7 +175,7 @@ class GDELTScraper(BaseScraper):
 
                 except httpx.HTTPStatusError as e:
                     if e.response.status_code == 429:
-                        wait = 60 * (attempt + 1)
+                        wait = 20 * (attempt + 1)
                         self.logger.warning(f"GDELT rate limited (attempt {attempt+1}). Waiting {wait}s...")
                         await asyncio.sleep(wait)
                     else:
