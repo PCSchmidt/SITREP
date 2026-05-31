@@ -333,9 +333,12 @@ async def synthesize_global_briefing():
 
 
 @app.get("/briefing/latest/pdf")
-async def get_latest_pdf():
+async def get_latest_pdf(region: str = "Europe/Africa"):
     """
-    Get latest briefing as PDF.
+    Get latest briefing as PDF for a specific region.
+
+    Args:
+        region: Geographic region (default: Europe/Africa). Use "Global" for cross-regional briefing.
 
     Returns PDF file for download.
     """
@@ -345,11 +348,17 @@ async def get_latest_pdf():
         if not pdf_dir.exists():
             raise HTTPException(status_code=404, detail="No PDFs available")
 
-        # Get most recent PDF
-        pdf_files = list(pdf_dir.glob("*.pdf"))
-        if not pdf_files:
-            raise HTTPException(status_code=404, detail="No PDFs found")
+        # Map region to PDF filename pattern
+        region_slug = region.lower().replace(' ', '_').replace('/', '_')
 
+        # Find PDFs matching this region
+        pdf_pattern = f"{region_slug}_*.pdf"
+        pdf_files = list(pdf_dir.glob(pdf_pattern))
+
+        if not pdf_files:
+            raise HTTPException(status_code=404, detail=f"No PDF found for region: {region}")
+
+        # Get most recent PDF for this region
         latest_pdf = max(pdf_files, key=lambda p: p.stat().st_mtime)
 
         # Return PDF file
@@ -580,3 +589,82 @@ async def run_weekly_pipeline():
     except Exception as e:
         logger.error(f"Pipeline failed: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Pipeline execution failed: {str(e)}")
+
+
+@app.get("/debug/supabase")
+async def debug_supabase():
+    """
+    Test Supabase connection and show status.
+    Returns connection status and sample data if available.
+    """
+    result = {
+        "enabled": USE_SUPABASE,
+        "client_initialized": supabase is not None,
+        "briefings_count": 0,
+        "sample_regions": []
+    }
+
+    if USE_SUPABASE and supabase:
+        try:
+            # Try to fetch all briefings
+            all_briefings = await supabase.get_all_briefings()
+            result["briefings_count"] = len(all_briefings)
+            result["sample_regions"] = [b.get("region") for b in all_briefings]
+
+            if all_briefings:
+                result["sample_briefing"] = {
+                    "region": all_briefings[0].get("region"),
+                    "generated_at": all_briefings[0].get("generated_at"),
+                    "article_count": all_briefings[0].get("briefing_data", {}).get("article_count", 0)
+                }
+        except Exception as e:
+            result["error"] = str(e)
+
+    return result
+
+
+@app.post("/debug/upload-briefing")
+async def upload_briefing_to_supabase(region: str):
+    """
+    Manually upload a briefing from filesystem to Supabase.
+    Useful for debugging Supabase save issues.
+    """
+    if not USE_SUPABASE or not supabase:
+        raise HTTPException(status_code=503, detail="Supabase not available")
+
+    try:
+        # Find latest briefing file for this region
+        briefing_dir = Path("data/briefings")
+        if not briefing_dir.exists():
+            raise HTTPException(status_code=404, detail="No briefings directory found")
+
+        region_slug = region.lower().replace(' ', '_').replace('/', '_')
+        briefing_files = sorted(briefing_dir.glob(f"{region_slug}_*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
+
+        if not briefing_files:
+            raise HTTPException(status_code=404, detail=f"No briefing files found for {region}")
+
+        # Load latest briefing
+        latest_file = briefing_files[0]
+        with open(latest_file, 'r', encoding='utf-8') as f:
+            briefing_data = json.load(f)
+
+        # Upload to Supabase
+        result = await supabase.save_briefing(
+            region=region,
+            briefing_data=briefing_data,
+            pdf_url=None
+        )
+
+        return {
+            "status": "success",
+            "region": region,
+            "file": str(latest_file),
+            "uploaded_at": datetime.now(timezone.utc).isoformat(),
+            "article_count": briefing_data.get("article_count", 0)
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
