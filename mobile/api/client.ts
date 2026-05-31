@@ -81,34 +81,59 @@ function transformBriefing(
   const inferPublication = (title: string): { publication: string; url: string } => {
     const titleLower = title.toLowerCase();
 
+    // ISW patterns
     if (titleLower.includes('iran update') || titleLower.includes('russian offensive') ||
-        titleLower.includes('occupation update') || titleLower.includes('korean peninsula')) {
+        titleLower.includes('occupation update') || titleLower.includes('korean peninsula') ||
+        titleLower.includes('china & taiwan update')) {
       return { publication: 'ISW', url: 'https://understandingwar.org' };
     }
-    if (titleLower.includes('defense one') || titleLower.includes('pentagon')) {
-      return { publication: 'Defense One', url: 'https://www.defenseone.com' };
-    }
-    if (titleLower.includes('war zone') || titleLower.includes('carriers as of')) {
+
+    // The War Zone patterns (very specific headlines)
+    if (titleLower.includes('war zone') || titleLower.includes('carriers as of') ||
+        titleLower.includes('bunker talk') || titleLower.includes('ghost bat') ||
+        titleLower.includes('where are the carriers')) {
       return { publication: 'The War Zone', url: 'https://www.twz.com' };
     }
-    if (titleLower.includes('foreign policy')) {
-      return { publication: 'Foreign Policy', url: 'https://foreignpolicy.com' };
-    }
-    if (titleLower.includes('cfr') || titleLower.includes('council on foreign')) {
-      return { publication: 'CFR', url: 'https://www.cfr.org' };
-    }
-    if (titleLower.includes('al jazeera')) {
-      return { publication: 'Al Jazeera', url: 'https://www.aljazeera.com' };
-    }
+
+    // War on the Rocks
     if (titleLower.includes('war on the rocks')) {
       return { publication: 'War on the Rocks', url: 'https://warontherocks.com' };
     }
+
+    // Defense One
+    if (titleLower.includes('defense one') || titleLower.includes('pentagon')) {
+      return { publication: 'Defense One', url: 'https://www.defenseone.com' };
+    }
+
+    // Breaking Defense
     if (titleLower.includes('breaking defense')) {
       return { publication: 'Breaking Defense', url: 'https://breakingdefense.com' };
     }
 
-    // Default for unknown sources - use title as publication name
-    return { publication: 'Various Sources', url: '#' };
+    // Al Jazeera
+    if (titleLower.includes('al jazeera')) {
+      return { publication: 'Al Jazeera', url: 'https://www.aljazeera.com' };
+    }
+
+    // CFR
+    if (titleLower.includes('cfr') || titleLower.includes('council on foreign')) {
+      return { publication: 'CFR', url: 'https://www.cfr.org' };
+    }
+
+    // Foreign Policy - now default for geopolitical/international headlines
+    // Since FP doesn't include "Foreign Policy" in article titles, use it as fallback
+    // for articles that discuss international relations, trade, diplomacy
+    if (titleLower.includes('foreign policy') ||
+        titleLower.includes('trade talks') || titleLower.includes('u.s.-') ||
+        titleLower.includes('trump') || titleLower.includes('biden') ||
+        titleLower.includes('eu-') || titleLower.includes('commodity') ||
+        titleLower.includes('abandon') || titleLower.includes('cubans') ||
+        titleLower.includes('magyar') || titleLower.includes('erdogan')) {
+      return { publication: 'Foreign Policy', url: 'https://foreignpolicy.com' };
+    }
+
+    // Default for truly unknown sources
+    return { publication: 'Multi-Source', url: '#' };
   };
 
   const sources = briefing.sections.flatMap((section) =>

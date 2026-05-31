@@ -554,6 +554,12 @@ async def run_weekly_pipeline():
             with open(global_file, 'w', encoding='utf-8') as f:
                 json.dump(global_briefing, f, indent=2, ensure_ascii=False)
 
+            # Generate Global PDF
+            from pdf_generation.pdf_generator_reportlab import PDFGenerator
+            generator = PDFGenerator()
+            global_pdf_path = generator.generate_pdf(global_briefing)
+            logger.info(f"Generated Global PDF: {global_pdf_path}")
+
             if USE_SUPABASE and supabase:
                 try:
                     await supabase.save_briefing(
@@ -567,6 +573,7 @@ async def run_weekly_pipeline():
 
             pipeline_results["global_briefing"] = {
                 "file": str(global_file),
+                "pdf_path": global_pdf_path,
                 "sections": len(global_briefing.get("sections", [])),
                 "article_count": global_briefing.get("article_count", 0)
             }
