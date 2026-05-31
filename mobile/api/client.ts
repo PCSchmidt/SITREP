@@ -5,10 +5,15 @@ import { Briefing } from '../types/briefing';
 const API_BASE_URL = 'https://sitrep-production-6aac.up.railway.app';
 
 // Backend API Response Types
+interface BackendBriefingSource {
+  source: string;
+  title: string;
+}
+
 interface BackendBriefingSection {
   title: string;
   content: string;
-  sources: string[];
+  sources: BackendBriefingSource[] | string[]; // Support both old and new format
 }
 
 interface BackendBriefing {
@@ -137,7 +142,30 @@ function transformBriefing(
   };
 
   const sources = briefing.sections.flatMap((section) =>
-    section.sources.map((sourceTitle) => {
+    section.sources.map((sourceData) => {
+      // Handle new format: {source: "ISW", title: "Article Title"}
+      if (typeof sourceData === 'object' && 'source' in sourceData && 'title' in sourceData) {
+        const urlMap: Record<string, string> = {
+          'ISW': 'https://understandingwar.org',
+          'Foreign Policy': 'https://foreignpolicy.com',
+          'The War Zone': 'https://www.twz.com',
+          'War on the Rocks': 'https://warontherocks.com',
+          'Defense One': 'https://www.defenseone.com',
+          'Breaking Defense': 'https://breakingdefense.com',
+          'Al Jazeera': 'https://www.aljazeera.com',
+          'CFR': 'https://www.cfr.org',
+          'Council on Foreign Relations': 'https://www.cfr.org',
+        };
+        return {
+          title: sourceData.title,
+          publication: sourceData.source,
+          date: dateStr,
+          url: urlMap[sourceData.source] || '#',
+        };
+      }
+
+      // Handle old format (fallback): just article title string
+      const sourceTitle = typeof sourceData === 'string' ? sourceData : '';
       const { publication, url } = inferPublication(sourceTitle);
       return {
         title: sourceTitle,

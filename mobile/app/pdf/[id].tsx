@@ -188,9 +188,6 @@ export default function PDFViewerScreen() {
           <Text style={{ color: Colors.warning, ...Typography.body, textAlign: 'center' }}>
             {error}
           </Text>
-          <Text style={{ color: Colors.textSubtle, ...Typography.caption, textAlign: 'center', marginTop: Spacing.sm }}>
-            Make sure the backend is running on http://10.0.0.201:8001
-          </Text>
         </View>
       )}
 

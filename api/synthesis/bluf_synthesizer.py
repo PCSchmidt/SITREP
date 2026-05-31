@@ -38,12 +38,17 @@ Generate a JSON object with this exact structure:
     {
       "title": "Covert Operations",
       "content": "Detailed analysis paragraph covering this topic. Include specific facts, dates, and actors. Connect events to strategic trends.",
-      "sources": ["Article title 1", "Article title 2"]
+      "sources": [
+        {"source": "Foreign Policy", "title": "Article title 1"},
+        {"source": "The War Zone", "title": "Article title 2"}
+      ]
     },
     {
       "title": "Military Operations",
       "content": "...",
-      "sources": ["..."]
+      "sources": [
+        {"source": "ISW", "title": "..."}
+      ]
     }
   ],
   "key_developments": [
@@ -67,7 +72,7 @@ Generate a JSON object with this exact structure:
    - Each section should be 3-5 sentences of substantive analysis
    - Connect dots between articles - show trends, not just events
 
-3. **Citations**: Every claim must trace back to a source article. Use article titles in the "sources" array.
+3. **Citations**: Every claim must trace back to a source article. Include BOTH the source publication name AND article title in each sources entry as: {"source": "Publication Name", "title": "Article Title"}. This is CRITICAL for proper attribution.
 
 4. **Tone**: Professional, analytical, factual. Avoid speculation unless clearly labeled as assessment.
 
@@ -272,7 +277,7 @@ Good global section themes:
         self,
         articles: List[Dict],
         region: str = "Middle East",
-        max_articles: int = 15
+        max_articles: int = 30
     ) -> Dict:
         """
         Generate BLUF briefing for a specific region.
@@ -285,11 +290,26 @@ Good global section themes:
         Returns:
             Briefing dict with BLUF, sections, sources
         """
-        # Filter and limit articles
+        # Filter articles for this region
         region_articles = [
             a for a in articles
             if region in a.get('region_tags', [])
-        ][:max_articles]
+        ]
+
+        # Prioritize source diversity: take max N per source to avoid ISW dominance
+        from collections import defaultdict
+        by_source = defaultdict(list)
+        for article in region_articles:
+            by_source[article.get('source', 'Unknown')].append(article)
+
+        # Take up to 5 articles per source, interleaved
+        balanced_articles = []
+        max_per_source = 5
+        for source in sorted(by_source.keys()):  # Sort for consistency
+            balanced_articles.extend(by_source[source][:max_per_source])
+
+        # Limit total
+        region_articles = balanced_articles[:max_articles]
 
         if not region_articles:
             logger.warning(f"No articles found for region: {region}")
