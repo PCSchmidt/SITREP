@@ -263,3 +263,24 @@ Session backup saved to: .claude/backups/
 Resume with /start option 2 and read this file carefully.
 Last git state: b79357b Fix: Temporarily disable Sentry plugin for production build
 Tests: 6 passed, 4 skipped, 9 warnings, 6 errors in 62.17s (0:01:02)
+
+## AUTO-COMPACT WARNING: 2026-05-30T20:24:50Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: fbc85c6 Fix: Replace urllib with httpx in RSS scraper for reliability
+Tests: 6 passed, 4 skipped, 9 warnings, 6 errors in 52.37s
+
+## AUTO-COMPACT WARNING: 2026-05-31T10:59:53Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: bb6e1df Add Global PDF generation + improve source attribution
+Tests: 6 passed, 4 skipped, 9 warnings, 6 errors in 55.16s
+
+## AUTO-COMPACT WARNING: 2026-05-31T13:21:05Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Tests: 6 passed, 4 skipped, 9 warnings, 6 errors in 44.12s

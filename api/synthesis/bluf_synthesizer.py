@@ -65,24 +65,41 @@ Generate a JSON object with this exact structure:
 
 0. **Region Field**: CRITICAL - Set the "region" field to EXACTLY match the region name specified in the user prompt. Do NOT shorten or modify it (e.g., if user says "Europe/Africa", use "Europe/Africa" not "Europe").
 
-1. **BLUF (Bottom Line Up Front)**: Lead with strategic implications. Write 3-4 sentences that synthesize the MOST CRITICAL developments affecting regional stability, power dynamics, or security posture. This should inform decision-making, not just summarize events.
+1. **BLUF (Bottom Line Up Front)**: Lead with comprehensive strategic assessment. Write 5-7 sentences that synthesize:
+   - The MOST CRITICAL military/security developments
+   - Political and economic factors driving or constraining those developments
+   - Second-order effects and cascade risks
+   - Strategic implications for regional stability and great power competition
+   This should be decision-quality intelligence, not event summary.
 
-2. **Sections**: Create 3-4 thematic sections with DEEP analytical content:
-   - Typical themes: Military Operations, Political Developments, Economic Impact, Covert Activities, Regional Stability, Diplomatic Dynamics, etc.
-   - Each section MUST be 6-8 sentences minimum (aim for 150-200 words)
-   - Include specific details: dates, locations, actors, numbers, capabilities
-   - Connect events to broader strategic trends and historical context
-   - Analyze implications and second-order effects
-   - Show causality chains, not just event listings
-   - Draw connections between seemingly discrete events
+2. **Sections**: Create 4-6 thematic sections with COMPREHENSIVE analytical depth:
+   - REQUIRED: At least ONE section must focus on "Economic & Resource Competition" or "Socio-Economic Factors" analyzing trade, sanctions, energy, resources, debt, inflation, demographics, migration, or economic warfare
+   - Other themes to consider: Military Operations, Political/Diplomatic Dynamics, Covert/Intelligence Activities, Regional Stability, Humanitarian/Social Crises
+   - Each section MUST be 10-20 sentences (aim for 300-500 words)
+   - Include granular specifics: exact dates, precise locations, named actors, quantified capabilities, dollar amounts
+   - Integrate socio-economic analysis: How do economic conditions, resource scarcity, demographic pressures, or social movements enable, constrain, or amplify military/political developments?
+   - Connect events to broader strategic trends and historical precedents
+   - Analyze multi-order effects: immediate impact → second-order consequences → strategic trajectory shifts
+   - Show causality chains with evidence, not just chronology
+   - Synthesize connections across military, political, economic, and social domains
 
-3. **Citations**: Every factual claim must cite a source. Include BOTH the source publication name AND article title as: {"source": "Publication Name", "title": "Article Title"}. Cite 3-5 sources per section minimum to show depth.
+3. **Citations**: Every factual claim needs attribution. Include source name, article title, AND URL when available: {"source": "Publication", "title": "Article Title", "url": "https://..."}. Cite 5-8 sources per section to demonstrate thorough research.
 
-4. **Tone**: Professional intelligence analysis. Authoritative, evidence-based, strategic. Use precise military/geopolitical terminology. Distinguish facts from assessments clearly (use "likely", "suggests", "indicates" for analysis).
+4. **Tone**: Professional intelligence analysis at strategic level. Authoritative, evidence-based, multi-domain. Use precise terminology (military, economic, political). Clearly distinguish verified facts from analytical assessments (use "likely", "suggests", "indicates", "assess that" for analysis).
 
-5. **Key Developments**: 5-7 comprehensive bullet points. Each should be a complete sentence with specific details (who, what, when, where, why) - not vague summaries.
+5. **Key Developments**: 7-10 comprehensive bullet points. Each must be a complete, detailed sentence with:
+   - Specific actors and their roles
+   - Precise timing and location
+   - Quantified impact where applicable
+   - Why it matters strategically
+   Not vague event listings—each should read like a mini-analysis.
 
-6. **Outlook**: 2-3 sentence forward-looking assessment identifying near-term risks, likely trajectories, and decision points based on current trends and historical patterns.
+6. **Outlook**: 3-5 sentence forward-looking strategic assessment:
+   - Near-term risks and inflection points (next 30-90 days)
+   - Likely trajectories based on current trends and constraints
+   - Key decision points or trigger events to monitor
+   - Potential black swans or low-probability high-impact scenarios
+   Ground assessments in historical patterns and current evidence.
 
 ## WHAT TO AVOID
 
@@ -92,16 +109,17 @@ Generate a JSON object with this exact structure:
 - Copying article text verbatim
 - Missing or incorrect source citations
 
-## EXAMPLE BLUF (GOOD)
+## EXAMPLE BLUF (EXCELLENT - WITH ECONOMIC INTEGRATION)
 
-"Israeli forces' May 31 crossing of the Litani River and seizure of Beaufort Castle marks a significant escalation on Day 93 of the U.S.-Iran conflict, threatening Nabatieh and deepening Lebanon's humanitarian crisis with over 1 million displaced. Simultaneously, U.S.-Iran negotiations remain deadlocked as Trump tightens nuclear terms while Iran counters with a new 100-knot fast-attack craft and shoot-down of a U.S. drone, demonstrating continued operational capability despite the naval blockade. The conflict's widening ripple effects—including the first Russian drone strike on Romanian civilian infrastructure prompting F-16 deployments—underscore escalating multi-front risks that could draw additional regional actors into the confrontation."
+"Israeli forces' May 31 crossing of the Litani River marks a significant escalation on Day 93 of the U.S.-Iran conflict, threatening Nabatieh and deepening Lebanon's humanitarian crisis with over 1 million displaced. The mutual blockade—U.S. naval cordon on Iranian ports and Iran's Strait of Hormuz closure—has driven oil prices to $147/barrel and triggered UN warnings of a looming global food crisis as 40% of seaborne grain shipments remain stuck. U.S.-Iran negotiations are deadlocked over conflicting demands: Washington seeks a 20-year uranium enrichment freeze while Tehran demands $250 billion in war reparations and full sanctions relief, with both sides constrained by domestic political pressures ahead of U.S. midterms and Iran's Assembly of Experts succession crisis. Iran's unveiling of a 100-knot fast-attack craft and successful drone shootdown demonstrates retained operational capability despite three months of sustained bombardment, while the conflict's economic ripple effects—Romanian inflation hitting 34% after Russian drone strikes disrupted Black Sea shipping—illustrate how localized military actions cascade into region-wide socio-economic instability. The strategic calculus now centers on whether economic pain (Iranian GDP contracted 18% in Q2) forces compromise before Winter 2026-27 energy shortages trigger European political fractures."
 
 This BLUF:
-- Leads with SPECIFIC tactical developments (Litani crossing, Beaufort Castle, date, numbers)
-- Identifies STRATEGIC implications (escalation trajectory, humanitarian impact)
-- Includes CAPABILITY assessments (Iran's new naval assets, drone shootdown)
-- Connects REGIONAL dynamics (NATO, Romanian strike, multi-front escalation risk)
-- Provides DECISION-RELEVANT intelligence (deadlocked negotiations, operational tempo)
+- Leads with SPECIFIC tactical developments (Litani crossing, date, displacement numbers)
+- Integrates ECONOMIC drivers (oil at $147/bbl, grain shipments, GDP contraction 18%)
+- Connects MILITARY capabilities to ECONOMIC constraints (operational capability despite bombardment vs. economic pain forcing compromise)
+- Analyzes POLITICAL pressures from ECONOMIC conditions (midterms, succession crisis, European energy shortages)
+- Shows CASCADING economic effects across regions (Romanian inflation from Black Sea disruption)
+- Provides DECISION-RELEVANT intelligence grounded in multi-domain reality (strategic calculus balancing military capability vs. economic pressure)
 
 Generate briefings that EXCEED this quality standard with even more analytical depth."""
 
@@ -115,14 +133,16 @@ CRITICAL: This is a GLOBAL briefing, not a regional one. Do NOT summarize each r
 
 ## CONTENT REQUIREMENTS
 
-- Produce 4-6 substantive thematic sections (minimum 250 words each)
-- Each section must connect events from AT LEAST two different regions
-- Include 8-12 key developments (cross-regional bullets with specifics)
-- Write comprehensive analysis with specific details: actors, dates, locations, capabilities, numbers
-- This is a STRATEGIC global intelligence report - be thorough, analytical, and synthesize connections
+- Produce 5-7 substantive thematic sections (minimum 400-600 words each)
+- Each section must connect events from AT LEAST two different regions, showing causal links
+- Include 10-15 key developments (cross-regional bullets with specific actors, dates, impacts)
+- Write comprehensive multi-domain analysis: military, political, economic, social factors
+- Integrate socio-economic drivers: How do economic conditions, resource competition, trade flows, demographic pressures, or social movements shape or constrain strategic behavior across regions?
+- This is a STRATEGIC global intelligence report for senior decision-makers - maximize analytical depth
 - Identify cascading effects, second-order implications, and strategic inflection points
 - Analyze how developments in one theater enable, constrain, or amplify dynamics in another
-- Assess great power competition dynamics, alliance structures, and strategic resource flows
+- Assess great power competition dynamics, alliance structures, strategic resource flows, and economic warfare
+- Connect military operations to their economic drivers and political constraints
 
 ## OUTPUT FORMAT
 

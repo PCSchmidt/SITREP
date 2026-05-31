@@ -425,7 +425,7 @@ async def generate_pdf(region: str = "Europe/Africa"):
         Path to generated PDF
     """
     try:
-        from pdf_generation.pdf_generator_reportlab import PDFGenerator
+        from pdf_generation.pdf_generator_v2 import PDFGeneratorV2 as PDFGenerator
 
         # Find latest briefing JSON for region
         briefing_dir = Path("data/briefings")
@@ -509,7 +509,7 @@ async def run_weekly_pipeline():
 
                 # Synthesize briefing
                 from synthesis.bluf_synthesizer import BLUFSynthesizer
-                from pdf_generation.pdf_generator_reportlab import PDFGenerator
+                from pdf_generation.pdf_generator_v2 import PDFGeneratorV2 as PDFGenerator
 
                 # Load scraped articles
                 scraped_dir = Path("data/scraped")
@@ -594,7 +594,7 @@ async def run_weekly_pipeline():
                 json.dump(global_briefing, f, indent=2, ensure_ascii=False)
 
             # Generate Global PDF
-            from pdf_generation.pdf_generator_reportlab import PDFGenerator
+            from pdf_generation.pdf_generator_v2 import PDFGeneratorV2 as PDFGenerator
             generator = PDFGenerator()
             global_pdf_path = generator.generate_pdf(global_briefing)
             logger.info(f"Generated Global PDF: {global_pdf_path}")

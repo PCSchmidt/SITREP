@@ -1759,3 +1759,999 @@ Session ended (crash or manual stop).
 Gate in progress: 
 Last git commit: 4fbe383 v0.10: Mobile app fully functional on physical device
 Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T13:02:45Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 6702d7b Fix: Guarantee correct region field in synthesized briefings
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T13:03:06Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 6702d7b Fix: Guarantee correct region field in synthesized briefings
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T13:06:22Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 6702d7b Fix: Guarantee correct region field in synthesized briefings
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T13:11:36Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 6702d7b Fix: Guarantee correct region field in synthesized briefings
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T13:18:32Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 93604b6 Roadmap: Insert v0.11 Source Expansion and v0.12 Global Briefing
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T14:06:42Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ddeadaf PLANS: Document CloakBrowser path for post-v1.0 source expansion
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T15:04:15Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b0954a6 Docs: Mark v0.11 and v0.12 complete in SPEC and roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T15:14:40Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: df33065 Docs: Catalog 20 new source candidates with RSS probe results
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T15:25:02Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: dfe59d3 Docs: Mark v0.13 Analytics complete in SPEC and roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T16:19:13Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: f535b93 Docs: Mark v0.14 Legal complete in SPEC and roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T16:21:23Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: f535b93 Docs: Mark v0.14 Legal complete in SPEC and roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T17:04:40Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 70267c5 Docs: Mark v0.15 GDELT complete in SPEC and roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T17:04:55Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 70267c5 Docs: Mark v0.15 GDELT complete in SPEC and roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T17:17:41Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: ff0df4c Docs: Full documentation audit and alignment (v0.15 session)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T17:27:11Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T17:30:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T17:31:00Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-29T17:37:38Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T10:59:47Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:01:25Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:04:24Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:09:00Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:10:37Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:15:20Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:16:14Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:18:51Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:20:06Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:25:49Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:26:38Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:28:20Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:29:16Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:30:15Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:34:06Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:44:30Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:46:21Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:47:21Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:48:03Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:49:15Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T11:53:39Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:02:08Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:03:10Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:06:08Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:07:31Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:08:14Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:11:21Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:12:24Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:15:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:21:38Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4b0e01c Docs: Mark v0.16 App Store Prep complete
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:36:50Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 6b53d7c Docs: Mark v0.16 complete in roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:38:33Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 6b53d7c Docs: Mark v0.16 complete in roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:41:10Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 6b53d7c Docs: Mark v0.16 complete in roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:45:55Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 6b53d7c Docs: Mark v0.16 complete in roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T12:47:39Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 6b53d7c Docs: Mark v0.16 complete in roadmap
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T13:02:52Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 42d9f4b Fix: Update React to 19.2.6 for EAS build compatibility
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T13:08:22Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 42d9f4b Fix: Update React to 19.2.6 for EAS build compatibility
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T13:13:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 6fe8652 Fix: Add Sentry plugin config for EAS build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T13:21:38Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T13:51:18Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T13:53:55Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T13:56:10Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T13:57:01Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T14:23:55Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T14:31:07Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T14:32:40Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T14:34:28Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T14:41:53Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T14:55:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T14:59:45Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T15:10:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T15:19:03Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T15:23:13Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T15:24:07Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T15:25:59Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T17:58:57Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T18:19:43Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T18:22:11Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T18:24:59Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: b79357b Fix: Temporarily disable Sentry plugin for production build
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T18:32:04Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 37a7274 Add Western Hemisphere sources and fix global briefing
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T18:53:47Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 37a7274 Add Western Hemisphere sources and fix global briefing
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T18:56:56Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 37a7274 Add Western Hemisphere sources and fix global briefing
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T19:14:36Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: f9d0f93 Enhance global briefing: 2x articles, longer sections, comprehensive analysis
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T19:18:55Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: f9d0f93 Enhance global briefing: 2x articles, longer sections, comprehensive analysis
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T19:24:50Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 7540020 Docs: Align all documentation for v0.17 Beta Testing
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T19:25:04Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 7540020 Docs: Align all documentation for v0.17 Beta Testing
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T19:25:31Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 7540020 Docs: Align all documentation for v0.17 Beta Testing
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T19:26:03Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 7540020 Docs: Align all documentation for v0.17 Beta Testing
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T19:27:24Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 7540020 Docs: Align all documentation for v0.17 Beta Testing
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T19:29:54Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 7540020 Docs: Align all documentation for v0.17 Beta Testing
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T19:44:29Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4e052c6 Fix: Use unique IDs for briefings (region + date)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T20:03:19Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4e052c6 Fix: Use unique IDs for briefings (region + date)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T20:09:14Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4e052c6 Fix: Use unique IDs for briefings (region + date)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T20:10:48Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 4e052c6 Fix: Use unique IDs for briefings (region + date)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T20:28:10Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: fbc85c6 Fix: Replace urllib with httpx in RSS scraper for reliability
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T20:44:24Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: fbc85c6 Fix: Replace urllib with httpx in RSS scraper for reliability
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T20:44:46Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: fbc85c6 Fix: Replace urllib with httpx in RSS scraper for reliability
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T20:51:32Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: fbc85c6 Fix: Replace urllib with httpx in RSS scraper for reliability
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T20:51:57Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: fbc85c6 Fix: Replace urllib with httpx in RSS scraper for reliability
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T20:56:48Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: dc8f813 v0.17: Multi-source intelligence briefings (7 sources, 109 articles)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T21:00:17Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: dc8f813 v0.17: Multi-source intelligence briefings (7 sources, 109 articles)
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T21:07:44Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 526f96e Docs: Update all documentation to reflect v0.17 multi-source progress
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T21:17:00Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 526f96e Docs: Update all documentation to reflect v0.17 multi-source progress
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T22:56:22Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 526f96e Docs: Update all documentation to reflect v0.17 multi-source progress
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T23:07:02Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 526f96e Docs: Update all documentation to reflect v0.17 multi-source progress
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T23:09:24Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 526f96e Docs: Update all documentation to reflect v0.17 multi-source progress
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T23:12:43Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 526f96e Docs: Update all documentation to reflect v0.17 multi-source progress
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T23:23:52Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 526f96e Docs: Update all documentation to reflect v0.17 multi-source progress
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-30T23:36:05Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 526f96e Docs: Update all documentation to reflect v0.17 multi-source progress
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T00:29:22Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: af44d90 Fix: PDF endpoint region parameter + Supabase debug endpoints
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T00:30:55Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: af44d90 Fix: PDF endpoint region parameter + Supabase debug endpoints
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T00:47:13Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 1baa5a9 Fix: GDELT and Americas Quarterly scraper reliability
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T00:49:00Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 1baa5a9 Fix: GDELT and Americas Quarterly scraper reliability
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T00:49:22Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 1baa5a9 Fix: GDELT and Americas Quarterly scraper reliability
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T00:50:19Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 1baa5a9 Fix: GDELT and Americas Quarterly scraper reliability
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:01:57Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 8147359 Fix: Supabase save failure - remove upsert on_conflict constraint
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:03:04Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 8147359 Fix: Supabase save failure - remove upsert on_conflict constraint
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:04:32Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 8147359 Fix: Supabase save failure - remove upsert on_conflict constraint
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:05:24Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 8147359 Fix: Supabase save failure - remove upsert on_conflict constraint
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:20:34Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 8147359 Fix: Supabase save failure - remove upsert on_conflict constraint
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:22:09Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 8147359 Fix: Supabase save failure - remove upsert on_conflict constraint
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:31:32Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:45:00Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:50:30Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:53:44Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:54:34Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:56:19Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T01:59:18Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T02:01:48Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T02:02:51Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T02:07:40Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T02:09:23Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T02:10:52Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T02:16:43Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 00fd2ba Fix: PDF region parameter + source attribution in mobile app
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T02:22:57Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: bb6e1df Add Global PDF generation + improve source attribution
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T02:23:36Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: bb6e1df Add Global PDF generation + improve source attribution
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T02:30:23Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: bb6e1df Add Global PDF generation + improve source attribution
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T02:42:14Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: bb6e1df Add Global PDF generation + improve source attribution
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T10:51:17Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: bb6e1df Add Global PDF generation + improve source attribution
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T11:28:27Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: f10de1f Fix source attribution + increase diversity + remove redundant message
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T11:33:34Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: f10de1f Fix source attribution + increase diversity + remove redundant message
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T11:36:42Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: f10de1f Fix source attribution + increase diversity + remove redundant message
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T11:37:46Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: f10de1f Fix source attribution + increase diversity + remove redundant message
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T11:43:44Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 52d4420 v0.17: Daily automation with internal scheduler
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T12:00:45Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 52d4420 v0.17: Daily automation with internal scheduler
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T12:01:40Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 52d4420 v0.17: Daily automation with internal scheduler
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T12:02:18Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 52d4420 v0.17: Daily automation with internal scheduler
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T12:10:49Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 52d4420 v0.17: Daily automation with internal scheduler
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T12:22:53Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 52d4420 v0.17: Daily automation with internal scheduler
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T12:44:59Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 52d4420 v0.17: Daily automation with internal scheduler
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T13:03:15Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 52d4420 v0.17: Daily automation with internal scheduler
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T13:26:05Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T13:26:37Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T13:33:38Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T13:34:46Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T13:36:52Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T13:40:54Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T15:45:25Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T15:46:20Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T15:52:05Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T15:53:26Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T15:56:18Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T15:58:05Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T16:05:12Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T16:06:08Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T16:09:47Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T16:19:22Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2
+
+## STOP EVENT: 2026-05-31T16:40:48Z
+Session ended (crash or manual stop).
+Gate in progress: 
+Last git commit: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
+Resume: /start option 2

@@ -50,21 +50,22 @@ class GDELTScraper(BaseScraper):
 
     # Three targeted region queries covering our worst coverage gaps.
     # Country codes: ISO 3166-1 alpha-2. Each query confirmed reachable via probe.
+    # Now includes economic keywords for socio-economic context
     QUERIES = [
         {
-            "keywords": "war military conflict security government protest sanctions coup",
+            "keywords": "war military conflict security government protest sanctions coup trade economy inflation debt corruption cartel drug trafficking migration",
             "countries": ["BR", "CO", "MX", "AR", "VE", "CU", "PE", "CL"],
             "region_tag": "Western Hemisphere",
             "label": "Latin America",
         },
         {
-            "keywords": "military conflict coup security peacekeeping insurgency government",
+            "keywords": "military conflict coup security peacekeeping insurgency government drought famine humanitarian crisis minerals oil economy sanctions trade",
             "countries": ["ZA", "KE", "NG", "ET", "GH", "TZ", "CI", "SN", "RW", "UG"],
             "region_tag": "Europe/Africa",
             "label": "Sub-Saharan Africa",
         },
         {
-            "keywords": "military maritime security sovereignty China ASEAN conflict territorial",
+            "keywords": "military maritime security sovereignty China ASEAN conflict territorial supply chain trade semiconductor rare earth economy infrastructure belt road",
             "countries": ["ID", "PH", "VN", "TH", "MY", "MM", "AU", "NZ", "FJ", "PG"],
             "region_tag": "Indo-Pacific",
             "label": "Southeast Asia / Oceania",
