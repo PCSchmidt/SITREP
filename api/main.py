@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 # Application version. Bump on each deploy so the running build can be
 # identified via GET / (used to confirm a Railway redeploy is live).
-APP_VERSION = "0.20.4"
+APP_VERSION = "0.21.0"
 
 # Initialize Supabase client (optional for local dev)
 try:
@@ -430,7 +430,7 @@ async def generate_pdf(region: str = "Europe/Africa"):
         Path to generated PDF
     """
     try:
-        from pdf_generation.pdf_generator_v2 import PDFGeneratorV2 as PDFGenerator
+        from pdf_generation.pdf_generator_v3 import PDFGeneratorV3 as PDFGenerator
 
         # Find latest briefing JSON for region
         briefing_dir = Path("data/briefings")
@@ -508,13 +508,14 @@ async def run_weekly_pipeline():
             return JSONResponse(status_code=500, content=pipeline_results)
 
         # Step 2 & 3: Synthesize briefings and generate PDFs for each region
+        regional_briefings = []  # collected to compose the Global briefing
         for region in regions:
             try:
                 logger.info(f"Processing region: {region}")
 
                 # Synthesize briefing
                 from synthesis.bluf_synthesizer import BLUFSynthesizer
-                from pdf_generation.pdf_generator_v2 import PDFGeneratorV2 as PDFGenerator
+                from pdf_generation.pdf_generator_v3 import PDFGeneratorV3 as PDFGenerator
 
                 # Load scraped articles
                 scraped_dir = Path("data/scraped")
@@ -530,6 +531,8 @@ async def run_weekly_pipeline():
                 # Synthesize
                 synthesizer = BLUFSynthesizer()
                 briefing = await synthesizer.synthesize_region(all_articles, region)
+                briefing['region'] = region
+                regional_briefings.append(briefing)
 
                 # Save briefing JSON (file-based backup)
                 briefing_dir = Path("data/briefings")
@@ -572,34 +575,69 @@ async def run_weekly_pipeline():
                 logger.error(error_msg)
                 pipeline_results["errors"].append(error_msg)
 
-        # Step 4: Generate Global cross-regional briefing
+        # Step 4: Compose the Global briefing from the four regional briefings.
+        # Global = cross-regional executive summary + every region IN FULL (no
+        # fragile mega-synthesis). The exec summary is attempted via the LLM;
+        # on any failure we fall back to stitching the regional BLUFs so Global
+        # can never fail once the regions succeeded.
         try:
-            logger.info("Step 4: Generating global cross-regional briefing")
-            from synthesis.bluf_synthesizer import BLUFSynthesizer
+            logger.info("Step 4: Composing global briefing from regional briefings")
+            from pdf_generation.pdf_generator_v3 import PDFGeneratorV3 as PDFGenerator
 
-            scraped_dir = Path("data/scraped")
-            all_articles = []
-            for json_file in scraped_dir.glob("*.json"):
-                with open(json_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    if isinstance(data, list):
-                        all_articles.extend(data)
-                    elif isinstance(data, dict) and 'articles' in data:
-                        all_articles.extend(data['articles'])
+            if not regional_briefings:
+                raise ValueError("no regional briefings available to compose Global")
 
-            synthesizer = BLUFSynthesizer()
-            global_briefing = await synthesizer.synthesize_global(all_articles)
+            # Cross-regional executive summary (best-effort LLM; resilient fallback)
+            exec_summary = ""
+            try:
+                from synthesis.bluf_synthesizer import BLUFSynthesizer
+                scraped_dir = Path("data/scraped")
+                all_articles = []
+                for json_file in scraped_dir.glob("*.json"):
+                    with open(json_file, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        if isinstance(data, list):
+                            all_articles.extend(data)
+                        elif isinstance(data, dict) and 'articles' in data:
+                            all_articles.extend(data['articles'])
+                gsyn = await BLUFSynthesizer().synthesize_global(all_articles)
+                exec_summary = (gsyn or {}).get('bluf', '') or ''
+            except Exception as e:
+                logger.warning(f"Global exec-summary synthesis failed; using regional BLUFs: {e}")
+            if not exec_summary:
+                exec_summary = "  ".join(
+                    f"{b.get('region')}: {b.get('bluf', '')}" for b in regional_briefings
+                ).strip()
+
+            # Flatten sections (region-prefixed) so the mobile app shows the full
+            # global picture; keep full sub-briefings under 'regions' for the PDF.
+            flat_sections = []
+            for b in regional_briefings:
+                for s in b.get('sections', []):
+                    flat_sections.append({
+                        'title': f"{b.get('region')}: {s.get('title', '')}",
+                        'content': s.get('content', ''),
+                        'sources': s.get('sources', []),
+                    })
+
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+            global_briefing = {
+                'region': 'Global',
+                'generated_at': datetime.now(timezone.utc).isoformat(),
+                'bluf': exec_summary,
+                'regions': regional_briefings,   # full content -> drives the PDF
+                'sections': flat_sections,       # flattened -> drives the app
+                'key_developments': [],
+                'outlook': '',
+                'article_count': sum(b.get('article_count', 0) for b in regional_briefings),
+            }
 
             briefing_dir = Path("data/briefings")
             briefing_dir.mkdir(parents=True, exist_ok=True)
-            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             global_file = briefing_dir / f"global_{timestamp}.json"
-
             with open(global_file, 'w', encoding='utf-8') as f:
                 json.dump(global_briefing, f, indent=2, ensure_ascii=False)
 
-            # Generate Global PDF
-            from pdf_generation.pdf_generator_v2 import PDFGeneratorV2 as PDFGenerator
             generator = PDFGenerator()
             global_pdf_path = generator.generate_pdf(global_briefing)
             logger.info(f"Generated Global PDF: {global_pdf_path}")
@@ -618,10 +656,11 @@ async def run_weekly_pipeline():
             pipeline_results["global_briefing"] = {
                 "file": str(global_file),
                 "pdf_path": global_pdf_path,
-                "sections": len(global_briefing.get("sections", [])),
-                "article_count": global_briefing.get("article_count", 0)
+                "regions": len(regional_briefings),
+                "sections": len(flat_sections),
+                "article_count": global_briefing["article_count"],
             }
-            logger.info(f"Global briefing complete: {len(global_briefing.get('sections', []))} sections")
+            logger.info(f"Global briefing complete: {len(regional_briefings)} regions, {len(flat_sections)} sections")
 
         except Exception as e:
             error_msg = f"Global briefing failed: {str(e)}"
