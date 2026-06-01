@@ -437,7 +437,13 @@ Good global section themes:
 
         filled = 0
         for section in briefing.get('sections', []):
+            if not isinstance(section, dict):
+                continue
             for src in (section.get('sources') or []):
+                # Some schemas (e.g. the global briefing) emit sources as plain
+                # strings rather than {url,title,source} dicts — skip those.
+                if not isinstance(src, dict):
+                    continue
                 if not src.get('url'):
                     match = url_map.get(self._norm_title(src.get('title', '')))
                     if match:
