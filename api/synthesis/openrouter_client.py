@@ -143,6 +143,13 @@ class OpenRouterClient:
             # Extract response text
             content = data['choices'][0]['message']['content']
 
+            # Some models intermittently return null content (e.g. content
+            # filter, empty completion). Treat as a failure so the waterfall
+            # falls through to the next model instead of propagating None.
+            if not content:
+                finish = data['choices'][0].get('finish_reason', 'unknown')
+                raise Exception(f"{model_id} returned empty content (finish_reason={finish})")
+
             # Extract usage metadata
             usage = data.get('usage', {})
             metadata = {

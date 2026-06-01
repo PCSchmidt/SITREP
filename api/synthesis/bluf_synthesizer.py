@@ -253,7 +253,7 @@ Good global section themes:
             )
 
         try:
-            cleaned = response_text.strip()
+            cleaned = (response_text or "").strip()
             if cleaned.startswith('```json'):
                 cleaned = cleaned[7:]
             if cleaned.startswith('```'):
@@ -366,7 +366,7 @@ Good global section themes:
         # Parse JSON response (strip markdown code fences if present)
         try:
             # Remove markdown code fences if present
-            cleaned_response = response_text.strip()
+            cleaned_response = (response_text or "").strip()
             if cleaned_response.startswith('```json'):
                 cleaned_response = cleaned_response[7:]  # Remove ```json
             if cleaned_response.startswith('```'):
