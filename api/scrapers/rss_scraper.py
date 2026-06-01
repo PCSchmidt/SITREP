@@ -33,8 +33,9 @@ class RSSFeedScraper(BaseScraper):
         'Task & Purpose': 'https://taskandpurpose.com/feed/',
 
         # Mainstream International News
-        'Reuters World': 'https://www.reuters.com/rssFeed/worldNews',
-        'Reuters Business': 'https://www.reuters.com/rssFeed/businessNews',
+        # Reuters discontinued public RSS (URLs now 401); use Google News as a
+        # per-domain proxy. Collapses the old World/Business/Markets feeds into one.
+        'Reuters': 'https://news.google.com/rss/search?q=site:reuters.com+when:7d&hl=en-US&gl=US&ceid=US:en',
         'BBC World': 'http://feeds.bbci.co.uk/news/world/rss.xml',
         'BBC Business': 'http://feeds.bbci.co.uk/news/business/rss.xml',
         'The Guardian World': 'https://www.theguardian.com/world/rss',
@@ -42,20 +43,21 @@ class RSSFeedScraper(BaseScraper):
 
         # Economic & Business News
         'Financial Times World': 'https://www.ft.com/world?format=rss',
-        'Bloomberg Politics': 'https://www.bloomberg.com/politics/feeds/sitemap_news.xml',
+        # Bloomberg blocks RSS (403); Google News proxy.
+        'Bloomberg': 'https://news.google.com/rss/search?q=site:bloomberg.com+when:7d&hl=en-US&gl=US&ceid=US:en',
         'The Economist': 'https://www.economist.com/international/rss.xml',
-        'Reuters Markets': 'https://www.reuters.com/rssFeed/marketsNews',
 
         # Think Tanks & Analysis
-        'CSIS': 'https://www.csis.org/analysis/feed',
-        'CFR Analysis': 'https://www.cfr.org/rss/feed',
-        'World Bank News': 'https://www.worldbank.org/en/news/rss',
-        'Brookings': 'https://www.brookings.edu/feed/',
+        'CSIS': 'https://www.csis.org/rss.xml',  # native RSS (old /analysis/feed 404'd)
+        # World Bank / Brookings / Carnegie native feeds are dead/HTML; Google News proxy.
+        # (CFR Analysis removed — already covered by the dedicated CFRScraper at cfr.org/feed.)
+        'World Bank': 'https://news.google.com/rss/search?q=site:worldbank.org+when:7d&hl=en-US&gl=US&ceid=US:en',
+        'Brookings': 'https://news.google.com/rss/search?q=site:brookings.edu+when:7d&hl=en-US&gl=US&ceid=US:en',
+        'Carnegie Endowment': 'https://news.google.com/rss/search?q=site:carnegieendowment.org+when:7d&hl=en-US&gl=US&ceid=US:en',
 
         # Regional specialists
         'The Diplomat': 'https://thediplomat.com/feed/',
         'Middle East Eye': 'https://www.middleeasteye.net/rss',
-        'Carnegie Endowment': 'https://carnegieendowment.org/feeds/all',
     }
 
     # Region tagging keywords (including economic terms)
