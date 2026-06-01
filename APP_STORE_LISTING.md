@@ -61,8 +61,8 @@ SOURCES WORLDWIDE
 SITREP aggregates open-source intelligence from defense publications and regional sources including:
 • ISW (Institute for the Study of War) — daily Ukraine and Iran assessments
 • Defense One — Pentagon policy and military technology
-• Breaking Defense — defense procurement and emerging tech
 • War on the Rocks — strategic analysis
+• Reuters, Bloomberg, World Bank — economic and market intelligence
 • The War Zone — military aviation and weapons systems
 • Al Jazeera — Middle East and Africa perspective
 • GDELT Global Knowledge Graph — local-language sources from 30+ countries
@@ -70,8 +70,8 @@ SITREP aggregates open-source intelligence from defense publications and regiona
 PDF EXPORT
 Every briefing is available as a professional PDF report. Share via email or AirDrop, save to Files, or open in any PDF reader. Formatted in the same style as professional intelligence products.
 
-WEEKLY AUTOMATED UPDATES
-New briefings are generated every Sunday, synthesized by AI from the week's open-source news. No subscriptions, no accounts required.
+DAILY AUTOMATED UPDATES
+New briefings are generated every day, synthesized by AI from the latest open-source news. No subscriptions, no accounts required.
 
 ---
 
@@ -110,13 +110,13 @@ GLOBAL VIEW
 The ALL tab synthesizes all four regions into a cross-regional strategic overview — identifying connections between theaters and global strategic trends.
 
 SOURCES FROM 30+ COUNTRIES
-Defense One, ISW, Breaking Defense, War on the Rocks, The War Zone, Al Jazeera, and GDELT — covering local-language sources worldwide machine-translated to English.
+ISW, Defense One, War on the Rocks, The War Zone, Al Jazeera, Foreign Policy, CFR, Reuters, Bloomberg, World Bank, plus GDELT — covering local-language sources worldwide machine-translated to English.
 
 PDF BRIEFINGS
 Every briefing exports as a professional PDF. Share, save to device, or open in any reader.
 
-WEEKLY UPDATES — NO ACCOUNT REQUIRED
-New briefings every Sunday. Free. No login. No subscription.
+DAILY UPDATES — NO ACCOUNT REQUIRED
+New briefings every day. Free. No login. No subscription.
 
 ⚠ AI-generated from open-source news. Not official intelligence. Not for operational use.
 ```

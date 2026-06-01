@@ -94,7 +94,7 @@ Based on 4px grid:
 
 ### 1. BriefingCard
 ```
-Purpose: Display weekly briefing summary on home screen
+Purpose: Display daily briefing summary on home screen
 Layout:
   - Full width card
   - 12px padding

@@ -34,6 +34,40 @@
 
 ---
 
+## UPCOMING TASKS (flagged 2026-06-01, user-requested)
+
+### A. Documentation reconciliation + codebase cleanup — ✅ DONE (2026-06-01)
+
+- ✅ **Aligned/reconciled docs** to v0.21: README, SPEC.md, VERSION_ROADMAP.md
+  (added v0.17–v0.21 rows), DEPLOYMENT.md + DEPLOYMENT_CONFIG.md (corrected the
+  stale "weekly Railway cron" → in-app daily APScheduler), APP_STORE_LISTING.md
+  (Sunday→daily, source list), DESIGN_SYSTEM.md. (No CLAUDE.md/CHANGELOG.md at
+  root.) FUTURE_VISION.md left as an explicitly point-in-time aspirational doc.
+- ✅ **Removed superseded files**: `pdf_generator.py`, `pdf_generator_v2.py`,
+  `pdf_generator_reportlab.py` (v3 is the only generator wired in), `iiss_scraper.py`.
+- ✅ **Untracked accidental artifacts**: 509 `__pycache__`/`.pyc`, `mobile/api/venv/`,
+  sample `data/pdfs|briefings|scraped/`, `.claude/state`; broadened `.gitignore`.
+- ✅ **Moved one-off test scripts** → `api/scripts/`.
+- ⚠️ Optional remaining: archive dated scratch logs (`scratchnotes.md`,
+  `SESSION_NOTES_2026-05-27.md`) — low priority; left in place as history.
+
+### B. Mobile app-store deployment (FIRST-TIME — needs step-by-step guidance)
+
+- **Google Play Store FIRST**, then Apple App Store ~weeks later after seeing
+  how Google goes. User is new to app deployment.
+- Builds on v0.16 App Store Prep (EAS config + store listing + checklist).
+- Lead-time prerequisites to gather EARLY:
+  - Google Play Console account ($25 one-time)
+  - Hosted **Privacy Policy URL** (REQUIRED — app uses Mixpanel + Sentry;
+    PRIVACY_POLICY.md exists, needs public hosting e.g. GitHub Pages)
+  - **Production AAB** build (not the preview APK) via EAS, with Play App Signing
+  - Store assets: icon, feature graphic (1024×500), phone screenshots,
+    short (80 char) + full (4000 char) descriptions, category
+  - Play **Data Safety** form + **content rating** questionnaire
+  - Start on **internal/closed testing** track before production rollout
+
+---
+
 ## DEFERRED WORK (Post-v1.0)
 
 ### Source Expansion Wave 2 (v1.1+)
@@ -284,3 +318,17 @@ Session backup saved to: .claude/backups/
 Resume with /start option 2 and read this file carefully.
 Last git state: 41026bd v0.18: Professional PDF redesign + enhanced synthesis depth
 Tests: 6 passed, 4 skipped, 9 warnings, 6 errors in 44.12s
+
+## AUTO-COMPACT WARNING: 2026-05-31T19:03:45Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: dab339d Add feedparser dependency for RSS scrapers
+Tests: 1 error in 1.04s
+
+## AUTO-COMPACT WARNING: 2026-06-01T13:39:34Z
+Context auto-compacted. 70-80% of detail was lost.
+Session backup saved to: .claude/backups/
+Resume with /start option 2 and read this file carefully.
+Last git state: f6f3853 Docs: reconcile README to v0.21 state
+Tests: 6 errors in 1.98s

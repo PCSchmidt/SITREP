@@ -5,8 +5,8 @@
 ## PROJECT
 
 **App name**: SITREP  
-**Current gate**: v0.17 - IN PROGRESS  
-**Status**: Beta Testing Phase - Android functional, working toward Play Store Internal Testing  
+**Current gate**: v0.21 - DONE (working toward v1.0 Production Live)  
+**Status**: Pre-Launch - backend v0.21 live (executive PDF + composite Global), Android preview build on device, preparing Google Play Store submission  
 **Build type**: Production / GA  
 **Target launch**: 2026-08-21 (3 months)  
 
@@ -14,7 +14,7 @@
 
 ## ELEVATOR PITCH
 
-SITREP delivers military-grade geopolitical intelligence briefings to mobile. It scrapes open-source defense publications (ISW, Defense One, IISS, Breaking Defense), synthesizes them using AI, and presents weekly threat assessments in professional BLUF format—the same structure used by military intelligence products. Deployed to App Store and Play Store as a portfolio showcase.
+SITREP delivers military-grade geopolitical intelligence briefings to mobile. It scrapes open-source defense, economic, and think-tank publications (ISW, Defense One, War on the Rocks, Reuters, Bloomberg, CFR, and more), synthesizes them using a multi-model AI pipeline, and presents daily threat assessments in professional BLUF format—the same structure used by military intelligence products. Deployed to App Store and Play Store as a portfolio showcase.
 
 ---
 
@@ -26,7 +26,7 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - ✅ 4 geographic regions: Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere
 - ✅ Cited sources from Tier 1 defense publications
 - ✅ Heavy AI-generated content disclaimers
-- ✅ **PDF export** - Auto-generated professional PDF report (15-20 pages, all regions)
+- ✅ **PDF export** - Auto-generated executive-design PDF report (PT Serif + Lato editorial layout, hyperlinked sources) per region + composite Global
 
 ### Mobile Experience
 - ✅ React Native + Expo (iOS + Android)
@@ -39,16 +39,16 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - ✅ Save/bookmark briefings locally on device
 - ✅ Offline reading support
 - ✅ Smooth navigation and loading states
-- ✅ ALL tab shows global combined briefing (cross-regional synthesis) instead of 4 separate cards
+- ✅ ALL tab shows composite Global briefing - all four regions stitched in full plus a cross-regional executive summary (not a thin condensed synthesis)
 
 ### Infrastructure
 - ✅ FastAPI backend on Railway
 - ✅ Supabase for briefing caching
 - ✅ Playwright for scraping open-source news (CloakBrowser optional for paywalls)
 - ✅ Multi-model LLM synthesis (DeepSeek V4 Flash → V3.2 → Kimi K2.5 fallback via Open Router, 99% cost reduction)
-- ✅ Cost-optimized: single cached briefing per week served to all users (~$0.001/briefing)
-- ✅ 7 working scrapers (ISW + Defense One + War on the Rocks + The War Zone + Al Jazeera + Foreign Policy + CFR, 109 articles from latest scrape)
-- ✅ Global combined briefing endpoint /briefing/global for cross-regional synthesis
+- ✅ Cost-optimized: single cached briefing per day served to all users (~$0.013/run regardless of user count)
+- ✅ 13 scrapers, ~540 articles/run (defense + RSS economic/think-tank feeds via Google News proxy + Guardian API + US/UK government + GDELT)
+- ✅ Composite Global briefing endpoint /briefing/global - all four regions in full + cross-regional executive summary
 
 ### Monitoring & Analytics
 - ✅ Mixpanel for user behavior tracking (services/analytics.ts, 5 events)
@@ -76,36 +76,34 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 
 ## SCRAPING SOURCES
 
-**Active (v0.17, 7 sources working, 109 articles latest scrape):**
+**Active (v0.21, 13 scrapers, ~540 articles/run):**
 
-- ISW - Ukraine/Russia, Iran daily assessments (Playwright, 17 articles)
-- Defense One - Pentagon policy, military tech (RSS via httpx, 15 articles)
-- War on the Rocks - Strategic analysis (RSS via httpx, 18 articles)
-- The War Zone - Military aviation, weapons systems (RSS via httpx, 20 articles)
-- Al Jazeera - Non-Western perspective, Middle East/Africa (RSS via httpx, 8 articles)
-- Foreign Policy - Geopolitical analysis (RSS via httpx, 20 articles)
-- Council on Foreign Relations (CFR) - Expert analysis (RSS via httpx, 11 articles)
+Defense / direct:
+- ISW - Ukraine/Russia, Iran daily assessments (Playwright, domcontentloaded)
+- Defense One - Pentagon policy, military tech (RSS via httpx)
+- War on the Rocks - Strategic analysis (RSS via httpx)
+- The War Zone - Military aviation, weapons systems (RSS via httpx)
+- Al Jazeera - Non-Western perspective, Middle East/Africa (RSS via httpx)
+- Foreign Policy - Geopolitical analysis (RSS via httpx)
+- Council on Foreign Relations (CFR) - Expert analysis (RSS via httpx)
 
-**Not working (DNS/feed issues):**
+Economic / think-tank (revived via Google News RSS proxy `site:DOMAIN when:7d`, except where noted):
+- Reuters, Bloomberg - markets, economic security
+- World Bank, Brookings, Carnegie Endowment - development & policy analysis
+- CSIS - native feed (csis.org/rss.xml)
 
-- Breaking Defense - Feed returning DNS errors
-- Americas Quarterly - Feed returning DNS errors
-- GDELT DOC 2.0 - Rate limited to 0 articles in recent runs
+Aggregators / structured:
+- Guardian API (open-platform key) - broad international coverage
+- US/UK government sources - official statements/releases
+- GDELT DOC 2.0 - local-language sources machine-translated (FIPS 10-4 country codes + OR-wrapped keywords; best-effort, headline fallback on timeout)
 
-**Wave 2 targets (v1.1, RSS confirmed working):**
-- The Diplomat - Asia-Pacific geopolitics (96 items/feed)
-- The Africa Report - Pan-African political/business coverage
-- Americas Society/AS-COA - Latin America policy and economics
-- Council on Foreign Relations (CFR) - Multi-region expert analysis
-- International Crisis Group - Conflict-focused, country-level depth
-- Foreign Policy - Broad international, significant free content
+**Known-fragile / best-effort:**
+- GDELT - aggressive per-IP rate-limiting (429); returns 0 gracefully when throttled
+- Google News proxy feeds - depend on news.google.com redirect links (headline + snippet, not full body)
 
-**Wave 2 targets (v1.1, RSS likely on Railway):**
-- East Asia Forum (ANU) - Indo-Pacific economics and security
-- Lowy Institute - Australia foreign policy, South Pacific focus
-- ISS Africa - Sub-Saharan Africa conflict and governance
-- NACLA - Latin American politics and social movements
-- SIPRI - Arms, conflict, security economics globally
+**Wave 2 / future targets (v1.1+):**
+- The Diplomat, The Africa Report, Americas Society/AS-COA, International Crisis Group
+- East Asia Forum (ANU), Lowy Institute, ISS Africa, NACLA, SIPRI
 
 **Wave 3 targets (v1.2+, need CloakBrowser or special handling):**
 - IISS - Military Balance data; 403 on all requests
@@ -113,7 +111,9 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile. It
 - Africa Confidential - Diplomat-grade Africa intelligence; paywalled
 - Jane's - Order-of-battle, equipment specs; paywalled
 - Geopolitical Futures (deeper) - George Friedman; soft paywall
-- Defense News, Bellingcat, Foreign Policy (deeper)
+
+**API/structured data (future, different integration pattern):**
+- World Bank API, CEPAL/ECLAC API, AfDB API, SIPRI datasets - economic/arms indicators
 
 **API/structured data (future, different integration pattern):**
 - World Bank API - Economic indicators, all countries
@@ -131,18 +131,18 @@ Mobile (React Native + Expo)
 FastAPI Backend (Railway)
   ↓ Cached briefings
 Supabase (PostgreSQL)
-  ↑ Weekly cron job
-Scraping → LLM Synthesis Pipeline
-  ↑ Playwright + Open Router (DeepSeek V4 Flash)
+  ↑ Daily APScheduler (06:00 UTC)
+Scraping → LLM Synthesis → Composite Global → PDF Pipeline
+  ↑ Playwright + RSS/httpx + Open Router (DeepSeek V4 Flash)
 ```
 
-**Weekly Pipeline:**
-1. Internal APScheduler triggers scraping (Sunday 06:00 UTC)
-2. Playwright scrapes sources → raw articles JSON
-3. Multi-model LLM synthesis (DeepSeek V4 Flash primary, V3.2/Kimi K2.5 fallback)
-4. Generate BLUF briefing per region with ReportLab PDF
-5. Cache in Supabase
-6. Mobile apps fetch cached briefing on refresh
+**Daily Pipeline:**
+1. Internal APScheduler triggers the full pipeline (daily 06:00 UTC); also exposed as POST /pipeline/run-weekly
+2. Scrapers run with per-scraper asyncio timeouts → raw articles JSON
+3. Multi-model LLM synthesis per region (DeepSeek V4 Flash primary, V3.2/Kimi K2.5 fallback; null-content waterfall)
+4. Compose Global briefing (stitch 4 regions in full + cross-regional executive summary)
+5. Generate executive-design PDF (pdf_generator_v3) per region + Global
+6. Cache briefings + PDFs; mobile apps fetch latest on refresh (cache:false, always fresh)
 
 ---
 
@@ -152,7 +152,7 @@ Scraping → LLM Synthesis Pipeline
 **Build budget**: < $50 total LLM usage  
 
 **Cost breakdown (estimated):**
-- DeepSeek V4 Flash (Open Router): ~$0-1/month (4 briefings × $0.001 = $0.004 typical, 99% reduction vs GPT-4o Mini)
+- DeepSeek V4 Flash (Open Router): ~$0.013/daily run (5 briefings: 4 regional + composite Global) → ~$0.40/month; fixed regardless of user count (single cached briefing served to all)
 - Railway backend: $5/month (free tier likely sufficient)
 - Supabase: $0 (free tier)
 - Sentry: $0 (free tier)

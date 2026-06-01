@@ -128,39 +128,18 @@ CREATE TRIGGER update_briefings_updated_at
 
 ---
 
-## STEP 4: Internal APScheduler Job Setup
+## STEP 4: Automated Scheduling (no extra service needed)
 
-1. **Create Cron Service**:
+Scheduling is handled **inside the backend** by an in-app APScheduler job
+(`api/scheduler.py`, `CronTrigger(hour=6, minute=0, tz=UTC)`), started on app
+startup in `main.py`. It runs the full pipeline **daily at 06:00 UTC** by calling
+`POST /pipeline/run-weekly` (legacy endpoint name — it runs daily, not weekly).
 
-   - In Railway project dashboard
-   - Click "+ New"
-   - Select "Empty Service"
-   - Name it "Weekly Briefing Cron"
-2. **Configure Cron**:
-
-   - Click the cron service
-   - Go to "Settings" tab
-   - Set Root Directory: `api`
-   - Under "Deploy", add Cron Schedule:
-     ```
-     0 6 * * 0
-     ```
-
-     (Runs every Sunday at 6:00 AM UTC)
-3. **Add Cron Command**:
-
-   - In "Settings" → "Deploy"
-   - Set Start Command:
-     ```
-     python -c "import requests; requests.post('https://YOUR-RAILWAY-URL.up.railway.app/pipeline/run-weekly')"
-     ```
-   - Replace `YOUR-RAILWAY-URL` with your actual Railway domain
-4. **Share Environment Variables**:
-
-   - The cron service needs the same environment variables
-   - In main service, go to Variables
-   - Click "Share Variables" → select cron service
-   - Or manually copy OPENROUTER_API_KEY, SUPABASE_URL, SUPABASE_KEY
+- **No separate Railway "Cron" service is required.** As long as the web service
+  is running, the daily job is scheduled automatically.
+- A standalone Railway Cron service (if one exists in the project) is **redundant**
+  and can be removed.
+- Confirm it's live: `GET /` reports `scheduler` status and the next run time.
 
 ---
 
@@ -172,7 +151,7 @@ CREATE TRIGGER update_briefings_updated_at
    curl https://YOUR-RAILWAY-URL.up.railway.app/health
    ```
 
-   Expected: `{"status":"ok","version":"0.9.0"}`
+   Expected: `{"status":"ok"}` (GET `/` reports the version, currently 0.21.0)
 2. **Test Manual Pipeline Trigger**:
 
    ```bash
@@ -217,8 +196,8 @@ Update mobile API base URL to point to Railway:
 
 ### Automated Scheduler Not Running
 
-- Verify cron schedule syntax: `0 6 * * 0` (Sunday 6AM UTC)
-- Check cron service logs
+- The scheduler is in-app (APScheduler), not a Railway cron service — check the **web service** logs at startup for "scheduler configured"
+- `GET /` reports scheduler status + next run time; if "Not initialized", the startup hook failed (check logs)
 - Manually trigger to test: POST to `/pipeline/run-weekly`
 
 ### Playwright Fails in Railway

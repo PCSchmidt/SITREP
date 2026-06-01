@@ -12,12 +12,12 @@ Mobile (React Native + Expo)
 Railway (FastAPI backend)
   ↓ Cached briefings
 Supabase (PostgreSQL)
-  ↑ Weekly cron (Railway)
-  Playwright → GDELT + RSS → LLM → ReportLab
+  ↑ Daily in-app APScheduler (06:00 UTC)
+  Playwright + RSS/httpx + Guardian API + GDELT → LLM → composite Global → PDF (v3)
 ```
 
 **Production URL**: https://sitrep-production-6aac.up.railway.app
-**Cron schedule**: Every Sunday 06:00 UTC (`/pipeline/run-weekly`)
+**Schedule**: Daily 06:00 UTC via the backend's **internal APScheduler** (`scheduler.py`, `CronTrigger(hour=6)`), not a separate Railway cron service. The job triggers `POST /pipeline/run-weekly` (legacy endpoint name; runs daily). Any standalone Railway "Cron" service is redundant with the in-app scheduler.
 
 ---
 
@@ -28,8 +28,8 @@ Dashboard: railway.app → SITREP project
 ### Services
 | Service | Type | Status |
 |---------|------|--------|
-| SITREP | Web (Dockerfile) | ✅ Running |
-| humorous-manifestation | Cron | ✅ Scheduled (Sun 06:00 UTC) |
+| SITREP | Web (Dockerfile) | ✅ Running — hosts the in-app daily APScheduler |
+| humorous-manifestation | Cron | ⚠️ Legacy/redundant — scheduling now lives in-app (safe to remove) |
 
 ### Environment Variables
 Set in Railway dashboard → Service → Variables:
@@ -43,7 +43,7 @@ SUPABASE_KEY=eyJ...                 # Required — Supabase anon key
 ### Deployment
 - Trigger: push to `main` branch auto-deploys
 - Build: Dockerfile in repo root
-- Health check: GET /health → `{"status":"ok","version":"0.15.0"}`
+- Health check: GET /health → `{"status":"ok"}`; GET / reports `version` (currently 0.21.0) + scheduler status
 - Logs: Railway dashboard → Service → Logs
 
 ### Manual pipeline trigger
@@ -171,7 +171,7 @@ Before any production deploy:
 BACKEND_URL:      https://sitrep-production-6aac.up.railway.app
 BUNDLE_ID (iOS):  com.pcschmidt.sitrep
 PACKAGE (Android): com.pcschmidt.sitrep
-CRON_SCHEDULE:    0 6 * * 0   (Sunday 06:00 UTC)
+SCHEDULE:         daily 06:00 UTC (in-app APScheduler CronTrigger(hour=6))
 PYTHON_VERSION:   3.11
-API_VERSION:      0.15.0
+API_VERSION:      0.21.0
 ```
