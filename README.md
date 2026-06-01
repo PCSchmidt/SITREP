@@ -2,11 +2,11 @@
 
 **AI-Powered Intelligence Briefing Platform**
 
-SITREP delivers military-grade geopolitical intelligence briefings to mobile devices. It scrapes open-source defense publications (ISW, Defense One, IISS, Breaking Defense), synthesizes them using multi-model LLM pipelines, and presents weekly threat assessments in professional BLUF (Bottom Line Up Front) format—the same structure used by military intelligence products.
+SITREP delivers military-grade geopolitical intelligence briefings to mobile devices. It scrapes open-source defense, economic, and think-tank publications (ISW, Defense One, War on the Rocks, Reuters, Bloomberg, The Economist, CFR, and more), synthesizes them using a multi-model LLM pipeline, and presents daily threat assessments in professional BLUF (Bottom Line Up Front) format—the same structure used by military intelligence products.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-lightgrey)
-![Status](https://img.shields.io/badge/status-v0.17%20Beta%20Testing-orange)
+![Status](https://img.shields.io/badge/status-v0.21%20Pre--Launch-blue)
 
 ---
 
@@ -14,20 +14,19 @@ SITREP delivers military-grade geopolitical intelligence briefings to mobile dev
 
 **Build Type**: Production / GA (App Store + Play Store deployment)  
 **Timeline**: 3 months (~136-152 hours total)  
-**Current Gate**: v0.17 Beta Testing 🔨 IN PROGRESS  
-**Next Gate**: v1.0 Production Live  
+**Current state**: Backend v0.21 live — executive PDF redesign + composite Global briefing; preparing Google Play Store submission  
+**Next Gate**: v1.0 Production Live (Play Store first, then App Store)  
 **Production URL**: <https://sitrep-production-6aac.up.railway.app>  
 **Portfolio**: [pcschmidt.github.io](https://pcschmidt.github.io)
 
-### Recent Accomplishments (v0.15-v0.17)
+### Recent Accomplishments (v0.18–v0.21)
 
-✅ **Multi-Source Intelligence**: 7 working sources (ISW, Defense One, War on the Rocks, The War Zone, Al Jazeera, Foreign Policy, CFR) producing 109 articles  
-✅ **RSS Scraper Fix**: Replaced urllib with httpx for reliability, fixing DNS resolution issues  
-✅ **Western Hemisphere Coverage**: Now has full briefings with 12 articles from 5 sources (was empty)  
-✅ **Navigation Bug Fix**: Unique briefing IDs prevent all regions from showing Europe/Africa content  
-✅ **App Store Prep**: EAS build system, analytics tokens, privacy policy hosting, icons verified  
-✅ **Device Testing**: Android APK fully functional on Samsung S25+, multi-source briefings verified  
-✅ **Beta Ready**: Android preview builds working, preparing Play Store Internal Testing
+✅ **Executive PDF redesign**: editorial layout (PT Serif + Lato, navy/hairline rules), two-column cover (Contents + Executive Summary), hyperlinked per-section sources — verified in production  
+✅ **Composite Global briefing**: the "ALL" view now stitches all four regions in full (≈4 regions, 19 sections, 120 articles) instead of a thin condensed summary  
+✅ **Source expansion**: 13 scrapers, ~540 articles/run — revived economic/think-tank feeds (Reuters, Bloomberg, World Bank, Brookings, Carnegie via Google News proxy; CSIS native) plus Guardian API + US/UK government sources  
+✅ **GDELT fix**: corrected to FIPS country codes + OR-keyword queries (previously returned 0)  
+✅ **Daily automation**: internal APScheduler runs the full pipeline daily at 06:00 UTC  
+✅ **Reliability**: per-scraper timeouts, model-waterfall null-content fallback, deterministic source-URL hyperlinks, mobile PDF cache fix
 
 ### What is SITREP?
 
@@ -35,7 +34,7 @@ SITREP is a mobile intelligence briefing platform that replicates and enhances "
 
 **The Problem**: Keeping up with global defense developments requires monitoring 40+ disparate sources, from think tanks (ISW, CSIS, IISS) to trade publications (Defense One, Breaking Defense) to mainstream news. This is time-consuming and overwhelming.
 
-**The Solution**: SITREP automatically scrapes, synthesizes, and summarizes these sources weekly using AI, presenting a single coherent intelligence briefing organized by region (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere) in professional military BLUF format.
+**The Solution**: SITREP automatically scrapes, synthesizes, and summarizes these sources daily using AI, presenting a single coherent intelligence briefing organized by region (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere) in professional military BLUF format.
 
 **Why This Project**: Portfolio showcase demonstrating full-stack mobile development, AI/LLM integration, web scraping, backend architecture, and production deployment to public app stores.
 
@@ -45,11 +44,11 @@ SITREP is a mobile intelligence briefing platform that replicates and enhances "
 
 ### Intelligence Briefing
 
-- ✅ **Daily automated generation** - Internal APScheduler triggers Sunday 06:00 UTC
+- ✅ **Daily automated generation** - Internal APScheduler runs the full pipeline daily at 06:00 UTC
 - ✅ **BLUF format** - Bottom Line Up Front military intelligence structure
-- ✅ **4 geographic regions** - Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere
-- ✅ **Cited sources** - All claims linked to original Tier 1 publications
-- ✅ **109 articles/scrape** - ISW (17), Defense One (15), War on the Rocks (18), The War Zone (20), Al Jazeera (8), Foreign Policy (20), CFR (11)
+- ✅ **4 geographic regions** + composite **Global** (all regions in full)
+- ✅ **Cited sources** - claims linked to original publications via clickable hyperlinks
+- ✅ **~540 articles/run** across 13 scrapers - ISW, Defense One, War on the Rocks, The War Zone, Al Jazeera, Foreign Policy, CFR, 19 RSS feeds (Reuters, Bloomberg, FT, Economist, BBC, Guardian, World Bank, Brookings, Carnegie, CSIS, The Diplomat, Middle East Eye, …), Guardian API, and US/UK government sources
 - ✅ **AI-generated content disclaimers** - Heavy compliance focus for App Store approval
 
 ### PDF Features
