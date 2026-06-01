@@ -16,7 +16,9 @@ export default function PDFViewerScreen() {
   const [error, setError] = useState<string | null>(null);
   const [PdfComponent, setPdfComponent] = useState<any>(null);
 
-  // Extract region from briefing ID (e.g., "middle-east-2026-05-31" -> "Middle East")
+  // Extract region from briefing ID (e.g., "middle-east-2026-05-31" -> "Middle East",
+  // "all-2026-05-31" -> "Global"). Strip the trailing -YYYY-MM-DD rather than
+  // assuming a fixed number of '-' segments, which broke for single-token codes.
   const getRegionFromId = (briefingId: string): string => {
     const regionMap: Record<string, string> = {
       'europe-africa': 'Europe/Africa',
@@ -24,9 +26,10 @@ export default function PDFViewerScreen() {
       'indo-pacific': 'Indo-Pacific',
       'western-hemisphere': 'Western Hemisphere',
       'all': 'Global',
+      'global': 'Global',
     };
 
-    const regionCode = (briefingId as string).split('-').slice(0, -3).join('-');
+    const regionCode = String(briefingId).replace(/-\d{4}-\d{2}-\d{2}$/, '');
     return regionMap[regionCode] || 'Europe/Africa';
   };
 
