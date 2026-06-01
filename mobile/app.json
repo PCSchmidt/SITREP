@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "com.pcschmidt.sitrep",
-      "versionCode": 5,
+      "versionCode": 6,
       "adaptiveIcon": {
         "backgroundColor": "#000000",
         "foregroundImage": "./assets/android-icon-foreground.png",
