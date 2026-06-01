@@ -55,8 +55,10 @@ export default function PDFViewerScreen() {
   }, []);
 
   const pdfSource = {
+    // Always fetch fresh: briefings regenerate (sometimes same-day), and on-disk
+    // caching previously pinned stale/old-design PDFs and a cached Global 404.
     uri: `${API_BASE_URL}/briefing/latest/pdf?region=${encodeURIComponent(region)}`,
-    cache: true,
+    cache: false,
   };
 
   const handleShare = async () => {
