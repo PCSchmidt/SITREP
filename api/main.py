@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 # Application version. Bump on each deploy so the running build can be
 # identified via GET / (used to confirm a Railway redeploy is live).
-APP_VERSION = "0.20.1"
+APP_VERSION = "0.20.2"
 
 # Initialize Supabase client (optional for local dev)
 try:

@@ -44,9 +44,9 @@ class GDELTScraper(BaseScraper):
     """
 
     GDELT_URL = "https://api.gdeltproject.org/api/v2/doc/doc"
-    DELAY_BETWEEN_QUERIES = 15   # seconds — stay under rate limit
+    DELAY_BETWEEN_QUERIES = 10   # seconds — stay under GDELT's 1-per-5s limit
     MAX_RECORDS_PER_QUERY = 20
-    MAX_ARTICLES_TOTAL = 30
+    MAX_ARTICLES_TOTAL = 15      # bounded so best-effort content fetch fits scrape_timeout
     # GDELT's rate-limited multi-query run + per-article content fetches need
     # more than the orchestrator's default per-scraper timeout. Honored by
     # ScraperOrchestrator._scrape_with_retry via getattr(scraper, 'scrape_timeout').
@@ -95,7 +95,9 @@ class GDELTScraper(BaseScraper):
         start_str = start_dt.strftime("%Y%m%d%H%M%S")
         end_str = end_dt.strftime("%Y%m%d%H%M%S")
 
-        async with httpx.AsyncClient(headers=HEADERS, timeout=20, follow_redirects=True) as client:
+        # Short per-article timeout: failed/slow fetches fall back to headline
+        # quickly so the whole scraper stays within scrape_timeout.
+        async with httpx.AsyncClient(headers=HEADERS, timeout=8, follow_redirects=True) as client:
             for i, qcfg in enumerate(self.QUERIES):
                 if i > 0:
                     self.logger.info(f"GDELT: {self.DELAY_BETWEEN_QUERIES}s delay before next query...")
@@ -124,7 +126,12 @@ class GDELTScraper(BaseScraper):
                     pub_date = self._parse_gdelt_date(item.get("seendate", ""))
                     content = await self._fetch_content(client, url)
                     if not content:
-                        continue
+                        # GDELT is a metadata index, not a content archive, and
+                        # many of its foreign / local-language sources resist
+                        # full-page scraping. Fall back to the headline so the
+                        # candidate still contributes discovery-level signal
+                        # rather than being dropped (the reason GDELT yielded 0).
+                        content = title
 
                     # Start with GDELT-assigned region, enrich with keyword inference
                     region_tags = [qcfg["region_tag"]]
