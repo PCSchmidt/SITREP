@@ -1,4 +1,5 @@
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
+import { Pressable, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -46,6 +47,18 @@ function RootLayout() {
           options={{
             title: 'SITREP',
             headerShown: true,
+            headerRight: () => (
+              <Pressable
+                onPress={() => router.push('/about' as any)}
+                hitSlop={12}
+                accessibilityRole="button"
+                accessibilityLabel="About SITREP"
+              >
+                <Text style={{ color: '#FFA500', fontSize: 16, fontWeight: '600', paddingHorizontal: 4 }}>
+                  About
+                </Text>
+              </Pressable>
+            ),
           }}
         />
         <Stack.Screen
