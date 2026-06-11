@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 # Application version. Bump on each deploy so the running build can be
 # identified via GET / (used to confirm a Railway redeploy is live).
-APP_VERSION = "0.21.2"
+APP_VERSION = "0.21.3"
 
 # Initialize Supabase client (optional for local dev)
 try:
@@ -532,6 +532,11 @@ async def run_weekly_pipeline():
                 synthesizer = BLUFSynthesizer()
                 briefing = await synthesizer.synthesize_region(all_articles, region)
                 briefing['region'] = region
+                # Stamp the real server time. The LLM otherwise fabricates
+                # generated_at from the prompt schema, which made regional dates
+                # wrong and broke Supabase's "latest" ordering (Global already
+                # does this; the regional path previously did not).
+                briefing['generated_at'] = datetime.now(timezone.utc).isoformat()
                 regional_briefings.append(briefing)
 
                 # Save briefing JSON (file-based backup)

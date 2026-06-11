@@ -56,8 +56,7 @@ Generate a JSON object with this exact structure:
     "Bullet point summary 2",
     "Bullet point summary 3"
   ],
-  "outlook": "1-2 sentence forward-looking assessment of likely near-term developments.",
-  "generated_at": "2026-05-23T12:00:00Z"
+  "outlook": "1-2 sentence forward-looking assessment of likely near-term developments."
 }
 ```
 
@@ -164,8 +163,7 @@ Generate a JSON object with this exact structure:
     "Cross-regional bullet 2 with specific details",
     "... (8-12 total bullets)"
   ],
-  "outlook": "Global strategic forecast (200+ words): what the combined picture means for the next 30-90 days. Be specific about escalation risks, alliance dynamics, and probable courses of action.",
-  "generated_at": "2026-01-01T00:00:00Z"
+  "outlook": "Global strategic forecast (200+ words): what the combined picture means for the next 30-90 days. Be specific about escalation risks, alliance dynamics, and probable courses of action."
 }
 ```
 
