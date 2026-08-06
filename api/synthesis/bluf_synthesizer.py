@@ -9,6 +9,8 @@ from .openrouter_client import OpenRouterClient
 
 logger = logging.getLogger(__name__)
 
+MIN_PUBLISHED_AT = datetime.min.replace(tzinfo=timezone.utc)
+
 
 class BLUFSynthesizer:
     """
@@ -200,19 +202,21 @@ Good global section themes:
         """Normalize article publication timestamps for deterministic freshness ordering."""
         published = article.get('published_date')
         if isinstance(published, datetime):
-            return published
+            return published.astimezone(timezone.utc) if published.tzinfo else published.replace(tzinfo=timezone.utc)
         if isinstance(published, str):
             normalized = published.replace('Z', '+00:00')
             try:
-                return datetime.fromisoformat(normalized)
+                parsed = datetime.fromisoformat(normalized)
+                return parsed.astimezone(timezone.utc) if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
             except ValueError:
                 pass
             for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S%z"):
                 try:
-                    return datetime.strptime(published, fmt)
+                    parsed = datetime.strptime(published, fmt)
+                    return parsed.astimezone(timezone.utc) if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
                 except ValueError:
                     continue
-        return datetime.min
+        return MIN_PUBLISHED_AT
 
     def _sort_articles_by_recency(self, articles: List[Dict]) -> List[Dict]:
         """Return newest-first article ordering based on published_date."""
@@ -239,17 +243,16 @@ Good global section themes:
         dated_articles = []
         for article in articles:
             published = self._published_datetime(article)
-            if published is datetime.min:
+            if published == MIN_PUBLISHED_AT:
                 continue
-            if published.tzinfo is None:
-                published = published.replace(tzinfo=timezone.utc)
             dated_articles.append((article, published))
 
-        ages = [max((now - published).total_seconds() / 86400, 0.0) for _, published in dated_articles]
+        deltas = [(article, published, (now - published).total_seconds()) for article, published in dated_articles]
+        ages = [max(delta_seconds / 86400, 0.0) for _, _, delta_seconds in deltas]
         newest = max((published for _, published in dated_articles), default=None)
         oldest = min((published for _, published in dated_articles), default=None)
-        same_day = sum(1 for _, published in dated_articles if (now.date() - published.date()).days == 0)
-        within_48h = sum(1 for _, published in dated_articles if (now - published).total_seconds() <= 172800)
+        same_day = sum(1 for _, published, delta_seconds in deltas if delta_seconds >= 0 and (now.date() - published.date()).days == 0)
+        within_48h = sum(1 for _, _, delta_seconds in deltas if 0 <= delta_seconds <= 172800)
         sorted_ages = sorted(ages)
         median_age = sorted_ages[len(sorted_ages) // 2] if sorted_ages else None
 
@@ -502,11 +505,18 @@ Good global section themes:
             title = self._norm_title(a.get('title', ''))
             if not title:
                 continue
-            citation_map.setdefault(title, {
-                'url': a.get('url', ''),
-                'published_date': str(a.get('published_date', '') or ''),
-                'source': a.get('source', ''),
+            entry = citation_map.setdefault(title, {
+                'url': '',
+                'published_date': '',
+                'source': '',
             })
+            if not entry['url'] and a.get('url'):
+                entry['url'] = a.get('url', '')
+            published_date = str(a.get('published_date', '') or '')
+            if not entry['published_date'] and published_date:
+                entry['published_date'] = published_date
+            if not entry['source'] and a.get('source'):
+                entry['source'] = a.get('source', '')
 
         enriched = 0
         for section in briefing.get('sections', []):

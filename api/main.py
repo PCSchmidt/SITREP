@@ -72,6 +72,37 @@ def _load_latest_scraped_articles() -> List[Dict[str, Any]]:
         all_articles.extend(articles)
     return all_articles
 
+
+def _aggregate_freshness_blocks(freshness_blocks: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Aggregate per-region freshness diagnostics into one summary."""
+    valid_blocks = [block for block in freshness_blocks if block]
+    if not valid_blocks:
+        return {}
+
+    newest_dates = [block.get("newest_article_date") for block in valid_blocks if block.get("newest_article_date")]
+    oldest_dates = [block.get("oldest_article_date") for block in valid_blocks if block.get("oldest_article_date")]
+    median_ages = [block.get("median_article_age_days") for block in valid_blocks if block.get("median_article_age_days") is not None]
+
+    top_titles: List[str] = []
+    for block in valid_blocks:
+        for title in block.get("top_titles", []):
+            if title and title not in top_titles:
+                top_titles.append(title)
+            if len(top_titles) == 5:
+                break
+        if len(top_titles) == 5:
+            break
+
+    return {
+        "selected_count": sum(block.get("selected_count", 0) for block in valid_blocks),
+        "newest_article_date": max(newest_dates) if newest_dates else None,
+        "oldest_article_date": min(oldest_dates) if oldest_dates else None,
+        "median_article_age_days": round(sum(median_ages) / len(median_ages), 2) if median_ages else None,
+        "same_day_articles": sum(block.get("same_day_articles", 0) for block in valid_blocks),
+        "within_48h_articles": sum(block.get("within_48h_articles", 0) for block in valid_blocks),
+        "top_titles": top_titles,
+    }
+
 # Application version. Bump on each deploy so the running build can be
 # identified via GET / (used to confirm a Railway redeploy is live).
 APP_VERSION = "0.21.4"
@@ -625,10 +656,14 @@ async def run_weekly_pipeline():
 
             # Cross-regional executive summary (best-effort LLM; resilient fallback)
             exec_summary = ""
+            global_freshness = _aggregate_freshness_blocks([
+                briefing.get("freshness", {}) for briefing in regional_briefings
+            ])
             try:
                 from synthesis.bluf_synthesizer import BLUFSynthesizer
                 gsyn = await BLUFSynthesizer().synthesize_global(all_articles)
                 exec_summary = (gsyn or {}).get('bluf', '') or ''
+                global_freshness = (gsyn or {}).get('freshness') or global_freshness
             except Exception as e:
                 logger.warning(f"Global exec-summary synthesis failed; using regional BLUFs: {e}")
             if not exec_summary:
@@ -657,6 +692,7 @@ async def run_weekly_pipeline():
                 'key_developments': [],
                 'outlook': '',
                 'article_count': sum(b.get('article_count', 0) for b in regional_briefings),
+                'freshness': global_freshness,
             }
 
             BRIEFING_DIR.mkdir(parents=True, exist_ok=True)
