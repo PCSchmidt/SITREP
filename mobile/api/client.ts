@@ -8,6 +8,8 @@ const API_BASE_URL = 'https://sitrep-production-6aac.up.railway.app';
 interface BackendBriefingSource {
   source: string;
   title: string;
+  url?: string;
+  published_date?: string;
 }
 
 interface BackendBriefingSection {
@@ -41,6 +43,20 @@ interface BackendBriefingResponse {
   briefing: BackendBriefing;
   source_file: string;
   timestamp: string;
+}
+
+function formatSourceDate(publishedDate?: string): string {
+  if (!publishedDate) {
+    return '';
+  }
+
+  const normalized = publishedDate.replace('Z', '+00:00');
+  const parsed = new Date(normalized);
+  if (Number.isNaN(parsed.getTime())) {
+    return publishedDate.slice(0, 10);
+  }
+
+  return parsed.toISOString().slice(0, 10);
 }
 
 // Transform backend briefing to mobile format
@@ -159,8 +175,8 @@ function transformBriefing(
         return {
           title: sourceData.title,
           publication: sourceData.source,
-          date: dateStr,
-          url: urlMap[sourceData.source] || '#',
+          date: formatSourceDate(sourceData.published_date),
+          url: sourceData.url || urlMap[sourceData.source] || '#',
         };
       }
 
@@ -170,7 +186,7 @@ function transformBriefing(
       return {
         title: sourceTitle,
         publication,
-        date: dateStr,
+        date: '',
         url,
       };
     })

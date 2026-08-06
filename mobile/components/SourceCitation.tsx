@@ -10,12 +10,18 @@ interface SourceCitationProps {
 
 export default function SourceCitation({ title, publication, date, url }: SourceCitationProps) {
   const handlePress = () => {
+    if (!url || url === '#') {
+      return;
+    }
     Linking.openURL(url);
   };
+
+  const dateLabel = date || 'DATE N/A';
 
   return (
     <Pressable
       onPress={handlePress}
+      disabled={!url || url === '#'}
       style={{
         paddingVertical: Spacing.sm,
         borderBottomWidth: 1,
@@ -45,7 +51,7 @@ export default function SourceCitation({ title, publication, date, url }: Source
                 fontFamily: 'monospace',
               }}
             >
-              {date}
+              {dateLabel}
             </Text>
           </View>
         </View>
