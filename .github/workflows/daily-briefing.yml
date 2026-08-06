@@ -28,7 +28,8 @@ jobs:
         run: |
           set -uo pipefail
           today="$(date -u +%F)"
-          gen="$(curl -sS --max-time 30 "$API/briefing/latest?region=Global" | python3 -c "import sys,json; print(json.load(sys.stdin).get('generated_at') or '')" 2>/dev/null || echo '')"
+          payload="$(curl -sS --max-time 30 "$API/briefing/global" || echo '')"
+          gen="$(printf '%s' "$payload" | python3 -c "import sys,json; data=json.load(sys.stdin); print(data.get('generated_at') or data.get('briefing', {}).get('generated_at') or '')" 2>/dev/null || echo '')"
           echo "today (UTC):         $today"
           echo "latest generated_at: ${gen:-<none>}"
           if [ -n "$gen" ] && [ "${gen:0:10}" = "$today" ]; then

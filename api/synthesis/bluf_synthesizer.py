@@ -1,13 +1,15 @@
 # BLUF (Bottom Line Up Front) briefing synthesizer
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Dict, Optional
 from pathlib import Path
 
 from .openrouter_client import OpenRouterClient
 
 logger = logging.getLogger(__name__)
+
+MIN_PUBLISHED_AT = datetime.min.replace(tzinfo=timezone.utc)
 
 
 class BLUFSynthesizer:
@@ -195,6 +197,75 @@ Good global section themes:
     def __init__(self, openrouter_client: Optional[OpenRouterClient] = None):
         self.client = openrouter_client
 
+    @staticmethod
+    def _published_datetime(article: Dict) -> datetime:
+        """Normalize article publication timestamps for deterministic freshness ordering."""
+        published = article.get('published_date')
+        if isinstance(published, datetime):
+            return published.astimezone(timezone.utc) if published.tzinfo else published.replace(tzinfo=timezone.utc)
+        if isinstance(published, str):
+            normalized = published.replace('Z', '+00:00')
+            try:
+                parsed = datetime.fromisoformat(normalized)
+                return parsed.astimezone(timezone.utc) if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+            except ValueError:
+                pass
+            for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S%z"):
+                try:
+                    parsed = datetime.strptime(published, fmt)
+                    return parsed.astimezone(timezone.utc) if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+                except ValueError:
+                    continue
+        return MIN_PUBLISHED_AT
+
+    def _sort_articles_by_recency(self, articles: List[Dict]) -> List[Dict]:
+        """Return newest-first article ordering based on published_date."""
+        return sorted(
+            articles,
+            key=lambda article: self._published_datetime(article),
+            reverse=True,
+        )
+
+    def _freshness_diagnostics(self, articles: List[Dict]) -> Dict:
+        """Summarize how current the selected article set is."""
+        if not articles:
+            return {
+                "selected_count": 0,
+                "newest_article_date": None,
+                "oldest_article_date": None,
+                "median_article_age_days": None,
+                "same_day_articles": 0,
+                "within_48h_articles": 0,
+                "top_titles": [],
+            }
+
+        now = datetime.now(timezone.utc)
+        dated_articles = []
+        for article in articles:
+            published = self._published_datetime(article)
+            if published == MIN_PUBLISHED_AT:
+                continue
+            dated_articles.append((article, published))
+
+        deltas = [(article, published, (now - published).total_seconds()) for article, published in dated_articles]
+        ages = [max(delta_seconds / 86400, 0.0) for _, _, delta_seconds in deltas]
+        newest = max((published for _, published in dated_articles), default=None)
+        oldest = min((published for _, published in dated_articles), default=None)
+        same_day = sum(1 for _, published, delta_seconds in deltas if delta_seconds >= 0 and (now.date() - published.date()).days == 0)
+        within_48h = sum(1 for _, _, delta_seconds in deltas if 0 <= delta_seconds <= 172800)
+        sorted_ages = sorted(ages)
+        median_age = sorted_ages[len(sorted_ages) // 2] if sorted_ages else None
+
+        return {
+            "selected_count": len(articles),
+            "newest_article_date": newest.date().isoformat() if newest else None,
+            "oldest_article_date": oldest.date().isoformat() if oldest else None,
+            "median_article_age_days": round(median_age, 2) if median_age is not None else None,
+            "same_day_articles": same_day,
+            "within_48h_articles": within_48h,
+            "top_titles": [article.get('title', '') for article in articles[:5] if article.get('title')],
+        }
+
     async def synthesize_global(
         self,
         articles: List[Dict],
@@ -218,17 +289,17 @@ Good global section themes:
         # Take top N articles per region for balanced coverage
         selected: List[Dict] = []
         for region in REGIONS:
-            region_articles = [
+            region_articles = self._sort_articles_by_recency([
                 a for a in articles
                 if region in a.get('region_tags', [])
-            ][:articles_per_region]
+            ])[:articles_per_region]
             selected.extend(region_articles)
 
         # Also include any "Global" tagged articles
-        global_articles = [
+        global_articles = self._sort_articles_by_recency([
             a for a in articles
             if a.get('region_tags') == ['Global'] or 'Global' in a.get('region_tags', [])
-        ][:8]
+        ])[:8]
         selected.extend(global_articles)
 
         if not selected:
@@ -264,8 +335,9 @@ Good global section themes:
             briefing['region'] = 'Global'  # Always force correct region name
             briefing['metadata'] = metadata
             briefing['article_count'] = len(selected)
-            filled = self._backfill_source_urls(briefing, selected)
-            logger.info(f"Global: back-filled {filled} source URLs for hyperlinks")
+            briefing['freshness'] = self._freshness_diagnostics(selected)
+            enriched = self._backfill_source_metadata(briefing, selected)
+            logger.info(f"Global: back-filled source metadata for {enriched} citations")
             return briefing
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse global synthesis response: {e}")
@@ -323,6 +395,7 @@ Good global section themes:
             a for a in articles
             if region in a.get('region_tags', [])
         ]
+        region_articles = self._sort_articles_by_recency(region_articles)
 
         # Prioritize source diversity: take max N per source to avoid ISW dominance
         from collections import defaultdict
@@ -330,14 +403,15 @@ Good global section themes:
         for article in region_articles:
             by_source[article.get('source', 'Unknown')].append(article)
 
-        # Take up to 5 articles per source, interleaved
+        # Take the newest articles per source, then cap the full set by recency.
         balanced_articles = []
         max_per_source = 5
         for source in sorted(by_source.keys()):  # Sort for consistency
-            balanced_articles.extend(by_source[source][:max_per_source])
+            source_articles = self._sort_articles_by_recency(by_source[source])
+            balanced_articles.extend(source_articles[:max_per_source])
 
         # Limit total
-        region_articles = balanced_articles[:max_articles]
+        region_articles = self._sort_articles_by_recency(balanced_articles)[:max_articles]
 
         if not region_articles:
             logger.warning(f"No articles found for region: {region}")
@@ -378,8 +452,9 @@ Good global section themes:
             briefing['region'] = region
             briefing['metadata'] = metadata
             briefing['article_count'] = len(region_articles)
-            filled = self._backfill_source_urls(briefing, region_articles)
-            logger.info(f"{region}: back-filled {filled} source URLs for hyperlinks")
+            briefing['freshness'] = self._freshness_diagnostics(region_articles)
+            enriched = self._backfill_source_metadata(briefing, region_articles)
+            logger.info(f"{region}: back-filled source metadata for {enriched} citations")
             return briefing
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse LLM response as JSON: {e}")
@@ -415,25 +490,35 @@ Good global section themes:
         """Normalize a title for matching (collapse whitespace, lowercase)."""
         return ' '.join((title or '').split()).lower()
 
-    def _backfill_source_urls(self, briefing: Dict, articles: List[Dict]) -> int:
-        """Fill empty citation URLs by matching titles to scraped articles.
+    def _backfill_source_metadata(self, briefing: Dict, articles: List[Dict]) -> int:
+        """Fill citation URL and publication date by matching titles to scraped articles.
 
-        The LLM emits source citations but leaves 'url' blank because the
-        synthesis prompt does not include article URLs. We map each scraped
-        article's title -> url and back-fill the citations deterministically
-        so the PDF can render clickable source hyperlinks (no reliance on the
-        model to reproduce URLs).
+        The LLM emits source citations but does not reliably carry over URL or
+        publication date fields. We map each scraped article title back to its
+        canonical metadata so the client can show truthful source freshness and
+        the PDF can render clickable hyperlinks.
 
-        Returns the number of URLs filled.
+        Returns the number of citations enriched with at least one missing field.
         """
-        url_map: Dict[str, str] = {}
+        citation_map: Dict[str, Dict[str, str]] = {}
         for a in articles:
             title = self._norm_title(a.get('title', ''))
-            url = a.get('url', '')
-            if title and url:
-                url_map.setdefault(title, url)
+            if not title:
+                continue
+            entry = citation_map.setdefault(title, {
+                'url': '',
+                'published_date': '',
+                'source': '',
+            })
+            if not entry['url'] and a.get('url'):
+                entry['url'] = a.get('url', '')
+            published_date = str(a.get('published_date', '') or '')
+            if not entry['published_date'] and published_date:
+                entry['published_date'] = published_date
+            if not entry['source'] and a.get('source'):
+                entry['source'] = a.get('source', '')
 
-        filled = 0
+        enriched = 0
         for section in briefing.get('sections', []):
             if not isinstance(section, dict):
                 continue
@@ -442,12 +527,23 @@ Good global section themes:
                 # strings rather than {url,title,source} dicts — skip those.
                 if not isinstance(src, dict):
                     continue
-                if not src.get('url'):
-                    match = url_map.get(self._norm_title(src.get('title', '')))
-                    if match:
-                        src['url'] = match
-                        filled += 1
-        return filled
+                match = citation_map.get(self._norm_title(src.get('title', '')))
+                if not match:
+                    continue
+
+                updated = False
+                if not src.get('url') and match.get('url'):
+                    src['url'] = match['url']
+                    updated = True
+                if not src.get('published_date') and match.get('published_date'):
+                    src['published_date'] = match['published_date']
+                    updated = True
+                if not src.get('source') and match.get('source'):
+                    src['source'] = match['source']
+                    updated = True
+                if updated:
+                    enriched += 1
+        return enriched
 
     def _empty_briefing(self, region: str) -> Dict:
         """Return empty briefing when no articles available"""
@@ -458,7 +554,8 @@ Good global section themes:
             "key_developments": [],
             "outlook": "Insufficient data for forward assessment.",
             "generated_at": datetime.utcnow().isoformat(),
-            "article_count": 0
+            "article_count": 0,
+            "freshness": self._freshness_diagnostics([]),
         }
 
     def save_briefing(self, briefing: Dict, output_dir: str = "data/briefings"):
