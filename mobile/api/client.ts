@@ -50,7 +50,9 @@ function transformBriefing(
   const { briefing } = backendResponse;
 
   // Extract date from generated_at for ID
-  const dateStr = briefing.generated_at.split('T')[0];
+  // Fallback to current date if generated_at is null (handles legacy briefings)
+  const generatedAt = briefing.generated_at || new Date().toISOString();
+  const dateStr = generatedAt.split('T')[0];
 
   // Map region to short code (must match tokens.ts Regions)
   const regionMap: Record<string, string> = {
