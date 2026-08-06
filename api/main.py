@@ -9,14 +9,103 @@ from datetime import datetime, timezone
 import json
 import os
 import logging
+from typing import Any, Dict, List
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+SCRAPED_DIR = Path("data/scraped")
+BRIEFING_DIR = Path("data/briefings")
+
+
+def _clear_json_files(directory: Path) -> int:
+    """Remove stale JSON snapshots before writing the current run."""
+    if not directory.exists():
+        return 0
+
+    removed = 0
+    for json_file in directory.glob("*.json"):
+        json_file.unlink(missing_ok=True)
+        removed += 1
+    return removed
+
+
+def _flatten_scrape_results(scrape_results: Dict[str, List[Any]]) -> List[Dict[str, Any]]:
+    """Normalize current-run scraper results into plain dicts for synthesis."""
+    flattened: List[Dict[str, Any]] = []
+    for articles in scrape_results.values():
+        for article in articles:
+            if hasattr(article, "to_dict"):
+                flattened.append(article.to_dict())
+            elif isinstance(article, dict):
+                flattened.append(article)
+    return flattened
+
+
+def _load_latest_scraped_articles() -> List[Dict[str, Any]]:
+    """Load only the latest scraped snapshot per source from disk."""
+    if not SCRAPED_DIR.exists():
+        return []
+
+    latest_by_source: Dict[str, tuple[float, List[Dict[str, Any]]]] = {}
+    for json_file in SCRAPED_DIR.glob("*.json"):
+        with open(json_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        if isinstance(data, list):
+            articles = data
+            source_name = json_file.stem
+        elif isinstance(data, dict) and 'articles' in data:
+            articles = data['articles']
+            source_name = data.get('source') or json_file.stem
+        else:
+            raise ValueError(f"Unexpected JSON format in {json_file.name}")
+
+        mtime = json_file.stat().st_mtime
+        current = latest_by_source.get(source_name)
+        if current is None or mtime > current[0]:
+            latest_by_source[source_name] = (mtime, articles)
+
+    all_articles: List[Dict[str, Any]] = []
+    for _, articles in latest_by_source.values():
+        all_articles.extend(articles)
+    return all_articles
+
+
+def _aggregate_freshness_blocks(freshness_blocks: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Aggregate per-region freshness diagnostics into one summary."""
+    valid_blocks = [block for block in freshness_blocks if block]
+    if not valid_blocks:
+        return {}
+
+    newest_dates = [block.get("newest_article_date") for block in valid_blocks if block.get("newest_article_date")]
+    oldest_dates = [block.get("oldest_article_date") for block in valid_blocks if block.get("oldest_article_date")]
+    median_ages = [block.get("median_article_age_days") for block in valid_blocks if block.get("median_article_age_days") is not None]
+
+    top_titles: List[str] = []
+    for block in valid_blocks:
+        for title in block.get("top_titles", []):
+            if title and title not in top_titles:
+                top_titles.append(title)
+            if len(top_titles) == 5:
+                break
+        if len(top_titles) == 5:
+            break
+
+    return {
+        "selected_count": sum(block.get("selected_count", 0) for block in valid_blocks),
+        "newest_article_date": max(newest_dates) if newest_dates else None,
+        "oldest_article_date": min(oldest_dates) if oldest_dates else None,
+        "median_article_age_days": round(sum(median_ages) / len(median_ages), 2) if median_ages else None,
+        "same_day_articles": sum(block.get("same_day_articles", 0) for block in valid_blocks),
+        "within_48h_articles": sum(block.get("within_48h_articles", 0) for block in valid_blocks),
+        "top_titles": top_titles,
+    }
+
 # Application version. Bump on each deploy so the running build can be
 # identified via GET / (used to confirm a Railway redeploy is live).
-APP_VERSION = "0.21.3"
+APP_VERSION = "0.21.4"
 
 # Initialize Supabase client (optional for local dev)
 try:
@@ -121,6 +210,7 @@ async def scrape_sources(region: str = "Europe/Africa", days: int = 7):
         results = await orchestrator.scrape_all_sources(days=days)
 
         # Save results to JSON files
+        _clear_json_files(SCRAPED_DIR)
         orchestrator.save_all_results(results)
 
         # Get summary statistics
@@ -153,22 +243,10 @@ async def synthesize_briefing(region: str = "Europe/Africa"):
         from synthesis.bluf_synthesizer import BLUFSynthesizer
 
         # Find latest scraped articles
-        scraped_dir = Path("data/scraped")
-        if not scraped_dir.exists():
+        if not SCRAPED_DIR.exists():
             raise HTTPException(status_code=404, detail="No scraped articles found")
 
-        # Load all scraped articles
-        all_articles = []
-        for json_file in scraped_dir.glob("*.json"):
-            with open(json_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                # Handle both formats: list of articles or dict with 'articles' key
-                if isinstance(data, list):
-                    all_articles.extend(data)
-                elif isinstance(data, dict) and 'articles' in data:
-                    all_articles.extend(data['articles'])
-                else:
-                    raise ValueError(f"Unexpected JSON format in {json_file.name}")
+        all_articles = _load_latest_scraped_articles()
 
         if not all_articles:
             raise HTTPException(status_code=404, detail="No articles to synthesize")
@@ -178,13 +256,12 @@ async def synthesize_briefing(region: str = "Europe/Africa"):
         briefing = await synthesizer.synthesize_region(all_articles, region)
 
         # Save briefing to disk
-        briefing_dir = Path("data/briefings")
-        briefing_dir.mkdir(parents=True, exist_ok=True)
+        BRIEFING_DIR.mkdir(parents=True, exist_ok=True)
 
         # Create filename with region and timestamp
         region_slug = region.lower().replace(' ', '_').replace('/', '_')
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-        briefing_file = briefing_dir / f"{region_slug}_{timestamp}.json"
+        briefing_file = BRIEFING_DIR / f"{region_slug}_{timestamp}.json"
 
         with open(briefing_file, 'w', encoding='utf-8') as f:
             json.dump(briefing, f, indent=2, ensure_ascii=False)
@@ -333,18 +410,10 @@ async def synthesize_global_briefing():
     try:
         from synthesis.bluf_synthesizer import BLUFSynthesizer
 
-        scraped_dir = Path("data/scraped")
-        if not scraped_dir.exists():
+        if not SCRAPED_DIR.exists():
             raise HTTPException(status_code=404, detail="No scraped articles found. Run /scrape first.")
 
-        all_articles = []
-        for json_file in scraped_dir.glob("*.json"):
-            with open(json_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                if isinstance(data, list):
-                    all_articles.extend(data)
-                elif isinstance(data, dict) and 'articles' in data:
-                    all_articles.extend(data['articles'])
+        all_articles = _load_latest_scraped_articles()
 
         if not all_articles:
             raise HTTPException(status_code=404, detail="No articles to synthesize")
@@ -494,11 +563,15 @@ async def run_weekly_pipeline():
             from scrapers.orchestrator import ScraperOrchestrator
             orchestrator = ScraperOrchestrator()
             scrape_results = await orchestrator.scrape_all_sources(days=7)
+
+            cleared_scrape_files = _clear_json_files(SCRAPED_DIR)
             orchestrator.save_all_results(scrape_results)
             summary = orchestrator.get_summary(scrape_results)
+            all_articles = _flatten_scrape_results(scrape_results)
             pipeline_results["scraping"] = {
                 "total_articles": summary["total_articles"],
-                "by_source": summary["by_source"]
+                "by_source": summary["by_source"],
+                "stale_snapshots_cleared": cleared_scrape_files,
             }
             logger.info(f"Scraping complete: {summary['total_articles']} articles")
         except Exception as e:
@@ -517,17 +590,6 @@ async def run_weekly_pipeline():
                 from synthesis.bluf_synthesizer import BLUFSynthesizer
                 from pdf_generation.pdf_generator_v3 import PDFGeneratorV3 as PDFGenerator
 
-                # Load scraped articles
-                scraped_dir = Path("data/scraped")
-                all_articles = []
-                for json_file in scraped_dir.glob("*.json"):
-                    with open(json_file, 'r', encoding='utf-8') as f:
-                        data = json.load(f)
-                        if isinstance(data, list):
-                            all_articles.extend(data)
-                        elif isinstance(data, dict) and 'articles' in data:
-                            all_articles.extend(data['articles'])
-
                 # Synthesize
                 synthesizer = BLUFSynthesizer()
                 briefing = await synthesizer.synthesize_region(all_articles, region)
@@ -540,11 +602,10 @@ async def run_weekly_pipeline():
                 regional_briefings.append(briefing)
 
                 # Save briefing JSON (file-based backup)
-                briefing_dir = Path("data/briefings")
-                briefing_dir.mkdir(parents=True, exist_ok=True)
+                BRIEFING_DIR.mkdir(parents=True, exist_ok=True)
                 region_slug = region.lower().replace(' ', '_').replace('/', '_')
                 timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-                briefing_file = briefing_dir / f"{region_slug}_{timestamp}.json"
+                briefing_file = BRIEFING_DIR / f"{region_slug}_{timestamp}.json"
 
                 with open(briefing_file, 'w', encoding='utf-8') as f:
                     json.dump(briefing, f, indent=2, ensure_ascii=False)
@@ -570,7 +631,8 @@ async def run_weekly_pipeline():
                     "briefing_file": str(briefing_file),
                     "pdf_path": pdf_path,
                     "sections": len(briefing.get("sections", [])),
-                    "article_count": briefing.get("article_count", 0)
+                    "article_count": briefing.get("article_count", 0),
+                    "freshness": briefing.get("freshness", {}),
                 })
 
                 logger.info(f"Completed {region}: {len(briefing.get('sections', []))} sections")
@@ -594,19 +656,14 @@ async def run_weekly_pipeline():
 
             # Cross-regional executive summary (best-effort LLM; resilient fallback)
             exec_summary = ""
+            global_freshness = _aggregate_freshness_blocks([
+                briefing.get("freshness", {}) for briefing in regional_briefings
+            ])
             try:
                 from synthesis.bluf_synthesizer import BLUFSynthesizer
-                scraped_dir = Path("data/scraped")
-                all_articles = []
-                for json_file in scraped_dir.glob("*.json"):
-                    with open(json_file, 'r', encoding='utf-8') as f:
-                        data = json.load(f)
-                        if isinstance(data, list):
-                            all_articles.extend(data)
-                        elif isinstance(data, dict) and 'articles' in data:
-                            all_articles.extend(data['articles'])
                 gsyn = await BLUFSynthesizer().synthesize_global(all_articles)
                 exec_summary = (gsyn or {}).get('bluf', '') or ''
+                global_freshness = (gsyn or {}).get('freshness') or global_freshness
             except Exception as e:
                 logger.warning(f"Global exec-summary synthesis failed; using regional BLUFs: {e}")
             if not exec_summary:
@@ -635,11 +692,11 @@ async def run_weekly_pipeline():
                 'key_developments': [],
                 'outlook': '',
                 'article_count': sum(b.get('article_count', 0) for b in regional_briefings),
+                'freshness': global_freshness,
             }
 
-            briefing_dir = Path("data/briefings")
-            briefing_dir.mkdir(parents=True, exist_ok=True)
-            global_file = briefing_dir / f"global_{timestamp}.json"
+            BRIEFING_DIR.mkdir(parents=True, exist_ok=True)
+            global_file = BRIEFING_DIR / f"global_{timestamp}.json"
             with open(global_file, 'w', encoding='utf-8') as f:
                 json.dump(global_briefing, f, indent=2, ensure_ascii=False)
 
@@ -664,6 +721,7 @@ async def run_weekly_pipeline():
                 "regions": len(regional_briefings),
                 "sections": len(flat_sections),
                 "article_count": global_briefing["article_count"],
+                "freshness": global_briefing.get("freshness", {}),
             }
             logger.info(f"Global briefing complete: {len(regional_briefings)} regions, {len(flat_sections)} sections")
 
