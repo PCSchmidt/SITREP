@@ -17,29 +17,25 @@ class LatAmBackupScraper(BaseScraper):
     """
     Backup scraper for Western Hemisphere intelligence.
     Uses multiple LatAm-focused RSS feeds as fallback when Americas Quarterly fails.
+
+    NOTE: This scraper is disabled because reliable free LatAm RSS feeds are hard to find.
+    Instead, we rely on keyword-based tagging from general news RSS feeds (BBC, Reuters,
+    Guardian, Al Jazeera) which already cover Western Hemisphere news.
     """
 
-    # Multiple Latin America focused RSS feeds
-    FEEDS = [
-        {
-            "url": "https://www.reuters.com/places/latin-america/feed/",
-            "name": "Reuters LatAm",
-        },
-        {
-            "url": "https://www.wilsoncenter.org/taxonomy/term/2606/feed",  # Latin America Program
-            "name": "Wilson Center LatAm",
-        },
-        {
-            "url": "https://www.insightcrime.org/feed/",
-            "name": "InSight Crime",  # Organized crime in LatAm
-        },
-    ]
+    # Disabled - no reliable free LatAm RSS feeds found
+    # Reuters LatAm returns 401, Wilson Center/InSight Crime have connectivity issues
+    FEEDS = []
 
     def __init__(self):
-        super().__init__("LatAm Backup Sources")
+        super().__init__("LatAm Backup Sources (DISABLED)")
 
     async def scrape_recent_articles(self, days: int = 7) -> List[Article]:
-        """Scrape from multiple LatAm RSS feeds"""
+        """Disabled - returns empty list"""
+        logger.info("LatAm Backup scraper is disabled (no reliable free RSS feeds)")
+        return []
+
+        # Original implementation (disabled):
         all_articles = []
         cutoff = datetime.now(timezone.utc) - timedelta(days=days)
 

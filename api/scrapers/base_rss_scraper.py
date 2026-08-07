@@ -205,6 +205,12 @@ class RSSBaseScraper(BaseScraper):
             regions.append('Indo-Pacific')
         if any(kw in t for kw in ['ukraine', 'russia', 'nato', 'europe', 'africa', 'balkans', 'poland', 'belarus', 'finland', 'sweden', 'estonia', 'latvia', 'lithuania']):
             regions.append('Europe/Africa')
-        if any(kw in t for kw in ['latin america', 'venezuela', 'cuba', 'mexico', 'brazil', 'colombia', 'americas', 'caribbean', 'canada']):
+        # Western Hemisphere: broader keywords including US military activities, regional orgs, country names
+        if any(kw in t for kw in [
+            'latin america', 'venezuela', 'cuba', 'mexico', 'brazil', 'colombia', 'americas', 'caribbean', 'canada',
+            'argentina', 'chile', 'peru', 'ecuador', 'bolivia', 'panama', 'guatemala', 'honduras', 'nicaragua',
+            'southcom', 'northcom', 'western hemisphere', 'oas', 'organization of american states',
+            'cartel', 'narco', 'drug trafficking', 'migration crisis', 'border', 'us-mexico'
+        ]):
             regions.append('Western Hemisphere')
         return regions if regions else ['Global']

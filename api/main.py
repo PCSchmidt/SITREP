@@ -105,7 +105,7 @@ def _aggregate_freshness_blocks(freshness_blocks: List[Dict[str, Any]]) -> Dict[
 
 # Application version. Bump on each deploy so the running build can be
 # identified via GET / (used to confirm a Railway redeploy is live).
-APP_VERSION = "0.21.6"
+APP_VERSION = "0.21.7"
 
 # Initialize Supabase client (optional for local dev)
 try:
