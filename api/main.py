@@ -105,7 +105,7 @@ def _aggregate_freshness_blocks(freshness_blocks: List[Dict[str, Any]]) -> Dict[
 
 # Application version. Bump on each deploy so the running build can be
 # identified via GET / (used to confirm a Railway redeploy is live).
-APP_VERSION = "0.21.5"
+APP_VERSION = "0.21.6"
 
 # Initialize Supabase client (optional for local dev)
 try:
@@ -568,12 +568,19 @@ async def run_weekly_pipeline():
             orchestrator.save_all_results(scrape_results)
             summary = orchestrator.get_summary(scrape_results)
             all_articles = _flatten_scrape_results(scrape_results)
+
+            # Log Western Hemisphere article count for debugging
+            wh_count = sum(1 for a in all_articles if 'Western Hemisphere' in a.get('region_tags', []))
+            logger.info(f"Western Hemisphere articles scraped: {wh_count}")
+
             pipeline_results["scraping"] = {
                 "total_articles": summary["total_articles"],
                 "by_source": summary["by_source"],
+                "by_region": summary.get("by_region", {}),
                 "stale_snapshots_cleared": cleared_scrape_files,
             }
             logger.info(f"Scraping complete: {summary['total_articles']} articles")
+            logger.info(f"By region: {summary.get('by_region', {})}")
         except Exception as e:
             error_msg = f"Scraping failed: {str(e)}"
             logger.error(error_msg)

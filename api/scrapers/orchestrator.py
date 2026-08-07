@@ -14,6 +14,7 @@ from .gdelt_scraper import GDELTScraper
 from .foreignpolicy_scraper import ForeignPolicyScraper
 from .cfr_scraper import CFRScraper
 from .americasquarterly_scraper import AmericasQuarterlyScraper
+from .latam_backup_scraper import LatAmBackupScraper
 from .rss_scraper import RSSFeedScraper
 from .guardian_api_scraper import GuardianAPIScraper
 from .gov_scraper import GovernmentScraper
@@ -47,6 +48,7 @@ class ScraperOrchestrator:
             ForeignPolicyScraper(), # RSS - US foreign policy, global affairs
             CFRScraper(),           # RSS - US foreign relations
             AmericasQuarterlyScraper(), # RSS - Latin America dedicated coverage
+            LatAmBackupScraper(),   # RSS - Backup Western Hemisphere sources (Reuters LatAm, Wilson Center, InSight Crime)
             RSSFeedScraper(),       # RSS - 20+ feeds (Defense, Reuters, BBC, Guardian, Bloomberg, FT, Economist, etc.)
             GovernmentScraper(),    # RSS - US/UK government press releases
         ]

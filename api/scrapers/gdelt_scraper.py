@@ -44,13 +44,13 @@ class GDELTScraper(BaseScraper):
     """
 
     GDELT_URL = "https://api.gdeltproject.org/api/v2/doc/doc"
-    DELAY_BETWEEN_QUERIES = 10   # seconds — stay under GDELT's 1-per-5s limit
-    MAX_RECORDS_PER_QUERY = 20
+    DELAY_BETWEEN_QUERIES = 30   # seconds — increased from 10s to avoid 429s
+    MAX_RECORDS_PER_QUERY = 15   # reduced from 20 to lower API load
     MAX_ARTICLES_TOTAL = 15      # bounded so best-effort content fetch fits scrape_timeout
     # GDELT's rate-limited multi-query run + per-article content fetches need
     # more than the orchestrator's default per-scraper timeout. Honored by
     # ScraperOrchestrator._scrape_with_retry via getattr(scraper, 'scrape_timeout').
-    scrape_timeout = 150
+    scrape_timeout = 300  # increased from 150s to 5min for slower retries
 
     # Three targeted region queries covering our worst coverage gaps.
     #
@@ -182,8 +182,10 @@ class GDELTScraper(BaseScraper):
 
                 except httpx.HTTPStatusError as e:
                     if e.response.status_code == 429:
-                        wait = 20 * (attempt + 1)
-                        self.logger.warning(f"GDELT rate limited (attempt {attempt+1}). Waiting {wait}s...")
+                        # Aggressive exponential backoff for rate limits
+                        # attempt 0: 45s, attempt 1: 90s, attempt 2: 180s
+                        wait = 45 * (2 ** attempt)
+                        self.logger.warning(f"GDELT rate limited (attempt {attempt+1}/{retries+1}). Waiting {wait}s...")
                         await asyncio.sleep(wait)
                     else:
                         self.logger.warning(f"GDELT HTTP {e.response.status_code}")
