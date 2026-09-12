@@ -134,9 +134,21 @@ def _aggregate_freshness_blocks(freshness_blocks: List[Dict[str, Any]]) -> Dict[
         "top_titles": top_titles,
     }
 
+def _stamp_generated_at(briefing: Dict[str, Any]) -> Dict[str, Any]:
+    """Record when a briefing was produced.
+
+    The synthesizer does not set this field, and the mobile client formats it
+    directly: a briefing saved without `generated_at` throws in the client and the
+    whole region disappears from the app ("No briefings available for this region").
+    """
+    if not briefing.get("generated_at"):
+        briefing["generated_at"] = datetime.now(timezone.utc).isoformat()
+    return briefing
+
+
 # Application version. Bump on each deploy so the running build can be
 # identified via GET / (used to confirm a Railway redeploy is live).
-APP_VERSION = "0.21.8"
+APP_VERSION = "0.21.9"
 
 # Initialize Supabase client (optional for local dev)
 try:
@@ -284,7 +296,7 @@ async def synthesize_briefing(region: str = "Europe/Africa"):
 
         # Synthesize briefing
         synthesizer = BLUFSynthesizer()
-        briefing = await synthesizer.synthesize_region(all_articles, region)
+        briefing = _stamp_generated_at(await synthesizer.synthesize_region(all_articles, region))
 
         # Save briefing to disk
         BRIEFING_DIR.mkdir(parents=True, exist_ok=True)
@@ -450,7 +462,7 @@ async def synthesize_global_briefing():
             raise HTTPException(status_code=404, detail="No articles to synthesize")
 
         synthesizer = BLUFSynthesizer()
-        briefing = await synthesizer.synthesize_global(all_articles)
+        briefing = _stamp_generated_at(await synthesizer.synthesize_global(all_articles))
 
         # Save to file
         briefing_dir = Path("data/briefings")
@@ -638,7 +650,7 @@ async def run_weekly_pipeline():
                 # generated_at from the prompt schema, which made regional dates
                 # wrong and broke Supabase's "latest" ordering (Global already
                 # does this; the regional path previously did not).
-                briefing['generated_at'] = datetime.now(timezone.utc).isoformat()
+                _stamp_generated_at(briefing)
                 regional_briefings.append(briefing)
 
                 # Save briefing JSON (file-based backup)

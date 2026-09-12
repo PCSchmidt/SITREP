@@ -6,7 +6,10 @@ fastapi==0.115.0
 uvicorn[standard]==0.32.0
 
 # Database
-supabase==2.9.0
+# 2.16.0 is the first release that accepts the new publishable/secret API key
+# format (sb_secret_...). 2.9.0 rejects those keys with "Invalid API key" and only
+# accepts the legacy JWT anon/service_role keys.
+supabase==2.31.0
 python-dotenv==1.0.1
 
 # Scraping (v0.1)
