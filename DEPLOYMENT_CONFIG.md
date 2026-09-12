@@ -37,7 +37,7 @@ Set in Railway dashboard → Service → Variables:
 ```
 OPENROUTER_API_KEY=sk-or-...        # Required — LLM synthesis
 SUPABASE_URL=https://...supabase.co # Required — briefing cache
-SUPABASE_KEY=eyJ...                 # Required — Supabase anon key
+SUPABASE_SERVICE_KEY=eyJ...         # Required — Supabase service_role key (writes bypass RLS)
 ```
 
 ### Deployment
@@ -148,7 +148,7 @@ Before any production deploy:
 - [ ] All API endpoint tests passing (`python -m pytest api/test_api_endpoints.py`)
 - [ ] TypeScript clean (`npx tsc --noEmit` in mobile/)
 - [ ] OPENROUTER_API_KEY set in Railway environment
-- [ ] SUPABASE_URL + SUPABASE_KEY set in Railway environment
+- [ ] SUPABASE_URL + SUPABASE_SERVICE_KEY set in Railway environment
 - [ ] Health check passes: `curl https://sitrep-production-6aac.up.railway.app/health`
 
 ---

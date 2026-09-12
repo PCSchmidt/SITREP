@@ -105,7 +105,7 @@ CREATE TRIGGER update_briefings_updated_at
    ```
    OPENROUTER_API_KEY=<your-openrouter-api-key>
    SUPABASE_URL=<your-supabase-project-url>
-   SUPABASE_KEY=<your-supabase-anon-key>
+   SUPABASE_SERVICE_KEY=<your-supabase-service-role-key>
    PYTHON_VERSION=3.11
    ```
 
@@ -113,7 +113,17 @@ CREATE TRIGGER update_briefings_updated_at
 
    - Project Settings → API
    - Copy "Project URL" → SUPABASE_URL
-   - Copy "anon public" key → SUPABASE_KEY
+   - Copy the **service_role** key → SUPABASE_SERVICE_KEY
+
+   **Use the service_role key, not the anon key.** The backend writes briefings, so
+   it must pass row-level security. With the anon key, reads return empty results
+   and writes fail with `new row violates row-level security policy`. `SUPABASE_KEY`
+   is still read as a fallback for local development, and the server logs a warning
+   when only that key is present.
+
+   **Why this matters:** the host filesystem is ephemeral. If Supabase caching
+   fails, the briefings live only on the container disk and the mobile app shows
+   "Failed to load briefings" after the next restart or redeploy.
 4. **Deploy**:
 
    - Railway will auto-deploy after adding variables

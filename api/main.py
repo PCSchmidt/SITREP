@@ -585,7 +585,9 @@ async def run_weekly_pipeline():
             "status": "success",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "regions_processed": [],
-            "errors": []
+            "errors": [],
+            "warnings": [],
+            "storage": "supabase" if (USE_SUPABASE and supabase) else "files",
         }
 
         # Step 1: Scrape sources
@@ -662,7 +664,12 @@ async def run_weekly_pipeline():
                         )
                         logger.info(f"Cached {region} to Supabase")
                     except Exception as e:
-                        logger.warning(f"Supabase caching failed for {region}: {e}")
+                        # Surface this in the response: file storage on the host is
+                        # ephemeral, so a silent caching failure means the mobile app
+                        # loses every briefing at the next container restart.
+                        message = f"Supabase caching failed for {region}: {e}"
+                        logger.warning(message)
+                        pipeline_results["warnings"].append(message)
 
                 pipeline_results["regions_processed"].append({
                     "region": region,
@@ -791,9 +798,16 @@ async def debug_supabase():
     result = {
         "enabled": USE_SUPABASE,
         "client_initialized": supabase is not None,
+        "key_role": "service_role" if (supabase and supabase.uses_service_role) else "anon",
         "briefings_count": 0,
         "sample_regions": []
     }
+
+    if USE_SUPABASE and supabase and not supabase.uses_service_role:
+        result["hint"] = (
+            "Supabase is using SUPABASE_KEY (anon). Writes fail while row-level security "
+            "is enabled; set SUPABASE_SERVICE_KEY on the host."
+        )
 
     if USE_SUPABASE and supabase:
         try:

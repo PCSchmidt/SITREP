@@ -1,6 +1,7 @@
 # Supabase Database Client
 # Handles briefing caching and retrieval
 
+import logging
 import os
 from datetime import datetime, timezone, timedelta
 from typing import Optional, Dict, Any
@@ -9,15 +10,37 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
+
 class SupabaseClient:
-    """Client for Supabase database operations"""
+    """Client for Supabase database operations.
+
+    The backend writes briefings, so it needs a key that can pass row-level
+    security. SUPABASE_SERVICE_KEY (the service_role key) is used when present;
+    SUPABASE_KEY (the anon key) is only a fallback. With the anon key, reads
+    return empty results and writes fail with "new row violates row-level
+    security policy" whenever RLS is enabled on the briefings table.
+    """
 
     def __init__(self):
         supabase_url = os.getenv("SUPABASE_URL")
-        supabase_key = os.getenv("SUPABASE_KEY")
+        service_key = (os.getenv("SUPABASE_SERVICE_KEY") or "").strip()
+        anon_key = (os.getenv("SUPABASE_KEY") or "").strip()
+        supabase_key = service_key or anon_key
 
         if not supabase_url or not supabase_key:
-            raise ValueError("SUPABASE_URL and SUPABASE_KEY must be set in environment")
+            raise ValueError(
+                "SUPABASE_URL and SUPABASE_SERVICE_KEY (or SUPABASE_KEY) must be set in environment"
+            )
+
+        self.uses_service_role = bool(service_key)
+
+        if not self.uses_service_role:
+            logger.warning(
+                "Supabase is configured with SUPABASE_KEY (anon). Briefing writes will "
+                "fail while row-level security is enabled on the briefings table; set "
+                "SUPABASE_SERVICE_KEY to the project's service_role key."
+            )
 
         self.client: Client = create_client(supabase_url, supabase_key)
 
