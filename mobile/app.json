@@ -12,9 +12,7 @@
       "bundleIdentifier": "com.pcschmidt.sitrep",
       "buildNumber": "1",
       "infoPlist": {
-        "UIUserInterfaceStyle": "Dark",
-        "NSCameraUsageDescription": "Not used",
-        "NSMicrophoneUsageDescription": "Not used"
+        "UIUserInterfaceStyle": "Dark"
       },
       "privacyManifests": {
         "NSPrivacyAccessedAPITypes": []
