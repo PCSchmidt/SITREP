@@ -1,14 +1,19 @@
-# MEMORY_EPISODIC.md
-# Blueprint v11 | Session Log and Gate Outcomes
-# Appended by writethru-episodic hook on Stop events.
-# Updated at gate close with gate outcome rows.
+# MEMORY_EPISODIC
+
+Historical log (Blueprint v11): session log and gate outcomes, 2026-05-21 to 2026-09-12.
+Appended by the writethru-episodic hook on Stop events, updated at gate close with outcome rows.
+This file records what happened at the time. It is not current state: for that see
+[README.md](README.md), and for how the service runs and deploys see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+Corrected 2026-09-12: emoji markers removed from the session log table. Entry text below is unchanged.
 
 ## SESSION LOG
 
 | Date | Project | Gate | Outcome | Tests | Notes |
 |------|---------|------|---------|-------|-------|
-| 2026-05-26 | SITREP | v0.9 | ✅ COMPLETE | N/A | Regional Filtering: All 4 regions with briefings/PDFs, AsyncStorage persistence. 6h actual vs 6h estimated (0% variance). Middle East (3 sections), Indo-Pacific (3 sections), Europe/Africa (3 sections), Western Hemisphere (minimal content). TypeScript passes, all API endpoints working. |
-| 2026-05-25 | SITREP | v0.8 | ✅ COMPLETE | N/A | PDF Mobile Integration: react-native-pdf viewer with Share/Save. 6h actual vs 6h estimated (0% variance). Native module build required, Share/Save both working. Android backgrounding behavior noted for future optimization. |
+| 2026-09-12 | SITREP | v0.21.10 | COMPLETE | 11 passing | Outage recovery and docs pass: Supabase writes restored with the service key (anon key failed with 42501), PDFs generated on demand and served inline, portfolio fork-sync recovery, docs aligned to the 2026-09-12 facts. See the 2026-09-12 session entry at the end of this file. |
+| 2026-05-26 | SITREP | v0.9 | COMPLETE | N/A | Regional Filtering: All 4 regions with briefings/PDFs, AsyncStorage persistence. 6h actual vs 6h estimated (0% variance). Middle East (3 sections), Indo-Pacific (3 sections), Europe/Africa (3 sections), Western Hemisphere (minimal content). TypeScript passes, all API endpoints working. |
+| 2026-05-25 | SITREP | v0.8 | COMPLETE | N/A | PDF Mobile Integration: react-native-pdf viewer with Share/Save. 6h actual vs 6h estimated (0% variance). Native module build required, Share/Save both working. Android backgrounding behavior noted for future optimization. |
 
 ## STOP EVENTS
 [Appended automatically by writethru-episodic hook]
@@ -2779,3 +2784,71 @@ Session ended (crash or manual stop).
 Gate in progress: 
 Last git commit: 3712c7c Merge remote-tracking branch 'origin/main' (v0.21.4 fixes) + bump to v0.21.5
 Resume: /start option 2
+
+
+## SESSION ENTRY: 2026-09-12
+
+Outage recovery, on-demand PDFs, and a documentation pass. API at v0.21.10
+(https://sitrep-production-6aac.up.railway.app). Verified this date: all five briefings and all
+five PDFs return 200; api/tests 11 passing (test_admin_auth.py, test_supabase_key.py).
+
+**Briefing writes failed with the anon key (RLS)**
+
+- Supabase rejected briefing writes with 42501 "new row violates row-level security policy"
+  because the client used the publishable/anon key.
+- While that was broken, briefings existed only on the container disk, so a redeploy lost them
+  and the mobile app showed "Failed to load briefings".
+- Fix: the backend writes with SUPABASE_SERVICE_KEY (service role). GET /debug/supabase reports
+  storage, key_role, client_initialized, and briefings_count.
+
+**New-format Supabase secret key needs a newer client**
+
+- supabase-py 2.9.0 rejects sb_secret_... keys with "Invalid API key"; 2.16.0 is the first
+  release that accepts them. requirements.txt pins supabase==2.31.0.
+- briefings_count counts only the four regional rows, so the composite Global briefing is not
+  included. A count of 4 is expected, not a bug.
+
+**PDFs are generated on demand and served inline**
+
+- GET /briefing/latest/pdf loads the newest briefing (Supabase first, data/briefings/*.json
+  fallback), regenerates the PDF when it is missing or older than the briefing's generated_at,
+  caches it to data/pdfs/{slug}_{YYYY-MM-DD}.pdf, and serves it.
+- The endpoint sent Content-Disposition: attachment, so browsers downloaded the file instead of
+  rendering it in the web iframe and the screen stayed on "Loading PDF...". It now sends
+  Content-Disposition: inline, and the web viewer clears its spinner after 6 seconds as a fallback.
+- No PDF is archived in object storage: the cache lives on the container disk and is rebuilt on
+  demand.
+
+**Portfolio repo: fork-sync incident and recovery**
+
+- The web app is published from PCSchmidt.github.io at /sitrep. That repo is a fork whose upstream
+  main is the 2024 Jekyll template with history unrelated to master, which holds the Astro site; a
+  fork sync would replace the live site.
+- Recovery points kept: branch backup/portfolio-master-pre-sync and tag
+  portfolio-pre-sync-2026-09-12, both at 0ae8935 ("Deploy: rebuild the SITREP web app from the
+  latest SITREP main"). master was verified intact, and a branch ruleset now blocks non-fast-forward
+  pushes and branch deletion.
+
+**Documentation pass**
+
+- Docs reconciled against the 2026-09-12 facts file: briefings stored in Supabase, service key
+  required, on-demand inline PDFs, the 11-route API surface (there is no /refresh and no
+  /scrape/status), the model waterfall deepseek/deepseek-v4-flash -> deepseek/deepseek-v3.2 ->
+  moonshotai/kimi-k2.5, and 14 scrapers of which 13 run by default.
+- Memory and history docs were labelled as historical rather than rewritten, and stale sentences
+  were corrected with dated notes.
+
+**Still open**
+
+- /pipeline/* and /debug/* accept an optional X-Admin-Token header, but SITREP_ADMIN_TOKEN is not
+  set on Railway, so those endpoints are unauthenticated in production.
+
+Resume: Google Play closed testing (20 testers, 14 days), then the App Store.
+
+## Related docs
+
+- [README.md](README.md) - current project state
+- [DEPLOYMENT.md](DEPLOYMENT.md) - how the service runs and deploys
+- [MEMORY_SEMANTIC.md](MEMORY_SEMANTIC.md) - patterns observed across projects
+- [MEMORY_CORRECTIONS.md](MEMORY_CORRECTIONS.md) - estimation calibration and incident notes
+- [scratchnotes.md](scratchnotes.md) - the original 2026-05-21 planning chat

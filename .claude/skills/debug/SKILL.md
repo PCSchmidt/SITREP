@@ -3,8 +3,9 @@ name: debug
 description: "Structured root cause analysis with a circuit-breaker rule. Use after 3 consecutive failures on the same problem, when the user types /debug, or when diagnosing any persistent error."
 ---
 
-# DEBUG SKILL - Blueprint v11
-# Invoke: /debug or auto-triggered after 3 consecutive failures
+# Debug
+
+Structured root-cause analysis with a circuit breaker. Invoke: `/debug`, or auto-triggered after 3 consecutive failures.
 
 ## TONE
 
@@ -99,7 +100,8 @@ covered:
 - **ERR-003: Co-Authored-By blocks hosting deploy on Hobby plan**
   Fix: The strip-coauthor hook installs a commit-msg hook that removes
   the line automatically. If it's not installed, run
-  `bash ~/.claude/hooks/strip-coauthor.sh` once.
+  `bash .claude/hooks/strip-coauthor.sh` once from the repo root (the
+  hook lives in this repo's `.claude/hooks/`, not in `~/.claude/`).
 
 - **ERR-004: Alembic autogenerate produces wrong migration**
   Fix: Never use autogenerate without reading the output. Write

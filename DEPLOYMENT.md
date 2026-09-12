@@ -1,49 +1,44 @@
-# SITREP Deployment Guide
+# DEPLOYMENT
 
-# Railway + Supabase Production Deployment
+Setup and runbook for the SITREP production stack: the Railway API, the Supabase data
+store, and the GitHub Pages web export. Companion reference for variables and day-to-day
+commands: [DEPLOYMENT_CONFIG.md](DEPLOYMENT_CONFIG.md).
+
+| | |
+| --- | --- |
+| API | **https://sitrep-production-6aac.up.railway.app** - Railway, Docker, `uvicorn main:app` + FastAPI, v0.21.10 |
+| Web app | **https://pcschmidt.github.io/sitrep/** - Expo web export, built by the portfolio repo's workflow, not by this repo |
+| Data store | Supabase Postgres; briefings survive redeploys, PDFs are regenerated on demand |
+| Schedule | In-app APScheduler daily at 06:00 UTC, plus a 07:00 UTC GitHub Actions backup trigger |
+| Tests | `cd api && pytest tests -q` - 11 passing, offline, no keys needed |
+
+Verified 2026-09-12: the four regional briefings, the composite Global briefing, and all
+five PDFs return `200` from the production API.
+
+## What runs where
+
+| Piece | Host | Built from |
+| --- | --- | --- |
+| API + scheduler | Railway, Docker build (the repo also carries `nixpacks.toml` and `api/railway.toml` Nixpacks variants) | root `Dockerfile`, `api/` code, `uvicorn main:app` |
+| Briefing storage | Supabase Postgres, `briefings` table | written by `api/database/supabase_client.py` |
+| PDFs | Railway container disk cache | `api/pdf_generation/pdf_generator_v3.py`, rebuilt on demand |
+| Web app | GitHub Pages | the portfolio repo exports `mobile/` and publishes to `public/sitrep/` |
+| Mobile app | Google Play / App Store (in progress) | EAS build of `mobile/` |
 
 ## Prerequisites
 
-- Railway account (https://railway.app)
-- Supabase account (https://supabase.com)
-- OpenRouter API key
-- Git repository pushed to GitHub
+- A Railway account and the SITREP project.
+- A Supabase account with the `sitrep-production` project.
+- An OpenRouter API key.
+- The repo pushed to GitHub (`PCSchmidt/SITREP`).
 
----
+## Step 1 - Create the Supabase project
 
-## STEP 1: Railway Account Setup
-
-1. Go to https://railway.app
-2. Click "Login" → "Login with GitHub"
-3. Authorize Railway to access your GitHub account
-4. Verify your account (email confirmation)
-5. **Result**: Railway dashboard should be visible
-
----
-
-## STEP 2: Supabase Project Setup
-
-1. Go to https://supabase.com
-2. Click "Start your project" → "Sign in with GitHub"
-3. Authorize Supabase
-4. Click "New project"
-   - Organization: Create new or use existing
-   - Project name: `sitrep-production`
-   - Database password: Generate strong password (save this!)
-   - Region: Choose closest to your users (e.g., US East)
-   - Pricing plan: Free tier
-5. Click "Create new project" (takes ~2 minutes)
-6. **Result**: Project dashboard with connection details
-
-### Create Database Schema
-
-Once project is ready:
-
-1. Go to "SQL Editor" in left sidebar
-2. Run this SQL to create briefings table:ay
+1. Create a project named `sitrep-production` and save the database password.
+2. Open the SQL Editor and run:
 
 ```sql
--- Briefings table for caching
+-- Briefings table: one row per desk, upserted by region
 CREATE TABLE briefings (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   region TEXT NOT NULL,
@@ -54,11 +49,9 @@ CREATE TABLE briefings (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Index for fast region lookups
 CREATE INDEX idx_briefings_region ON briefings(region);
 CREATE INDEX idx_briefings_generated_at ON briefings(generated_at DESC);
 
--- Function to auto-update updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -67,219 +60,217 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger to call function
 CREATE TRIGGER update_briefings_updated_at
     BEFORE UPDATE ON briefings
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 ```
 
-3. Copy connection credentials:
-   - Go to "Project Settings" → "Database"
-   - Note "Connection string" (Pooler mode recommended)
+`pdf_url` is a legacy column: PDFs are no longer stored anywhere, so the backend leaves
+it empty. Keep the column, or drop it, but do not build on it.
 
----
+3. From Project Settings, note the project URL and, under API keys, the secret key.
 
-## STEP 3: Railway Project Deployment
+## Step 2 - Deploy the Railway service
 
-1. **Create Railway Project**:
+1. Railway dashboard, New Project, Deploy from GitHub repo, select `SITREP`.
+2. Leave the root directory at the repo root. The root `Dockerfile` copies `api/`,
+   installs Playwright Chromium into the image, and starts uvicorn on port 8080.
+3. Add the service variables below, then let Railway redeploy.
+4. Under Settings, Networking, click Generate Domain. The domain in use is
+   `sitrep-production-6aac.up.railway.app`.
 
-   - Go to Railway dashboard
-   - Click "New Project"
-   - Select "Deploy from GitHub repo"
-   - Authorize Railway to access your GitHub
-   - Select `SITREP` repository
-   - Railway will detect Python and start deploying
-2. **Configure Root Directory**:
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `OPENROUTER_API_KEY` | yes | model access for synthesis |
+| `SUPABASE_URL` | yes | Supabase project URL |
+| `SUPABASE_SERVICE_KEY` | yes | writes; new-format secret key `sb_secret_...` |
+| `SUPABASE_KEY` | no | publishable/anon key; local fallback only |
+| `GUARDIAN_API_KEY` | no | enables the Guardian scraper (14th source) |
+| `SITREP_ADMIN_TOKEN` | no | when set, write/debug routes require `X-Admin-Token` |
 
-   - Click on your service
-   - Go to "Settings" tab
-   - Under "Build", set Root Directory: `api`
-   - Click "Save"
-3. **Add Environment Variables**:
+**Writes need the service key.** With the publishable key, inserts fail with
+`42501 new row violates row-level security policy`, and the pipeline still reports
+success because file storage hides the failure. `GET /debug/supabase` reports `key_role`;
+it must read `service_role`.
 
-   - Still in "Settings" tab
-   - Scroll to "Variables" section
-   - Add the following variables:
+**The Supabase client must be 2.16.0 or newer.** `supabase-py` 2.9.0 rejects new-format
+`sb_secret_...` keys with "Invalid API key". `api/requirements.txt` pins
+`supabase==2.31.0`; do not downgrade it.
 
-   ```
-   OPENROUTER_API_KEY=<your-openrouter-api-key>
-   SUPABASE_URL=<your-supabase-project-url>
-   SUPABASE_SERVICE_KEY=<your-supabase-service-role-key>
-   PYTHON_VERSION=3.11
-   ```
+## Step 3 - Confirm the deployment
 
-   Get Supabase credentials from:
+```bash
+# health
+curl https://sitrep-production-6aac.up.railway.app/health          # {"status":"ok"}
 
-   - Project Settings → API
-   - Copy "Project URL" → SUPABASE_URL
-   - Copy the **service_role** key → SUPABASE_SERVICE_KEY
+# version and scheduler
+curl https://sitrep-production-6aac.up.railway.app/               # v0.21.10
 
-   **Use the service_role key, not the anon key.** The backend writes briefings, so
-   it must pass row-level security. With the anon key, reads return empty results
-   and writes fail with `new row violates row-level security policy`. `SUPABASE_KEY`
-   is still read as a fallback for local development, and the server logs a warning
-   when only that key is present.
+# which Supabase key is in use, and how many regional briefings are stored
+curl https://sitrep-production-6aac.up.railway.app/debug/supabase
+```
 
-   **Why this matters:** the host filesystem is ephemeral. If Supabase caching
-   fails, the briefings live only on the container disk and the mobile app shows
-   "Failed to load briefings" after the next restart or redeploy.
-4. **Deploy**:
+`/health` used to return a hardcoded `0.10.0`; it now returns `APP_VERSION` (fixed
+2026-09-12), so `/health`, `/`, and `/openapi.json` agree on the running version. `/debug/supabase` counts only the four regional rows, so
+`briefings_count: 4` is the expected value even though a Global briefing also exists.
 
-   - Railway will auto-deploy after adding variables
-   - Monitor "Deployments" tab for build logs
-   - Wait for "Success" status (~3-5 minutes)
-5. **Get Production URL**:
+## Step 4 - Trigger a run
 
-   - Go to "Settings" tab
-   - Under "Networking", click "Generate Domain"
-   - Copy the generated URL (e.g., `sitrep-production.up.railway.app`)
-   - **Save this URL** - you'll need it for mobile app configuration
+```bash
+curl -X POST https://sitrep-production-6aac.up.railway.app/pipeline/run-weekly --max-time 10
+```
 
----
+The run scrapes 13 sources by default (14 with `GUARDIAN_API_KEY`), synthesizes four
+regional desks, then stitches the composite Global briefing. It takes about 20 minutes; the client is expected to time out while the
+server finishes. A second request while a run is in progress is refused. Startup does not
+run the pipeline.
 
-## STEP 4: Automated Scheduling (no extra service needed)
+To check the result, read a desk and look at `generated_at`:
 
-Scheduling is handled **inside the backend** by an in-app APScheduler job
-(`api/scheduler.py`, `CronTrigger(hour=6, minute=0, tz=UTC)`), started on app
-startup in `main.py`. It runs the full pipeline **daily at 06:00 UTC** by calling
-`POST /pipeline/run-weekly` (legacy endpoint name — it runs daily, not weekly).
+```bash
+curl -s -G https://sitrep-production-6aac.up.railway.app/briefing/latest \
+  --data-urlencode "region=Middle East"
+```
 
-- **No separate Railway "Cron" service is required.** As long as the web service
-  is running, the daily job is scheduled automatically.
-- A standalone Railway Cron service (if one exists in the project) is **redundant**
-  and can be removed.
-- Confirm it's live: `GET /` reports `scheduler` status and the next run time.
+## Step 5 - Scheduling
 
-### Admin token (recommended before public launch)
+Scheduling lives inside the API. `api/scheduler.py` starts an APScheduler job at app
+startup with `CronTrigger(hour=6, minute=0, timezone="UTC")` and POSTs the pipeline
+endpoint. No separate Railway cron service is needed; a standalone cron service would
+duplicate the run.
 
-Every mutating endpoint (`POST /scrape`, `POST /synthesize`, `POST /synthesize/global`,
-`POST /briefing/generate-pdf`, `POST /pipeline/run-weekly`, `GET /debug/supabase`,
-`POST /debug/upload-briefing`) accepts an optional shared secret. Enforcement is
-**opt-in**:
+Because the in-app job only fires if the container is alive at 06:00 UTC,
+`.github/workflows/daily-briefing.yml` is an independent backup: at 07:00 UTC it checks
+whether today's briefing already exists and triggers the pipeline only if it is stale.
 
-1. Generate a long random value (for example `openssl rand -hex 32`).
-2. Set it on Railway as `SITREP_ADMIN_TOKEN` and redeploy.
-3. Send the same value from every caller:
-   - In-app scheduler: reads `SITREP_ADMIN_TOKEN` from the environment automatically.
-   - Manual refresh: `SITREP_ADMIN_TOKEN=... python refresh_railway_briefings.py`
-     (or `--token ...`).
-   - GitHub Actions backup trigger: add the repository secret
-     `SITREP_ADMIN_TOKEN` (Settings → Secrets and variables → Actions).
-4. Callers that omit the header then receive `401` (missing) or `403` (wrong).
+## Step 6 - Admin token guard (opt-in)
 
-While `SITREP_ADMIN_TOKEN` is unset the endpoints stay open and the server logs a
-warning per request, so you can add the token without breaking the daily run.
-Read-only endpoints (`/`, `/health`, `/briefing/latest`, `/briefing/global`,
-`/briefing/latest/pdf`) stay public because the mobile app needs them.
+Every write route - `/scrape`, `/synthesize`, `/synthesize/global`,
+`/briefing/generate-pdf`, `/pipeline/run-weekly`, `/debug/supabase`,
+`/debug/upload-briefing` - accepts an optional `X-Admin-Token` header. Enforcement is
+opt-in through the `SITREP_ADMIN_TOKEN` variable.
 
----
+`SITREP_ADMIN_TOKEN` is **not set in production today**, so those routes are
+unauthenticated and the guard logs a warning per request. To turn the guard on:
 
-## STEP 5: Verify Deployment
+1. Generate a value, for example `openssl rand -hex 32`.
+2. Set it on Railway and redeploy.
+3. Send it from every caller: the in-app scheduler reads the variable from the
+   environment; `refresh_railway_briefings.py` sends it when the variable or `--token` is
+   set; the GitHub Actions workflow sends it when the `SITREP_ADMIN_TOKEN` repository
+   secret exists.
 
-1. **Test Health Endpoint**:
+Read routes stay public because the mobile app needs them: `/`, `/health`,
+`/briefing/latest`, `/briefing/global`, `/briefing/latest/pdf`.
 
-   ```bash
-   curl https://YOUR-RAILWAY-URL.up.railway.app/health
-   ```
+## Step 7 - PDFs
 
-   Expected: `{"status":"ok"}` (GET `/` reports the version, currently 0.21.0)
-2. **Test Manual Pipeline Trigger**:
+`GET /briefing/latest/pdf` is the only PDF route the app calls. It loads the newest
+briefing for the desk (Supabase first, `data/briefings/*.json` fallback), regenerates the
+PDF when the cached file is missing or older than the briefing's `generated_at`, caches it
+to `data/pdfs/{slug}_{YYYY-MM-DD}.pdf`, and returns it with
+`Content-Disposition: inline`. Inline matters: an attachment disposition made browsers
+download the file instead of rendering it in the web iframe, which left the web PDF screen
+stuck on its loading spinner.
 
-   ```bash
-   curl -X POST https://YOUR-RAILWAY-URL.up.railway.app/pipeline/run-weekly
-   ```
+The cache lives on the container disk, so a redeploy drops it. That is expected: the next
+request rebuilds the PDF. There is no object-storage archive yet.
 
-   If `SITREP_ADMIN_TOKEN` is set, add `-H "X-Admin-Token: $SITREP_ADMIN_TOKEN"`.
+## Step 8 - Mobile and web
 
-   Expected: Pipeline runs and caches briefings to Supabase
-3. **Check Supabase**:
+The mobile client points at the production API in `mobile/api/client.ts`:
 
-   - Go to Supabase project → Table Editor
-   - Select `briefings` table
-   - Verify 4 rows exist (one per region)
+```typescript
+const API_BASE_URL = 'https://sitrep-production-6aac.up.railway.app';
+```
 
----
+The web app is published from the portfolio repo, not this one. Pushes to SITREP `main`
+do not update https://pcschmidt.github.io/sitrep/. That repo's
+`.github/workflows/deploy.yml` runs on push to its `master`, builds the SITREP Expo web
+export into `public/sitrep/`, and leaves `public/sitrep/privacy-policy.html` and
+`public/sitrep/terms.html` alone. `public/404.html` forwards `/sitrep/` deep links to
+`/sitrep/?redirect=...`, which the app root layout follows.
 
-## STEP 6: Update Mobile App
+To redeploy the web app without changing code, run that workflow manually: GitHub, the
+portfolio repo, Actions, "Deploy Astro site to GitHub Pages", Run workflow. The build step
+it performs is:
 
-Update mobile API base URL to point to Railway:
+```bash
+# portfolio repo working copy, after checking out PCSchmidt/SITREP into sitrep-src/
+cd sitrep-src/mobile
+npm ci --no-audit --no-fund
+npx expo export --platform web --output-dir "$GITHUB_WORKSPACE/sitrep-web"
+# then copy the export into public/sitrep/, replacing only app-owned files
+```
 
-1. Edit `mobile/api/client.ts`:
+`mobile/app.json` sets `experiments.baseUrl` to `/sitrep`, so the exported asset URLs
+resolve under the subpath the site serves.
 
-   ```typescript
-   const API_BASE_URL = 'https://YOUR-RAILWAY-URL.up.railway.app';
-   ```
-2. Test mobile app with production backend
+## Local run
 
----
+Backend:
+
+```bash
+cd api
+python -m venv venv
+venv\Scripts\activate            # Windows; source venv/bin/activate on macOS/Linux
+pip install -r requirements.txt
+cp .env.example .env             # then fill in the keys
+uvicorn main:app --reload        # http://localhost:8000/docs
+```
+
+Mobile and web:
+
+```bash
+cd mobile
+npm install
+npx expo start                   # then: i (iOS), a (Android), w (web)
+```
+
+## Redeploys
+
+Any push to `main` restarts the container, and so does any Railway variable change.
+That used to wipe the briefings and break the PDFs. It no longer does, because briefings
+live in Supabase and PDFs regenerate on demand; expect a short warm-up and a slower first
+PDF request after a restart. Do not re-run the pipeline just because the container
+restarted.
 
 ## Troubleshooting
 
-### Build Fails
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| Writes fail with `42501 new row violates row-level security policy` | `SUPABASE_SERVICE_KEY` missing or set to the publishable key | Set the secret key; check `key_role: service_role` on `/debug/supabase` |
+| `Invalid API key` on startup | `supabase-py` older than 2.16.0 cannot read `sb_secret_...` keys | Keep `supabase==2.31.0` in `api/requirements.txt` |
+| PDF request returns `404` | No briefing and no cached PDF for that desk | Run the pipeline, then retry; `/briefing/latest` should return data first |
+| PDF screen stuck on "Loading PDF..." | PDF served as an attachment, or an old cached file | Confirm `Content-Disposition: inline`; the web viewer also clears itself after 6 seconds |
+| `browserType.launch: Executable doesn't exist` | Playwright Chromium missing from the image | The root `Dockerfile` runs `playwright install chromium`; rebuild |
+| `FileNotFoundError: data/briefings` | Command run from the repo root instead of `api/` | Run uvicorn and scripts from `api/` |
+| Scheduler "not initialized" in `GET /` | The startup hook failed | Check the service logs, then restart the service |
+| Blank desk in the app after a redeploy | Briefing missing from Supabase and from disk | Confirm the service key, re-run the pipeline |
 
-- Check Railway logs in "Deployments" tab
-- Verify `requirements.txt` is in `api/` directory
-- Verify Python version is 3.11+
+## Cost
 
-### API Returns 500 Errors
+| Item | Cost |
+| --- | --- |
+| Railway | $5/month (Hobby plan, 500 hours) |
+| Supabase | $0 (free tier) |
+| OpenRouter | ~$0.001 per regional briefing, ceiling $20/month |
+| Total | ~$5/month plus a few cents of model usage |
 
-- Check Railway logs in "Deployments" → "View Logs"
-- Verify environment variables are set correctly
-- Check Supabase connection (wrong URL/key)
+## Known gaps
 
-### Automated Scheduler Not Running
+- `SITREP_ADMIN_TOKEN` is unset in production, so the pipeline and debug routes are open.
+- `/debug/supabase` counts only the four regional rows; the Global briefing is not counted.
+- PDFs have no object-storage archive; the container cache is the only copy.
+- The in-app scheduler only runs if the container is alive at 06:00 UTC; the 07:00 UTC
+  Actions job is the safety net, not a guarantee.
+- Google Play closed testing is next (20 testers, 14 days), then production, then App
+  Store. The production AAB is built with `eas build --profile production`.
 
-- The scheduler is in-app (APScheduler), not a Railway cron service — check the **web service** logs at startup for "scheduler configured"
-- `GET /` reports scheduler status + next run time; if "Not initialized", the startup hook failed (check logs)
-- Manually trigger to test: POST to `/pipeline/run-weekly`
+## See also
 
-### Playwright Fails in Railway
-
-- Playwright requires system dependencies
-- Add to `nixpacks.toml` if needed (Railway uses Nixpacks)
-
----
-
-## Cost Estimate
-
-- Railway: $5/month (Hobby plan, includes 500 hours)
-- Supabase: $0 (Free tier, up to 500MB database)
-- Total: **$5/month**
-
----
-
-## v0.10 Deployment Status (2026-05-26)
-
-**✅ DEPLOYED AND OPERATIONAL**
-
-- **Production URL**: https://sitrep-production-6aac.up.railway.app
-- **Version**: v0.10.0
-- **Build System**: Dockerfile (replaced Nixpacks for Playwright compatibility)
-- **Automated Scheduler**: Configured for Sunday 6 AM UTC
-- **Last Pipeline Run**: 16 articles scraped, 4/4 regions processed, 0 errors
-
-**Key Technical Decisions:**
-- Switched from Nixpacks to Dockerfile to persist Playwright Chromium installation
-- Data paths use `data/*` (not `../data/*`) since WORKDIR is `/app/api`
-- Supabase caching falls back to file storage (ON CONFLICT constraint issue remains)
-- Only ISW scraper operational (Defense One, Breaking Defense, IISS deferred to v0.3+)
-
-**Verified Working:**
-- ✅ Scraping (16 ISW articles)
-- ✅ Region filtering (Middle East, Indo-Pacific, Europe/Africa)
-- ✅ LLM synthesis (DeepSeek V4 Flash, $0.001/briefing)
-- ✅ PDF generation (all 4 regions)
-- ✅ File-based briefing storage
-- ✅ Mobile API integration
-- ✅ Weekly cron automation
-
----
-
-## Next Steps After Deployment
-
-1. ✅ Monitor first cron execution (check logs Sunday 6AM UTC)
-2. Verify 2 consecutive weeks of successful runs
-3. Add Sentry for error tracking (v0.11)
-4. Add Mixpanel for analytics (v0.11)
-5. Proceed to v0.12 (Legal & Disclaimers)
+- [README.md](README.md) - what SITREP is and how to run it locally.
+- [DEPLOYMENT_CONFIG.md](DEPLOYMENT_CONFIG.md) - variables, failure modes, and static values.
+- [api/SETUP_OPENROUTER.md](api/SETUP_OPENROUTER.md) - model access setup.
+- [mobile/README.md](mobile/README.md) - the mobile and web client.

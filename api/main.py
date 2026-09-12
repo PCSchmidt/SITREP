@@ -274,7 +274,7 @@ async def health_check():
     """Health check endpoint for monitoring"""
     return {
         "status": "ok",
-        "version": "0.10.0",
+        "version": APP_VERSION,
         "supabase_enabled": USE_SUPABASE
     }
 

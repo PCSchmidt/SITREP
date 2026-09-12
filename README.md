@@ -1,499 +1,289 @@
-# SITREP
+# SITREP — daily geopolitical intelligence briefings
 
-**AI-Powered Intelligence Briefing Platform**
+**Live app: https://pcschmidt.github.io/sitrep/** (the web build of the mobile app;
+keyboard and mouse work, and the PDF buttons open the same briefings).
+**API: https://sitrep-production-6aac.up.railway.app** — backend v0.21.10, `uvicorn main:app`
+from `api/` on Railway. Legal pages: [privacy](https://pcschmidt.github.io/sitrep/privacy-policy),
+[terms](https://pcschmidt.github.io/sitrep/terms).
 
-SITREP delivers military-grade geopolitical intelligence briefings to mobile devices. It scrapes open-source defense, economic, and think-tank publications (ISW, Defense One, War on the Rocks, Reuters, Bloomberg, The Economist, CFR, and more), synthesizes them using a multi-model LLM pipeline, and presents daily threat assessments in professional BLUF (Bottom Line Up Front) format—the same structure used by military intelligence products.
+## What is this? (plain-language overview)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-lightgrey)
-![Status](https://img.shields.io/badge/status-v0.21%20Pre--Launch-blue)
+SITREP answers one question every morning: *what actually changed in the world's trouble
+spots, and what does it mean?* It scrapes open defense, economic, and think-tank
+publications, sorts the results into four regional desks, and writes each desk a briefing
+in **BLUF** (Bottom Line Up Front) format — the structure military intelligence products
+use: the conclusion first, then the evidence, then the outlook.
 
----
+You open the app, pick a desk (Middle East, Indo-Pacific, Europe/Africa, Western
+Hemisphere), or read **Global**, which stitches all four together in full. Each briefing
+carries a BLUF paragraph, key developments, per-section analysis with source links, and an
+outlook. Every desk has a PDF that is generated from the same briefing JSON the app
+displays.
 
-## 🎯 Project Overview
+The thing that makes it more than a news summarizer:
 
-**Build Type**: Production / GA (App Store + Play Store deployment)  
-**Timeline**: 3 months (~136-152 hours total)  
-**Current state**: Backend v0.21 live — executive PDF redesign + composite Global briefing; preparing Google Play Store submission  
-**Next Gate**: v1.0 Production Live (Play Store first, then App Store)  
-**Production URL**: <https://sitrep-production-6aac.up.railway.app>  
-**Portfolio**: [pcschmidt.github.io](https://pcschmidt.github.io)
+- **The briefing is built from fetched text, not model memory.** Thirteen scrapers run in
+  parallel over public RSS feeds, Hacker-free HTML pages, GDELT DOC 2.0, and government
+  press releases; each has a 60-second per-attempt timeout and two retries, so one dead
+  source cannot stall the run. Every claim in a section carries the URL it came from.
+- **One synthesis pass per desk, with an explicit model waterfall.** A single prompt per
+  desk turns the day's articles into the BLUF product; if the primary model returns empty
+  content, is rate limited, or runs out of credits, the client falls through to the next
+  model and records which one actually wrote the briefing in `metadata.model_used`.
+- **The briefings are durable; the PDFs are reproducible.** Briefings are stored in
+  Supabase, so a container restart no longer empties the app (it used to — this was the
+  2026-09-12 outage). PDFs are deliberately *not* stored: `GET /briefing/latest/pdf`
+  re-renders one from the current briefing JSON whenever the cached file is missing or
+  older than the briefing, and serves it inline.
+- **One codebase, two surfaces.** Expo / React Native ships the phone app; the same app
+  exports to the web build above. The PDF viewer is the only platform fork: an iframe on
+  web, `react-native-pdf` on device.
 
-### Recent Accomplishments (v0.18–v0.21)
+| | |
+| --- | --- |
+| Live app | https://pcschmidt.github.io/sitrep/ (Expo web export, baseUrl `/sitrep`) |
+| API | https://sitrep-production-6aac.up.railway.app — v0.21.10, 11 routes |
+| Desks | Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere, plus composite Global |
+| Sources | 13 scrapers by default; 14 with a `GUARDIAN_API_KEY` (adds the Guardian Content API) |
+| Model | `deepseek/deepseek-v4-flash`, waterfall to `deepseek/deepseek-v3.2`, then `moonshotai/kimi-k2.5` |
+| Cost | ~$0.001 per regional briefing (~$0.15/month at one run a day), plus Railway hosting |
+| Last verified run | 2026-09-12 15:24–15:26 UTC — 30 articles per desk, 120-article Global, 17 sections |
+| Storage | Supabase Postgres for briefings; PDFs are container-disk cache only |
+| Tests | `cd api && pytest tests -q` — 11 passing, offline, no keys needed |
+| Release status | Google Play closed testing next (20 testers / 14 days), then production, then App Store |
 
-✅ **Executive PDF redesign**: editorial layout (PT Serif + Lato, navy/hairline rules), two-column cover (Contents + Executive Summary), hyperlinked per-section sources — verified in production  
-✅ **Composite Global briefing**: the "ALL" view now stitches all four regions in full (≈4 regions, 19 sections, 120 articles) instead of a thin condensed summary  
-✅ **Source expansion**: 13 scrapers, ~540 articles/run — revived economic/think-tank feeds (Reuters, Bloomberg, World Bank, Brookings, Carnegie via Google News proxy; CSIS native) plus Guardian API + US/UK government sources  
-✅ **GDELT fix**: corrected to FIPS country codes + OR-keyword queries (previously returned 0)  
-✅ **Daily automation**: internal APScheduler runs the full pipeline daily at 06:00 UTC  
-✅ **Reliability**: per-scraper timeouts, model-waterfall null-content fallback, deterministic source-URL hyperlinks, mobile PDF cache fix
+## Architecture at a glance
 
-### What is SITREP?
+```mermaid
+flowchart TD
+    subgraph sources["Public sources (no credentials except Guardian)"]
+        R["RSS bundle + named feeds<br>Defense One, Breaking Defense, War on the Rocks,<br>The War Zone, Al Jazeera, Foreign Policy, CFR,<br>Americas Quarterly, government releases"]
+        H["HTML scrapers<br>ISW (Playwright), LatAm backups"]
+        D["GDELT DOC 2.0<br>local-language coverage"]
+        G["Guardian Content API<br>optional, key-gated"]
+    end
+    O["ScraperOrchestrator<br>13-14 scrapers, 60s timeout, 2 retries"]
+    S["Regional synthesis<br>one BLUF prompt per desk"]
+    GS["Global synthesis<br>stitches all four desks"]
+    DB[("Supabase<br>briefings")]
+    P["PDFGeneratorV3<br>reportlab, rebuilt on demand"]
+    A["FastAPI<br>11 routes"]
+    M["Expo app<br>iOS / Android"]
+    W["Web export<br>pcschmidt.github.io/sitrep"]
 
-SITREP is a mobile intelligence briefing platform that replicates and enhances "The LOWDOWN" - an AI-generated OSINT newsletter format. It automates the collection, synthesis, and presentation of defense and geopolitical intelligence from dozens of premier open-source publications.
-
-**The Problem**: Keeping up with global defense developments requires monitoring 40+ disparate sources, from think tanks (ISW, CSIS, IISS) to trade publications (Defense One, Breaking Defense) to mainstream news. This is time-consuming and overwhelming.
-
-**The Solution**: SITREP automatically scrapes, synthesizes, and summarizes these sources daily using AI, presenting a single coherent intelligence briefing organized by region (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere) in professional military BLUF format.
-
-**Why This Project**: Portfolio showcase demonstrating full-stack mobile development, AI/LLM integration, web scraping, backend architecture, and production deployment to public app stores.
-
----
-
-## ✨ Key Features (v1.0)
-
-### Intelligence Briefing
-
-- ✅ **Daily automated generation** - Internal APScheduler runs the full pipeline daily at 06:00 UTC
-- ✅ **BLUF format** - Bottom Line Up Front military intelligence structure
-- ✅ **4 geographic regions** + composite **Global** (all regions in full)
-- ✅ **Cited sources** - claims linked to original publications via clickable hyperlinks
-- ✅ **~540 articles/run** across 13 scrapers - ISW, Defense One, War on the Rocks, The War Zone, Al Jazeera, Foreign Policy, CFR, 19 RSS feeds (Reuters, Bloomberg, FT, Economist, BBC, Guardian, World Bank, Brookings, Carnegie, CSIS, The Diplomat, Middle East Eye, …), Guardian API, and US/UK government sources
-- ✅ **AI-generated content disclaimers** - Heavy compliance focus for App Store approval
-
-### PDF Features
-
-- ✅ **PDF auto-generation** - Professional 15-20 page reports during weekly pipeline
-- ✅ **In-app PDF viewer** - Full-screen viewing with pinch-to-zoom
-- ✅ **PDF sharing** - iOS/Android share sheet (email, messages, AirDrop)
-- ✅ **PDF save/open** - Save to Files app or open in external apps (Adobe, Apple Books)
-
-### Mobile Experience
-
-- ✅ **Dark military aesthetic** - AMOLED-optimized UI (near-black + amber accents)
-- ✅ **Regional filtering** - Tab navigation between geographic regions
-- ✅ **Offline reading** - Briefings cached locally for offline access
-- ✅ **Smooth UX** - Loading states, optimistic updates, error boundaries
-
-### Infrastructure & Cost Optimization
-
-- ✅ **Cost ceiling: $20/month** (target: $5-10/month typical)
-- ✅ **Single cached briefing** - One briefing per week served to all users (no per-user generation)
-- ✅ **Multi-model LLM waterfall** - DeepSeek V4 Flash (~$0.001/briefing) → DeepSeek V3.2 → Kimi K2.5
-- ✅ **Playwright scraping** - Open-source news scraping (CloakBrowser optional for paywalls)
-- ✅ **Full analytics & monitoring** - Mixpanel (user behavior) + Sentry (crash tracking)
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- **Node.js** 18+ and npm
-- **Python** 3.11+
-- **Git**
-- **Expo CLI** (`npm install -g expo-cli`)
-- **iOS Simulator** (Mac) or **Android Emulator**
-- **Supabase** account (free tier)
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/PCSchmidt/SITREP.git
-cd SITREP
-
-# Install mobile dependencies
-cd mobile
-npm install
-
-# Install backend dependencies
-cd ../api
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your Supabase and Open Router credentials
+    R --> O
+    H --> O
+    D --> O
+    G --> O
+    O --> S
+    S --> GS
+    S --> DB
+    GS --> DB
+    DB --> A
+    A --> P
+    A --> M
+    A --> W
 ```
 
-### Running Locally
+The whole backend is `api/main.py` plus the `scrapers/`, `synthesis/`, `pdf_generation/`
+and `database/` packages. There is no queue and no worker fleet: `POST /pipeline/run-weekly`
+runs the job in the API process under an in-process lock, and APScheduler fires the same
+job daily at 06:00 UTC.
 
-**Mobile App:**
+## Quickstart
 
-```bash
-cd mobile
-npm start
-
-# Then choose your platform:
-# - Press 'i' for iOS Simulator
-# - Press 'a' for Android Emulator
-# - Scan QR code with Expo Go app
-```
-
-**Backend API:**
+Backend (Python 3.11+):
 
 ```bash
 cd api
-source venv/bin/activate  # Windows: venv\Scripts\activate
-uvicorn main:app --reload --port 8000
-
-# API available at http://localhost:8000
-# Docs at http://localhost:8000/docs
+pip install -r requirements.txt
+cp .env.example .env          # then fill in the keys below
+uvicorn main:app --reload     # http://localhost:8000/docs
 ```
 
----
+`.env` needs `OPENROUTER_API_KEY`, `SUPABASE_URL`, `SUPABASE_KEY`. Add
+`SUPABASE_SERVICE_KEY` (the Supabase secret key) if you want the pipeline to write
+briefings — the publishable key is blocked by row-level security. `GUARDIAN_API_KEY` is
+optional and only enables the fourteenth scraper. See [DEPLOYMENT.md](DEPLOYMENT.md).
 
-## 📁 Project Structure
-
-```
-SITREP/
-├── mobile/              # React Native + Expo mobile app
-│   ├── App.tsx          # Main app entry point
-│   ├── app.json         # Expo configuration
-│   ├── assets/          # Images, fonts, icons
-│   └── package.json     # Mobile dependencies
-│
-├── api/                 # FastAPI backend
-│   ├── main.py          # FastAPI app and routes
-│   ├── requirements.txt # Python dependencies
-│   ├── .env.example     # Environment template
-│   └── venv/            # Python virtual environment (gitignored)
-│
-├── docs/                # Documentation
-│
-├── .claude/             # Blueprint v11 framework
-│   ├── skills/          # Development workflow skills
-│   ├── hooks/           # Pre/post tool execution hooks
-│   └── agents/          # Specialized subagents
-│
-├── CONTRACT.md          # Project scope and identity
-├── SPEC.md              # Technical specification
-├── VERSION_ROADMAP.md   # 16-gate development roadmap
-├── DESIGN_SYSTEM.md     # UI/UX design specifications
-├── DECISIONS.md         # Architecture decision records
-└── README.md            # This file
-```
-
----
-
-## 🛠️ Tech Stack
-
-### Mobile
-
-- **Framework**: React Native + Expo SDK 56
-- **Language**: TypeScript (strict mode)
-- **Navigation**: Expo Router (file-based routing)
-- **Styling**: NativeWind (Tailwind CSS for React Native)
-- **State Management**:
-  - TanStack Query v5 (server state, caching, offline-first)
-  - Zustand (client state)
-- **PDF Viewing**: react-native-pdf
-- **Analytics**: Mixpanel SDK
-- **Monitoring**: Sentry React Native SDK
-
-### Backend
-
-- **Framework**: FastAPI (Python 3.11+)
-- **Database**: Supabase (PostgreSQL + Blob Storage for PDFs)
-- **Scraping**: Playwright (CloakBrowser optional for paywalled sources)
-- **PDF Generation**: ReportLab (programmatic PDF generation)
-- **LLM Integration**: Multi-model via Open Router
-  - Primary: DeepSeek V4 Flash (~$0.001/briefing)
-  - Fallback 1: DeepSeek V3.2 (~$0.003/briefing)
-  - Fallback 2: Kimi K2.5 (~$0.009/briefing)
-- **HTTP**: httpx (async), aiohttp (concurrent scraping)
-- **Testing**: pytest, pytest-asyncio, pytest-cov
-
-### DevOps & Infrastructure
-
-- **Backend Hosting**: Railway (Hobby plan, $5/month)
-- **Mobile Deployment**: App Store (iOS) + Play Store (Android)
-- **Database**: Supabase Free Tier (500MB database, 1GB storage)
-- **Analytics**: Mixpanel Free Tier (100k events/month)
-- **Monitoring**: Sentry Free Tier (5k errors/month)
-- **Automation**: Internal APScheduler (daily briefing generation)
-- **CI/CD**: GitHub Actions (planned for v0.13+)
-
----
-
-## 📋 Development Roadmap
-
-**Current Gate**: v0.10 Production Deployment ✅
-
-Built using **Blueprint v11** methodology with 16-gate phased development:
-
-| Version | Gate                       | Description                                           | Hours            | Status       |
-| ------- | -------------------------- | ----------------------------------------------------- | ---------------- | ------------ |
-| v0.0    | Foundation                 | Project scaffold, dependencies, documentation         | 4h (4h actual)   | ✅ COMPLETE  |
-| v0.1    | Mobile Foundation          | App config, design system, component library, screens | 8h (3h actual)   | ✅ COMPLETE  |
-| v0.2    | Scraping Pipeline          | Playwright scraping, ISW working (16 articles)        | 8h (4h actual)   | ✅ COMPLETE  |
-| v0.2    | LLM Synthesis              | DeepSeek V4 Flash via Open Router, BLUF generation    | 12h (3h actual)  | ✅ COMPLETE  |
-| v0.3    | PDF Generation Backend     | ReportLab PDF generation, 3-page output               | 8h (2h actual)   | ✅ COMPLETE  |
-| v0.4    | Mobile Scaffold            | (Skipped - completed in v0.1)                         | -                | ⏭️ SKIPPED |
-| v0.5    | UI Design System           | (Skipped - completed in v0.1)                         | -                | ⏭️ SKIPPED |
-| v0.6    | Backend API                | FastAPI endpoints, file-based caching                 | 8h (4h actual)   | ✅ COMPLETE  |
-| v0.7    | Mobile-Backend Integration | TanStack Query, API client, vertical region tabs      | 6h (8h actual)   | ✅ COMPLETE  |
-| v0.8    | PDF Mobile Integration     | react-native-pdf, custom build, share/save working    | 6h (6h actual)   | ✅ COMPLETE  |
-| v0.9    | Regional Filtering         | Multi-region briefings, filter logic, navigation      | 6h (6h actual)   | ✅ COMPLETE  |
-| v0.10   | Production Deployment      | Railway deployment, mobile app fully functional       | 10h (16h actual) | ✅ COMPLETE  |
-| v0.11   | Analytics Integration      | Mixpanel events, Sentry crash tracking                | 6h               | 📅 Next      |
-| v0.12   | Legal & Disclaimers        | Privacy Policy, ToS, AI content warnings              | 4h               | 📅 Planned   |
-| v0.13   | App Store Prep             | Icons, screenshots, metadata, build signing           | 6h               | 📅 Planned   |
-| v0.14   | Beta Testing               | TestFlight, internal testing, bug fixes               | 8-16h            | 📅 Planned   |
-| v1.0    | Production Live            | App Store + Play Store deployment, launch             | 6-12h            | 📅 Planned   |
-
-**Total Estimated**: 114-124 hours over 3 months  
-**Total Actual (v0.0-v0.10)**: 56 hours  
-**Remaining**: 58-68 hours  
-**Target Launch**: 2026-08-21
-
-See [VERSION_ROADMAP.md](VERSION_ROADMAP.md) for detailed gate descriptions and hour breakdowns.
-
----
-
-## 🏗️ Technical Architecture
-
-### System Overview
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Mobile App (React Native)                 │
-│  ┌─────────────┐  ┌──────────────┐  ┌──────────────────┐   │
-│  │   Region    │  │   Briefing   │  │   PDF Viewer     │   │
-│  │   Tabs      │  │   Cards      │  │   (Full Screen)  │   │
-│  └─────────────┘  └──────────────┘  └──────────────────┘   │
-│          │                 │                    │             │
-│          └─────────────────┴────────────────────┘             │
-│                         │                                     │
-│                  TanStack Query                               │
-│                    (Caching Layer)                            │
-└─────────────────────────┬───────────────────────────────────┘
-                          │ REST API
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│              FastAPI Backend (Railway)                       │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  GET /briefing/latest → {regions, pdf_url, metadata} │   │
-│  │  GET /briefing/latest/pdf → PDF binary               │   │
-│  │  POST /scrape (internal cron trigger)                │   │
-│  │  POST /synthesize (internal cron trigger)            │   │
-│  └──────────────────────────────────────────────────────┘   │
-│                         │                                     │
-│                         ↓                                     │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │           Supabase (PostgreSQL + Storage)            │    │
-│  │  • briefings table (JSON, metadata, timestamp)       │    │
-│  │  • Blob storage for generated PDFs                   │    │
-│  └─────────────────────────────────────────────────────┘    │
-└─────────────────────────┬───────────────────────────────────┘
-                          │ Internal APScheduler
-                          │ (Sunday 06:00 UTC)
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│              Weekly Scraping Pipeline                        │
-│  1. Playwright scrapes OSINT sources (ISW, Defense One...)  │
-│  2. Extract articles → JSON storage                          │
-│  3. Multi-model LLM synthesis (DeepSeek V4 → V3.2 → Kimi)   │
-│  4. Generate BLUF per region                                 │
-│  5. ReportLab generates PDF                                  │
-│  6. Cache briefing + PDF in Supabase                         │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Weekly Pipeline Flow
-
-```
-Sunday 06:00 UTC
-    │
-    ↓
-┌───────────────────────────────────────────────┐
-│  Internal APScheduler triggers POST /scrape           │
-└────────────────┬──────────────────────────────┘
-                 │
-                 ↓
-┌───────────────────────────────────────────────┐
-│  Playwright Scraping (async, parallel)        │
-│  • ISW: Russia/Ukraine analysis               │
-│  • Defense One: Pentagon insider news         │
-│  • IISS: Strategic assessments                │
-│  • Breaking Defense: Tech/procurement         │
-│  • CSIS, Reuters, Al Jazeera (40+ total)     │
-└────────────────┬──────────────────────────────┘
-                 │
-                 ↓ Raw articles JSON
-┌───────────────────────────────────────────────┐
-│  Multi-Model LLM Synthesis                    │
-│  Primary: DeepSeek V4 Flash (~$0.001/briefing)│
-│  Fallback: DeepSeek V3.2 → Kimi K2.5          │
-│                                                │
-│  Prompt: "Synthesize into 4 regional BLUF     │
-│  briefings (Middle East, Indo-Pacific,        │
-│  Europe/Africa, Western Hemisphere)"          │
-└────────────────┬──────────────────────────────┘
-                 │
-                 ↓ Structured BLUF JSON
-┌───────────────────────────────────────────────┐
-│  ReportLab PDF Generation                     │
-│  • Programmatic layout with Python API        │
-│  • 3-5 pages per region, military aesthetic   │
-│  • Source citations, disclaimers              │
-└────────────────┬──────────────────────────────┘
-                 │
-                 ↓ PDF binary
-┌───────────────────────────────────────────────┐
-│  Supabase Storage                             │
-│  • briefings table: JSON + metadata           │
-│  • Blob storage: PDF file                     │
-│  • Single cached briefing for all users       │
-└───────────────────────────────────────────────┘
-```
-
-### Data Model
-
-**Supabase `briefings` table:**
-
-```sql
-CREATE TABLE briefings (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  created_at TIMESTAMP DEFAULT NOW(),
-  week_start DATE NOT NULL,
-  regions JSONB NOT NULL,  -- {middle_east: {...}, indo_pacific: {...}, ...}
-  pdf_url TEXT,            -- Blob storage URL
-  source_count INTEGER,    -- Number of articles scraped
-  model_used TEXT          -- "DeepSeek V4 Flash" | "DeepSeek V3.2" | "Kimi K2.5"
-);
-```
-
-**Mobile cache (TanStack Query):**
-
-```typescript
-{
-  queryKey: ['briefing', 'latest'],
-  data: {
-    id: string,
-    created_at: string,
-    week_start: string,
-    regions: {
-      middle_east: {
-        bluf: string,
-        sections: Array<{title: string, content: string, sources: string[]}>
-      },
-      // ... other regions
-    },
-    pdf_url: string,
-    source_count: number
-  },
-  staleTime: 1000 * 60 * 60 * 24 * 7  // 1 week
-}
-```
-
----
-
-## 💰 Cost Breakdown & Optimization
-
-**Operational Ceiling**: $20/month
-**Typical Monthly Cost**: $5-10
-**One-Time Build Cost**: <$50 LLM usage
-
-### Monthly Operating Costs
-
-| Service                         | Tier          | Monthly Cost                                                       | Notes                                      |
-| ------------------------------- | ------------- | ------------------------------------------------------------------ | ------------------------------------------ |
-| Railway                         | Hobby         | $5                                                                 | Backend hosting, automated scheduling                 |
-| Supabase                        | Free          | $0                                                                 | 500MB DB, 1GB storage, 2GB bandwidth       |
-| Open Router (DeepSeek V4 Flash) | Pay-as-you-go | $0-1 | ~$0.001/briefing, 4 briefings/month = $0.004                |                                            |
-| Open Router (Fallbacks)         | Pay-as-you-go | $0                                                                 | DeepSeek V3.2/Kimi only if V4 fails (rare) |
-| Mixpanel                        | Free          | $0                                                                 | 100k events/month                          |
-| Sentry                          | Free          | $0                                                                 | 5k errors/month                            |
-| **Total**                 |               | **$5-6** | **Worst case: $10 if heavy fallback usage** |                                            |
-
-### Cost Optimization Strategies
-
-1. **Single Cached Briefing**: One briefing generated per week, served to ALL users (no per-user generation)
-2. **Ultra-Low-Cost LLM**: DeepSeek V4 Flash at ~$0.001/briefing (4 briefings/month = $0.004/month, 99% reduction vs GPT-4o Mini)
-3. **Waterfall Fallback**: Only pay for DeepSeek V3.2/Kimi if V4 Flash fails (rare, adds $0-1/month)
-4. **Supabase Free Tier**: 500MB database + 1GB blob storage sufficient for 52 briefings/year + PDFs
-5. **No User Auth in v1.0**: Deferred to v1.1 to reduce complexity and backend load
-6. **Railway Free Trial**: First $5/month free credits reduce effective cost
-
----
-
-## 🔒 Security & Compliance
-
-### App Store Approval Strategy
-
-- **Heavy AI disclaimers** - Throughout UI and in About screen
-- **Source citations** - All claims linked to original publications
-- **No medical/legal advice** - Geopolitical analysis only
-- **Privacy Policy** - No user data collection in v1.0 (no auth)
-- **Terms of Service** - Standard usage terms
-
-### Data Privacy
-
-- **v1.0**: No user authentication → no personal data collected
-- **Analytics**: Anonymous device IDs only (Mixpanel)
-- **Crash reporting**: Stack traces only, no PII (Sentry)
-- **Supabase**: Single cached briefing, no user-specific data
-
-### Scraping Ethics
-
-- **Playwright scraping**: Respectful scraping of open-source news (1 req/second per source)
-- **CloakBrowser**: Optional for paywalled sources, not used in current implementation
-- **robots.txt**: Honored where present
-- **Source attribution**: All scraped content properly cited in briefings
-
----
-
-## 🧪 Testing Strategy
-
-- **Unit Tests**: pytest for backend (v0.1+)
-- **Integration Tests**: FastAPI test client for API endpoints (v0.6+)
-- **E2E Tests**: Playwright for scraping pipeline (v0.1+)
-- **Mobile Tests**: Jest + React Native Testing Library (v0.7+)
-- **TestFlight Beta**: Internal testing before production (v0.14)
-
----
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details
-
----
-
-## 👤 Author
-
-**Chris Schmidt**
-
-- Portfolio: [pcschmidt.github.io](https://pcschmidt.github.io)
-- Email: p.christopher.schmidt@gmail.com
-- GitHub: [@PCSchmidt](https://github.com/PCSchmidt)
-
----
-
-## 🙏 Acknowledgments
-
-- **The LOWDOWN** - Original inspiration for BLUF intelligence format
-- **Blueprint v11** - Development methodology framework
-- **ISW, Defense One, IISS, Breaking Defense** - Premier OSINT sources
-- **Anthropic Claude** - Development assistant and fallback LLM
-
----
-
-**Status**: v0.10 Production Deployment Complete (2026-05-27)
-**Next**: v0.11 Analytics Integration (Mixpanel + Sentry)
-**Target Launch**: 2026-08-21 (App Store + Play Store)
-
----
-
-## 📱 Mobile Development Setup (v0.10)
-
-### Running on Physical Device (Samsung S25+)
-
-The development build is installed and can be launched via USB:
+Mobile and web app:
 
 ```bash
-# 1. Connect phone via USB with debugging enabled
-# 2. Set up ADB reverse port forwarding
-"C:/Users/pchri/AppData/Local/Android/Sdk/platform-tools/adb.exe" devices
-"C:/Users/pchri/AppData/Local/Android/Sdk/platform-tools/adb.exe" reverse tcp:8081 tcp:8081
-
-# 3. Start Metro bundler
 cd mobile
-npx expo start
-
-# 4. On phone: Open SITREP app, enter exp://localhost:8081
+npm install
+npx expo start                # then: i (iOS), a (Android), or w (web)
 ```
 
-**Note**: The development build includes all native modules (react-native-pdf, react-native-blob-util) and connects to the Railway production backend via mobile data.
+Trigger a briefing run against a running API (about 20 minutes, so do not wait on the
+connection):
+
+```bash
+curl -X POST https://sitrep-production-6aac.up.railway.app/pipeline/run-weekly --max-time 10
+# client times out by design; poll the desks until generated_at is today:
+curl "https://sitrep-production-6aac.up.railway.app/briefing/latest?region=Middle%20East"
+```
+
+## Approach: why it is built this way
+
+- **BLUF, because that is the product.** Summaries that start with background waste the
+  reader's first ten seconds. The prompt asks for the conclusion first, and the app renders
+  it that way: BLUF, key developments, sections with sources, outlook.
+- **Scrape widely, synthesize once per desk.** Thirteen narrow scrapers are easier to fix
+  than one clever crawler; each is a small class over a stable interface, so a dead feed is
+  a one-file change and shows up in the pipeline response as `articles: 0` rather than as a
+  silent gap in a briefing.
+- **Store what is expensive, recompute what is cheap.** The LLM pass costs money and
+  cannot be replayed, so briefings go to Supabase. The PDF is deterministic from the
+  briefing, so it is cached on disk and rebuilt whenever it is stale, missing, or lost to a
+  redeploy. That is why a container restart cannot break the app any more.
+- **A model waterfall instead of a retry loop.** Free-tier and pay-as-you-go models fail
+  in different ways (empty content, rate limit, insufficient credits). Falling through to a
+  cheaper-to-dearer chain, and recording `model_used`, keeps the pipeline green and the
+  provenance honest.
+- **The guard is opt-in.** Write and debug endpoints accept `X-Admin-Token`. While
+  `SITREP_ADMIN_TOKEN` is unset the API logs a warning per request and allows it, so an
+  existing deployment never locks itself out during a rollout.
+
+## Method (what the pipeline actually does)
+
+1. **Scrape.** `ScraperOrchestrator.scrape_all_sources(days=7)` runs every scraper in
+   parallel with `asyncio.gather`, each wrapped in a 60-second timeout and two retries.
+   Failures are logged per source and returned as an empty list; the run continues.
+2. **Group and trim.** Articles are deduplicated into the four desks and capped per desk
+   (30 articles in the 2026-09-12 run).
+3. **Synthesize.** One BLUF prompt per desk through
+   `api/synthesis/openrouter_client.py`, recording `model_used`, token counts, and a cost
+   estimate in each briefing's `metadata`. `POST /synthesize/global` then stitches the four
+   finished briefings into the Global product (17 sections, 120 articles).
+4. **Stamp and store.** Each briefing is written to Supabase with `generated_at` set by the
+   server. Both `/synthesize` and `/synthesize/global` stamp it, not just the pipeline —
+   a briefing without a parseable timestamp used to crash the client.
+5. **Serve.** `GET /briefing/latest`, `GET /briefing/global`, and
+   `GET /briefing/latest/pdf`. The PDF route loads the newest briefing (Supabase first,
+   `data/briefings/*.json` fallback), regenerates via `PDFGeneratorV3` when needed, caches
+   to `data/pdfs/{slug}_{YYYY-MM-DD}.pdf`, and returns
+   `Content-Disposition: inline; filename="..."` so browsers render it instead of
+   downloading it.
+
+## Results
+
+Verified against production on 2026-09-12; regenerate any of it with the commands in
+[Verify the claims](#verify-the-claims-a-reviewers-path).
+
+| Desk | Articles | Sections | Model | Tokens |
+| --- | --- | --- | --- | --- |
+| Middle East | 30 | 4 | DeepSeek V4 Flash | 11,658 |
+| Indo-Pacific | 30 | 6 | DeepSeek V4 Flash | 14,323 |
+| Europe/Africa | 30 | 3 | DeepSeek V4 Flash | 10,643 |
+| Western Hemisphere | 30 | 4 | DeepSeek V4 Flash | 16,682 |
+| Global (composite) | 120 | 17 | — (stitched) | — |
+
+- One full run produced all five briefings end to end in under 20 minutes (scrape, then one
+  synthesis pass per desk), at a stated cost of ~$0.001 per regional briefing.
+- All five briefings and all five PDFs returned `200` over HTTP; the web app rendered every
+  desk tab and every PDF page in a desktop browser.
+- `api/tests/` covers the admin-token guard and Supabase key selection: 11 tests, offline.
+
+## Limitations
+
+- **No evaluator.** Nothing checks a briefing against its sources before it ships. SITREP
+  has the chokepoint-style trust boundary nowhere: the model writes what it writes, and the
+  source links are the only way for a reader to audit it. That is the biggest gap between
+  this project and the rest of the portfolio.
+- **Scraped text quality is the ceiling.** Feed summaries and article extracts are uneven;
+  a thin or paywalled day produces a thinner briefing, and the app cannot tell the
+  difference between "quiet news day" and "feed broke". Scrapers do not consult
+  `robots.txt` today, do not set a descriptive `User-Agent` in the production paths, and
+  there is no politeness delay beyond parallelism limits — fix before scaling sources.
+- **One model, three vendors of one family.** The waterfall is DeepSeek first with a Kimi
+  fallback; a shared failure mode (for example, a prompt-injection-laden article) is not
+  mitigated.
+- **The pipeline is in-process.** A redeploy during a run kills the run; there is no queue,
+  no resumability, and no per-run history beyond the briefings themselves.
+- **Unauthenticated operations.** `SITREP_ADMIN_TOKEN` is not set in production, so the
+  pipeline, debug, and upload endpoints are open. Treat that as a known, dated gap.
+- **PDF cache is ephemeral.** Only the container disk holds PDFs; object storage would be
+  needed for a real archive.
+- **Not in any store yet.** Google Play closed testing is next; today the app is a web
+  build, a local run, and an APK/AAB built with EAS.
+
+## Operational notes
+
+### Deploy targets
+
+| Target | What runs | How it deploys |
+| --- | --- | --- |
+| Railway | FastAPI + APScheduler, `uvicorn main:app` from `api/` | push to `main`, or change a service variable |
+| GitHub Pages (portfolio repo) | the Expo web export | push to the portfolio repo's `master`, which builds SITREP `main` into `public/sitrep/` |
+| Local | API on `:8000`, Expo dev server | `uvicorn main:app --reload`, `npx expo start` |
+
+The web app is deliberately hosted from the portfolio repo, not this one: GitHub Pages
+paths are case-sensitive, and `PCSchmidt/SITREP` would serve `/SITREP/`. The store listings
+point at `/sitrep/privacy-policy` and `/sitrep/terms`, which live in that repo too.
+
+Any push to `main` or variable change redeploys the Railway container. That used to cost
+about twenty minutes of broken app; now briefings are in Supabase and PDFs regenerate, so
+a redeploy is only a warm-up. Full detail in [DEPLOYMENT.md](DEPLOYMENT.md) and
+[DEPLOYMENT_CONFIG.md](DEPLOYMENT_CONFIG.md).
+
+### Data and keys
+
+| Variable | Purpose |
+| --- | --- |
+| `OPENROUTER_API_KEY` | model access for synthesis |
+| `SUPABASE_URL`, `SUPABASE_KEY` | reads (publishable key) |
+| `SUPABASE_SERVICE_KEY` | writes; the publishable key fails with RLS error `42501` |
+| `GUARDIAN_API_KEY` | optional; enables the Guardian Content API scraper |
+| `SITREP_ADMIN_TOKEN` | optional; when set, write/debug endpoints require `X-Admin-Token` |
+
+The backend pins `supabase==2.31.0`: the client must be 2.16.0 or newer to accept the new
+`sb_secret_...` secret key format at all. `GET /debug/supabase` reports
+`storage`, `key_role`, `client_initialized`, and the regional briefing count — check
+`key_role: service_role` after any key rotation. Never in the repo, never in a log.
+
+### Verify the claims (a reviewer's path)
+
+```bash
+# backend tests, offline (pass `tests` explicitly: a bare pytest from api/ also
+# collects the ad-hoc scripts in api/scripts/ and aborts on six collection errors)
+cd api && pytest tests -q                            # 11 passed
+
+# is production healthy, and which key is it using?
+curl https://sitrep-production-6aac.up.railway.app/debug/supabase
+
+# are the desks current?
+for r in "Middle East" "Indo-Pacific" "Europe/Africa" "Western Hemisphere"; do
+  curl -s -G "https://sitrep-production-6aac.up.railway.app/briefing/latest" --data-urlencode "region=$r"
+done
+curl -s https://sitrep-production-6aac.up.railway.app/briefing/global
+
+# do the PDFs render?
+curl -sI -G "https://sitrep-production-6aac.up.railway.app/briefing/latest/pdf" \
+  --data-urlencode "region=Middle East" | grep -i content-type
+```
+
+Then open https://pcschmidt.github.io/sitrep/ and click through all five tabs and one PDF.
+
+### Documentation map
+
+| Doc | What it covers |
+| --- | --- |
+| [SPEC.md](SPEC.md) | what the product is, feature by feature |
+| [CONTRACT.md](CONTRACT.md) | API surface and data contracts |
+| [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | visual language, typography, BLUF layout |
+| [DEPLOYMENT.md](DEPLOYMENT.md) / [DEPLOYMENT_CONFIG.md](DEPLOYMENT_CONFIG.md) | production topology, variables, runbooks |
+| [PLANS.md](PLANS.md) / [VERSION_ROADMAP.md](VERSION_ROADMAP.md) / [FUTURE_VISION.md](FUTURE_VISION.md) | shipped, planned, and speculative |
+| [DECISIONS.md](DECISIONS.md) | dated architecture decisions |
+| [STORE_SUBMISSION_CHECKLIST.md](STORE_SUBMISSION_CHECKLIST.md) / [APP_STORE_LISTING.md](APP_STORE_LISTING.md) | store release state and copy |
+| [PRIVACY_POLICY.md](PRIVACY_POLICY.md) / [TERMS_OF_SERVICE.md](TERMS_OF_SERVICE.md) | the shipped legal text |
+| [MEMORY_EPISODIC.md](MEMORY_EPISODIC.md), [MEMORY_SEMANTIC.md](MEMORY_SEMANTIC.md), [MEMORY_CORRECTIONS.md](MEMORY_CORRECTIONS.md) | build history and patterns, including the 2026-09-12 outage |
+
+## Licence
+
+MIT. The mobile app is built on the Expo template, whose own MIT licence
+(`mobile/LICENSE`, © 650 Industries) covers the template code; everything specific to
+SITREP is © Chris Schmidt. Scraped article text is not redistributed: briefings quote and
+link their sources.
+
+Inspired by "The LOWDOWN" style of AI-generated OSINT newsletter, and by the BLUF format
+used in published intelligence products.

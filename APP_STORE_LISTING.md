@@ -1,177 +1,231 @@
-# SITREP — App Store Listing Copy
-# Ready to paste into App Store Connect and Google Play Console.
+# APP STORE LISTING
+
+Store copy and metadata for SITREP, ready to paste into App Store Connect and Google Play Console. Nothing is submitted yet; Google Play closed testing comes first — see [STORE_SUBMISSION_CHECKLIST.md](STORE_SUBMISSION_CHECKLIST.md).
+
+**Live privacy policy: https://pcschmidt.github.io/sitrep/privacy-policy · Terms of service: https://pcschmidt.github.io/sitrep/terms** — both return HTTP 200, checked 2026-09-12. The copy below must stay consistent with those two pages.
+
+| | |
+| --- | --- |
+| Android package / iOS bundle ID | `com.pcschmidt.sitrep` |
+| App version | 1.0.0, Android versionCode 7 (`mobile/app.json`) |
+| Mobile stack | Expo SDK 56.0.8, React Native 0.85.3, React 19.2.3, expo-router 56.2.8 |
+| Screenshots | 5 per store, not produced yet |
+| Feature graphic | 1024x500, not produced yet |
 
 ---
 
-## APP STORE (iOS)
+## App Store (iOS)
 
-### App Name (30 chars max)
+### App name (30 chars max)
+
 ```
 SITREP
 ```
 
-### Subtitle (30 chars max)
+### Subtitle (30 chars max — current copy is 25)
+
 ```
 AI Intelligence Briefings
 ```
 
 ### Category
+
 ```
 Primary:   News
 Secondary: Reference
 ```
 
-### Age Rating
+### Age rating
+
 ```
 12+ (Infrequent/Mild Mature/Suggestive Themes — geopolitical conflict coverage)
 ```
 
-### Privacy Policy URL
+### Privacy policy URL
+
 ```
 https://pcschmidt.github.io/sitrep/privacy-policy
 ```
 
 ### Support URL
+
 ```
 https://github.com/PCSchmidt/SITREP/issues
 ```
+Returns HTTP 200, checked 2026-09-12.
 
-### Keywords (100 chars max — comma-separated, no spaces after commas)
+### Keywords (100 chars max — comma-separated, no spaces after commas. Current copy is 97)
+
 ```
 intelligence,military,geopolitics,briefing,OSINT,defense,security,news,analysis,threat assessment
 ```
 
-### Description (4000 chars max)
+### Description (4000 chars max — current copy is 2050)
+
 ```
-SITREP delivers professional military-grade geopolitical intelligence briefings to your pocket — structured like the products used by real analysts.
+SITREP delivers geopolitical intelligence briefings in BLUF (Bottom Line Up Front) format, built from open-source news.
 
 BOTTOM LINE UP FRONT
-Every briefing leads with a BLUF (Bottom Line Up Front) executive summary: the single most important strategic takeaway, written for someone who needs to know what matters right now.
+Every briefing opens with the single most important takeaway, written for someone who needs to know what matters now.
 
 FOUR REGIONAL BRIEFINGS
-• Middle East — Iran nuclear negotiations, Strait of Hormuz, Israel, Gulf dynamics
+• Middle East — Iran, Israel, the Gulf, Strait of Hormuz
 • Indo-Pacific — China-Taiwan tensions, South China Sea, Korean Peninsula, ASEAN
-• Europe/Africa — Ukraine war, Russia, NATO, sub-Saharan Africa conflict zones
-• Western Hemisphere — Latin America security, cartels, Venezuela, Caribbean
+• Europe/Africa — Ukraine, Russia, NATO, sub-Saharan Africa
+• Western Hemisphere — Latin America security, Mexico, Venezuela, the Caribbean
 
-GLOBAL CROSS-REGIONAL ANALYSIS
-The ALL view synthesizes all regions into a single global strategic overview — identifying cascading effects and connections between theaters that regional briefings miss. See how Russia's nuclear posturing relates to Iran's maritime strategy. See how US-China competition shapes decisions from Seoul to Santiago.
+GLOBAL CROSS-REGIONAL VIEW
+The ALL view stitches all four regional briefings together in full — about 120 articles in one report — rather than a thin summary. Connections between theaters, such as how US-China competition shapes decisions from Seoul to Santiago, land in one place.
 
-SOURCES WORLDWIDE
-SITREP aggregates open-source intelligence from defense publications and regional sources including:
-• ISW (Institute for the Study of War) — daily Ukraine and Iran assessments
-• Defense One — Pentagon policy and military technology
-• War on the Rocks — strategic analysis
-• Reuters, Bloomberg, World Bank — economic and market intelligence
+SOURCES
+Each run pulls roughly 540 articles through 13 scrapers, and cites the source article for each claim:
+• ISW — daily Ukraine and Iran assessments
+• Defense One, Breaking Defense — Pentagon policy, procurement, military technology
+• War on the Rocks, Foreign Policy, CFR — strategic analysis
 • The War Zone — military aviation and weapons systems
-• Al Jazeera — Middle East and Africa perspective
-• GDELT Global Knowledge Graph — local-language sources from 30+ countries
+• Al Jazeera — Middle East and Africa coverage
+• Reuters, Bloomberg, BBC, The Economist, World Bank — economic and market reporting
+• Americas Quarterly — Latin America coverage
+• GDELT, the Guardian Open Platform API, and US/UK government releases
 
 PDF EXPORT
-Every briefing is available as a professional PDF report. Share via email or AirDrop, save to Files, or open in any PDF reader. Formatted in the same style as professional intelligence products.
+Every briefing is available as a PDF report with hyperlinked sources. Share it, save it to Files, or open it in any PDF reader.
 
-DAILY AUTOMATED UPDATES
-New briefings are generated every day, synthesized by AI from the latest open-source news. No subscriptions, no accounts required.
+DAILY UPDATES
+New briefings are generated every day at 06:00 UTC. No subscription, no account.
 
----
+DISCLAIMER
+All content is AI-generated from open-source news. This is not official intelligence. Accuracy is not guaranteed, and sources are cited but not independently verified. Do not use it for operational, military, or government decisions.
 
-⚠ IMPORTANT DISCLAIMER
-All content is AI-generated from open-source news articles. This is NOT official intelligence. Content accuracy is not guaranteed and should NOT be used for operational, military, or government decision-making. Use at your own discretion.
-
-A portfolio project by Chris Schmidt — full-stack developer specializing in AI-integrated mobile applications.
+A portfolio project by Chris Schmidt, a full-stack developer working on AI-integrated mobile apps.
 pcschmidt.github.io
 ```
 
 ---
 
-## GOOGLE PLAY (Android)
+## Google Play (Android)
 
-### App Name (50 chars max)
+### App name (50 chars max — current copy is 33)
+
 ```
 SITREP: AI Intelligence Briefings
 ```
 
-### Short Description (80 chars max)
+### Short description (80 chars max — current copy is 70)
+
 ```
-AI-powered military-style geopolitical briefings. BLUF format. 4 regions + global.
+AI geopolitics briefings in BLUF format. 4 regions plus a global view.
 ```
 
-### Full Description (4000 chars max)
+### Full description (4000 chars max — current copy is 1149)
+
 ```
-SITREP delivers professional geopolitical intelligence briefings structured like military analyst products — Bottom Line Up Front (BLUF) format, regional threat assessments, and cited open-source sourcing.
+SITREP delivers geopolitical intelligence briefings in BLUF (Bottom Line Up Front) format, built from open-source news.
 
 FOUR REGIONAL BRIEFINGS
-• Middle East — Iran, Israel, Gulf, Strait of Hormuz
+• Middle East — Iran, Israel, the Gulf, Strait of Hormuz
 • Indo-Pacific — China, Taiwan, South China Sea, Korea, ASEAN
 • Europe/Africa — Ukraine, Russia, NATO, sub-Saharan Africa
-• Western Hemisphere — Latin America, Mexico, Caribbean
+• Western Hemisphere — Latin America, Mexico, the Caribbean
 
 GLOBAL VIEW
-The ALL tab synthesizes all four regions into a cross-regional strategic overview — identifying connections between theaters and global strategic trends.
+The ALL tab stitches all four regional briefings together in full, so cross-regional connections show up in one report.
 
-SOURCES FROM 30+ COUNTRIES
-ISW, Defense One, War on the Rocks, The War Zone, Al Jazeera, Foreign Policy, CFR, Reuters, Bloomberg, World Bank, plus GDELT — covering local-language sources worldwide machine-translated to English.
+SOURCES
+About 540 articles per run through 13 scrapers: ISW, Defense One, Breaking Defense, War on the Rocks, The War Zone, Al Jazeera, Foreign Policy, CFR, Americas Quarterly, Reuters, Bloomberg, BBC, The Economist, World Bank, GDELT, the Guardian Open Platform API, and US/UK government releases. Every claim cites its source article.
 
 PDF BRIEFINGS
-Every briefing exports as a professional PDF. Share, save to device, or open in any reader.
+Every briefing exports as a PDF with hyperlinked sources. Share it or save it to the device.
 
-DAILY UPDATES — NO ACCOUNT REQUIRED
-New briefings every day. Free. No login. No subscription.
+DAILY UPDATES, NO ACCOUNT
+New briefings every day at 06:00 UTC. Free. No login, no subscription.
 
-⚠ AI-generated from open-source news. Not official intelligence. Not for operational use.
+AI-generated from open-source news. Not official intelligence. Not for operational use.
 ```
 
 ### Category
+
 ```
 News & Magazines
 ```
 
 ### Tags (5 max)
+
 ```
 news, military, intelligence, geopolitics, security
 ```
 
-### Content Rating
+### Content rating
+
 ```
 Teen (Violence — references to war and conflict)
 ```
 
-### Privacy Policy URL
+### Privacy policy URL
+
 ```
 https://pcschmidt.github.io/sitrep/privacy-policy
 ```
 
+### Terms of service URL (linked in the app, not a Play field)
+
+```
+https://pcschmidt.github.io/sitrep/terms
+```
+
 ---
 
-## SCREENSHOTS NEEDED
+## Screenshots (not produced yet)
 
-### iOS (6.7" iPhone — 1290×2796px)
-Take on iPhone 15 Pro Max or simulator at that resolution. Show:
-1. Home screen — ALL tab with global briefing card
-2. Home screen — MIDDLE EAST tab with briefing card
-3. Detail screen — full briefing with BLUF and sections
+5 screens are needed for each store. Take them on a device or emulator; the app's default tab is the composite ALL briefing.
+
+### iOS (6.7" iPhone — 1290x2796px)
+
+Take on an iPhone 15 Pro Max or a simulator at that resolution. Show:
+1. Home screen — ALL tab with the global briefing card
+2. Home screen — MIDDLE EAST tab with the regional briefing card
+3. Detail screen — full briefing with the BLUF and sections
 4. PDF viewer — briefing PDF open and paginated
 5. About screen — disclaimer and legal links
 
-### Android (Phone — 1080×1920px minimum)
-Take on Samsung S25+ or emulator. Show same 5 screens as iOS.
+### Android (phone — 1080x1920px minimum)
 
-### App Preview Video (optional, iOS only — 15-30 seconds)
-Show: open app → switch region tabs → tap briefing → view PDF → share
+Same 5 screens as iOS. The Android preview APK runs on device (Samsung S25+).
+
+### Feature graphic (Google Play only, 1024x500)
+
+Not produced. SITREP wordmark on the black/amber palette is the plan.
+
+### App preview video (optional, iOS only — 15-30 seconds)
+
+Show: open app -> switch region tabs -> open a briefing -> view PDF -> share
 
 ---
 
-## WHAT-YOU-SEE-IS-WHAT-YOU-GET METADATA
+## What-you-see-is-what-you-get metadata
 
 | Field | Value |
-|-------|-------|
-| Bundle ID | com.pcschmidt.sitrep |
-| Version | 1.0.0 |
-| Build | 1 |
-| Min iOS | 16.0 |
-| Min Android | API 24 (Android 7.0) |
-| Size (approx) | ~50 MB |
+| --- | --- |
+| Android package | com.pcschmidt.sitrep |
+| iOS bundle ID | com.pcschmidt.sitrep |
+| Version | 1.0.0 (`mobile/app.json`) |
+| iOS build number | 1 |
+| Android version code | 7; auto-increments on production builds |
+| Mobile stack | Expo SDK 56.0.8, React Native 0.85.3, React 19.2.3, expo-router 56.2.8 |
+| Min Android | API 24 (Android 7.0), the Expo `minSdkVersion` default |
+| Min iOS | not verified in this repo; read it off the EAS build or App Store Connect |
 | Languages | English |
 | In-app purchases | None |
 | Ads | None |
 | Subscription | None |
+| Analytics | anonymous Mixpanel events and Sentry crash reports — see [PRIVACY_POLICY.md](PRIVACY_POLICY.md) |
+
+Every claim above comes from `mobile/app.json`, `mobile/package.json`, or `mobile/eas.json`. The store listings must match the live legal pages; if either legal page changes, update the copy here.
+
+---
+
+## See also
+
+- [README.md](README.md) — project overview and current state.
+- [STORE_SUBMISSION_CHECKLIST.md](STORE_SUBMISSION_CHECKLIST.md) — build, testing gate, and submission order.
+- [PRIVACY_POLICY.md](PRIVACY_POLICY.md) and [TERMS_OF_SERVICE.md](TERMS_OF_SERVICE.md) — the text behind the two live legal pages.

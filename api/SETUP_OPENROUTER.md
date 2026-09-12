@@ -1,99 +1,88 @@
-# Open Router Setup Guide
+# SETUP_OPENROUTER
 
-## Quick Start (5 minutes)
+How to get an OpenRouter API key and point SITREP's synthesis client at it.
 
-### 1. Create Open Router Account
-- Go to: https://openrouter.ai
-- Sign up with Google/GitHub or email
-- **No credit card required** for free tier models
+The production API **https://sitrep-production-6aac.up.railway.app** reads
+`OPENROUTER_API_KEY` from its Railway variables and writes one briefing per desk through
+`api/synthesis/openrouter_client.py`.
 
-### 2. Get API Key
-- Navigate to: https://openrouter.ai/keys
-- Click "Create Key"
-- Copy your API key (starts with `sk-or-v1-...`)
+## Get a key
 
-### 3. Configure Environment
+1. Sign in at https://openrouter.ai with Google, GitHub, or email.
+2. Open https://openrouter.ai/keys and click Create Key.
+3. Copy the value. It starts with `sk-or-v1-`.
+
+## Configure the backend
+
 ```bash
-# In the api/ directory
+cd api
 cp .env.example .env
+```
 
-# Edit .env and add your key:
+Then set the key in `.env`:
+
+```
 OPENROUTER_API_KEY=sk-or-v1-your-actual-key-here
 ```
 
-### 4. Test the Integration
+No quotes, no trailing spaces. On Railway, set the same variable under Service, Variables.
+See [DEPLOYMENT.md](../DEPLOYMENT.md) for the full variable list.
+
+## Test the client
+
 ```bash
-# From api/ directory
+# from api/
 python synthesis/openrouter_client.py
 ```
 
-Expected output:
-```
-Trying Gemini 2.0 Flash (free)...
-✓ Success with Gemini 2.0 Flash
-Response: Hello! How can I help you today?
-Model: Gemini 2.0 Flash
-Tokens: 28
-```
+The module's `__main__` block sends one "Say hello!" message through the waterfall and
+prints the answer, the model that produced it, and the token count. It needs a valid
+`OPENROUTER_API_KEY` because it makes a real request.
 
----
+## Model waterfall
 
-## Model Waterfall
+`OpenRouterClient.MODELS` tries these models in order and stops at the first usable
+response:
 
-Your SITREP instance will try models in this order:
+| Order | Model id | Stated cost per briefing | Notes |
+| --- | --- | --- | --- |
+| 1 | `deepseek/deepseek-v4-flash` | ~$0.001 | primary; wrote every regional briefing in the 2026-09-12 run |
+| 2 | `deepseek/deepseek-v3.2` | ~$0.003 | first fallback |
+| 3 | `moonshotai/kimi-k2.5` | ~$0.009 | last fallback |
 
-| Priority | Model | Cost | Use Case |
-|----------|-------|------|----------|
-| 1 | **Gemini 2.0 Flash** | FREE | Primary (1.5M requests/day) |
-| 2 | **DeepSeek V3** | $0.014/briefing | Fallback if Gemini rate limit |
-| 3 | **Kimi K2.5** | $0.30/briefing | Fallback if DeepSeek fails |
-| 4 | **Claude Haiku 4.5** | $0.80/briefing | Emergency only |
+All three are requested with `max_tokens: 16384`. An HTTP error, a rate limit, empty
+content, or a filtered completion counts as a failure and falls through to the next model.
+The model that actually answered is recorded in the briefing's `metadata.model_used`, so
+the waterfall is visible in the stored output rather than assumed.
 
-**Expected cost**: $0/month (Gemini free tier handles everything)  
-**Worst-case cost**: $1-2/month if you exceed Gemini limits
+Observed cost for the 2026-09-12 run: roughly 10.6k to 16.7k tokens per regional briefing,
+all on DeepSeek V4 Flash.
 
----
+## Cost
 
-## Testing the Full Pipeline
-
-Once Open Router is configured:
-
-```bash
-# Test BLUF synthesis with real ISW data
-python synthesis/bluf_synthesizer.py
-```
-
-This will:
-1. Load scraped ISW articles from `data/scraped/`
-2. Send to Open Router (Gemini first)
-3. Generate BLUF briefing for Europe/Africa region
-4. Save to `data/briefings/europe_africa_2026-05-23.json`
-
----
+| Item | Value |
+| --- | --- |
+| Typical run | 4 regional + 1 composite briefing, ~$0.001 each |
+| Daily run cost | about $0.005 per day, ~$0.15/month |
+| Ceiling | $20/month |
+| Worst case | if the waterfall reaches Kimi, ~$0.009 per briefing |
 
 ## Troubleshooting
 
-### Error: "OPENROUTER_API_KEY not found"
-- Check that `.env` file exists in `api/` directory
-- Verify the key is set: `OPENROUTER_API_KEY=sk-or-v1-...`
-- Make sure there are no quotes around the key
+| Error | Cause | Fix |
+| --- | --- | --- |
+| `OPENROUTER_API_KEY not found` | No key in the environment or `.env` | Set the variable; run the script from `api/` so `.env` loads |
+| `HTTP 401: Authentication failed` | Wrong or revoked key | Reissue at https://openrouter.ai/keys |
+| `HTTP 429` or `rate limit exceeded` | Provider limit on the current model | The waterfall moves to the next model; check https://openrouter.ai/activity |
+| `HTTP 402` or insufficient credits | Paid model with no balance | DeepSeek V4 Flash is cheap but not free; add credits at https://openrouter.ai/credits |
+| Empty briefing body | Model returned no content | Counts as a failure and falls through; if all three fail, the pipeline reports the desk as an error |
 
-### Error: "Rate limit exceeded"
-- Gemini free tier: 1,500 requests/day
-- Automatic fallback to DeepSeek V3 ($0.014/briefing)
-- Check usage at: https://openrouter.ai/activity
+The legacy scratch test `python synthesis/bluf_synthesizer.py` reads a scraped snapshot
+from `../data/scraped/` that is not committed, so it only runs after a scrape. Use the
+client test above, or trigger the pipeline to exercise synthesis end to end.
 
-### Error: "Insufficient credits"
-- Gemini is free (no credits needed)
-- DeepSeek/Kimi require credits (add $5 minimum)
-- Add credits at: https://openrouter.ai/credits
+## See also
 
----
-
-## Next Steps
-
-After Open Router is working:
-1. ✅ Test synthesis with ISW data
-2. Iterate on BLUF prompt quality (6-8h)
-3. Expand to all 4 regions (Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere)
-4. Move to v0.3 (PDF generation)
+- [../README.md](../README.md) - what SITREP is and how to run it locally.
+- [../DEPLOYMENT.md](../DEPLOYMENT.md) - Railway variables and the deploy runbook.
+- [../DEPLOYMENT_CONFIG.md](../DEPLOYMENT_CONFIG.md) - configuration reference.

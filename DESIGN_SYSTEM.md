@@ -1,7 +1,16 @@
-# DESIGN_SYSTEM.md
-# SITREP Visual Design Specification
+# DESIGN_SYSTEM
 
-## DESIGN PHILOSOPHY
+Visual design reference for SITREP: colour, type, spacing, components, and screen layouts. The live tokens are `mobile/constants/tokens.ts` and `mobile/tailwind.config.js`; where a shipped screen differs from this spec, the code wins and the difference is listed under "Deviations from this spec".
+
+| | |
+| --- | --- |
+| Status | Implemented. The design system shipped in v0.1 and is in the v0.21.10 build |
+| Platform | Mobile-first, iOS + Android, AMOLED-optimised, dark only |
+| Tokens | `mobile/constants/tokens.ts`, `mobile/tailwind.config.js` |
+| Live app | **https://pcschmidt.github.io/sitrep/** |
+| Facts checked | 2026-09-12 |
+
+## Design philosophy
 
 **Aesthetic**: Military intelligence briefing room  
 **Tone**: Serious, technical, high-end, professional  
@@ -10,9 +19,9 @@
 
 ---
 
-## COLOR PALETTE
+## Color palette
 
-### Primary Colors
+### Primary colors
 ```
 Background (True Black):    #000000
 Surface (Near Black):       #0A0A0A
@@ -20,7 +29,7 @@ Card Background:            #121212
 Border/Divider:             #1A1A1A
 ```
 
-### Accent Colors
+### Accent colors
 ```
 Primary Accent (Amber):     #FFA500  
 Secondary Accent (Gold):    #FFD700
@@ -28,7 +37,7 @@ Warning (Red):              #FF4444
 Success (Green):            #00FF41  (terminal green)
 ```
 
-### Text Colors
+### Text colors
 ```
 Heading (White):            #FFFFFF
 Body (Gray):                #CCCCCC
@@ -37,7 +46,7 @@ Disclaimer (Amber):         #FFA500
 Source Citation (Gold):     #FFD700
 ```
 
-### Semantic Colors
+### Semantic colors
 ```
 Middle East:                #FF6B6B  (red tint)
 Indo-Pacific:               #4ECDC4  (teal)
@@ -47,15 +56,17 @@ Western Hemisphere:         #F38181  (coral)
 
 ---
 
-## TYPOGRAPHY
+## Typography
 
-### Font Stack
+### Font stack
 ```
-Primary: 'SF Pro' (iOS) / 'Roboto' (Android)
-Monospace: 'SF Mono' / 'Roboto Mono' (for timestamps, metadata)
+Primary: system default - 'SF Pro' on iOS, 'Roboto' on Android
+Monospace: 'SF Mono' / 'Roboto Mono' (for timestamps and metadata)
 ```
 
-### Type Scale
+No font files ship with the app. `mobile/constants/tokens.ts` and `mobile/tailwind.config.js` define only the monospace stack; everything else uses the platform system font. The PDF is the exception and bundles PT Serif and Lato - see "PDF design (generator v3)".
+
+### Type scale
 ```
 H1 (Screen Titles):         28px, weight 700, letter-spacing -0.5px
 H2 (Section Headers):       20px, weight 600, letter-spacing -0.3px
@@ -65,7 +76,7 @@ Caption (Metadata):         12px, weight 400, letter-spacing 0.5px
 Label (Buttons):            14px, weight 600, letter-spacing 0.8px (uppercase)
 ```
 
-### Text Styles
+### Text styles
 ```
 BLUF Header:                H2, Amber (#FFA500), uppercase
 Region Tag:                 Caption, Monospace, region semantic color
@@ -76,7 +87,7 @@ Disclaimer:                 Body, Amber, bold
 
 ---
 
-## SPACING SYSTEM
+## Spacing system
 
 Based on 4px grid:
 ```
@@ -90,7 +101,7 @@ Based on 4px grid:
 
 ---
 
-## COMPONENTS
+## Components
 
 ### 1. BriefingCard
 ```
@@ -168,7 +179,7 @@ Layout:
   - Amber background (#FFA500)
   - Black text for contrast
   - 12px padding
-  - ⚠️ icon (left)
+  - Warning marker on the left edge
 Content:
   - "AI GENERATED CONTENT" (H3, black, bold, uppercase)
   - "Not official intelligence. Use at your own discretion." (caption, black)
@@ -184,7 +195,7 @@ Purpose: Primary CTA to view briefing as PDF
 Layout:
   - Amber background (#FFA500)
   - Black text
-  - Icon + label (📄 "View as PDF")
+  - Icon + label ("View as PDF")
   - 12px padding vertical, full width
   - Rounded corners (8px)
 Content:
@@ -215,12 +226,29 @@ Content:
 
 ---
 
-## SCREEN LAYOUTS
+## PDF design (generator v3)
+
+The PDF is a separate design from the app. `api/pdf_generation/pdf_generator_v3.py` produces an editorial, executive look, not the amber app palette:
+
+| | |
+| --- | --- |
+| Fonts | PT Serif for headlines and cover, Lato for body (bundled TTFs; falls back to base-14 fonts if they are missing) |
+| Palette | Navy `#13233b` masthead and headings, ink `#1c2330` body, slate `#5b6675` labels, hairline rules `#c5ccd4`, link blue `#1d4e89` |
+| Cover | Two columns: Contents and Executive Summary |
+| Sections | Numbered, region-tagged, with a numbered hyperlinked reference list per section |
+| Disclaimer | AI-generated notice on the cover and in the page footer |
+| Global | One document that renders all four regions in full, not a condensed summary |
+
+The v3 generator replaced the earlier amber ReportLab, v1, and v2 generators, which were deleted. The "PDF Viewer Screen" mockup below still shows the old cover text; the app chrome around it is current.
+
+---
+
+## Screen layouts
 
 ### Home Screen (Latest Briefing)
 ```
 ┌─────────────────────────────────────┐
-│  ⚠️ AI GENERATED CONTENT            │  ← DisclaimerBanner (dismissible)
+│  !! AI GENERATED CONTENT            │  ← DisclaimerBanner (dismissible)
 ├─────────────────────────────────────┤
 │                                     │
 │  SITREP                     ⋮       │  ← Header (title + menu icon)
@@ -253,7 +281,7 @@ Content:
 ### Briefing Detail Screen
 ```
 ┌─────────────────────────────────────┐
-│  ⚠️ AI GENERATED - NOT OFFICIAL     │  ← Sticky disclaimer
+│  !! AI GENERATED - NOT OFFICIAL     │  ← Sticky disclaimer
 ├─────────────────────────────────────┤
 │  ← SITREP          Share    ⋯       │  ← Header (back + actions)
 │                                     │
@@ -266,7 +294,7 @@ Content:
 │  ┃ BLUF                         ┃   │  ← BLUF Section
 │  ┃ U.S.-Israel military...     ┃   │
 │  ┃ Economic blockades...        ┃   │
-│  ┃ ⏱ 8 min read                 ┃   │
+│  ┃ .. 8 min read                 ┃   │
 │  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛   │
 │                                     │
 │  ▼ Middle East                     │  ← Expandable sections
@@ -288,10 +316,10 @@ Content:
 │  ─────────────────────────────────  │
 │  SOURCES                           │
 │  ┌─────────────────────────────┐   │
-│  │ 📰 Congressional Report...  │   │  ← SourceCitation
+│  │ -- Congressional Report...  │   │  ← SourceCitation
 │  │    THE AVIATIONIST      →   │   │
 │  ├─────────────────────────────┤   │
-│  │ 📰 CENTCOM head calls...    │   │
+│  │ -- CENTCOM head calls...    │   │
 │  │    DEFENSE ONE          →   │   │
 │  └─────────────────────────────┘   │
 │                                     │
@@ -309,7 +337,7 @@ Content:
 │  Intelligence Briefing Platform     │
 │                                     │
 │  ┌─────────────────────────────┐   │
-│  │ ⚠️  IMPORTANT DISCLAIMER    │   │  ← Full legal disclaimer
+│  │ !!  IMPORTANT DISCLAIMER    │   │  ← Full legal disclaimer
 │  │                             │   │
 │  │ This app generates AI-      │   │
 │  │ powered intelligence        │   │
@@ -350,7 +378,7 @@ Content:
 │  ║                               ║  │
 │  ║  2026-05-18                   ║  │
 │  ║                               ║  │
-│  ║  ⚠️ AI GENERATED CONTENT      ║  │
+│  ║  !! AI GENERATED CONTENT      ║  │
 │  ║                               ║  │
 │  ║  [Pinch to zoom]              ║  │
 │  ║  [Swipe for next page]        ║  │
@@ -381,7 +409,7 @@ Actions in More Menu (⋯):
 │      Intelligence Briefing          │
 │                                     │
 │  ┌─────────────────────────────┐   │
-│  │ ⚠️  AI GENERATED CONTENT    │   │  ← Full-screen disclaimer
+│  │ !!  AI GENERATED CONTENT    │   │  ← Full-screen disclaimer
 │  │                             │   │     (must tap to proceed)
 │  │ This application synthesizes│   │
 │  │ open-source intelligence    │   │
@@ -407,7 +435,7 @@ Actions in More Menu (⋯):
 
 ---
 
-## INTERACTIONS & ANIMATIONS
+## Interactions and animations
 
 ### Transitions
 - Screen-to-screen: Slide from right (iOS) / Material fade (Android)
@@ -434,13 +462,16 @@ Actions in More Menu (⋯):
 
 ---
 
-## ACCESSIBILITY
+## Accessibility
 
-### WCAG AA Compliance
-- All text has 4.5:1 contrast ratio minimum
-- Amber (#FFA500) on black (#000000): 7.5:1 ✅
-- White (#FFFFFF) on black: 21:1 ✅
-- Gray (#CCCCCC) on black: 12.6:1 ✅
+### WCAG AA compliance
+- All body text needs a 4.5:1 contrast ratio minimum
+- Contrast against `#000000`, recomputed from the tokens on 2026-09-12 with the WCAG 2.1 relative-luminance formula:
+  - Amber `#FFA500`: 10.6:1, passes AA
+  - White `#FFFFFF`: 21.0:1, passes AA
+  - Body gray `#CCCCCC`: 13.1:1, passes AA
+  - Subtle gray `#888888`: 5.9:1, passes AA for body text, so it is usable for captions
+- No automated contrast test runs in this repo; the numbers above come from the token values, not from a device screenshot
 
 ### Touch Targets
 - Minimum 44x44pt tap area (iOS Human Interface Guidelines)
@@ -457,7 +488,7 @@ Actions in More Menu (⋯):
 
 ---
 
-## RESPONSIVE BREAKPOINTS
+## Responsive breakpoints
 
 ### Phone (Primary Target)
 - iPhone: 375px - 428px width
@@ -471,7 +502,7 @@ Actions in More Menu (⋯):
 
 ---
 
-## ICON SYSTEM
+## Icon system
 
 ### App Icon
 ```
@@ -489,7 +520,7 @@ Variants: 1024x1024 (app store), various sizes for system
 
 ---
 
-## PLATFORM-SPECIFIC NOTES
+## Platform-specific notes
 
 ### iOS
 - Use native tab bar pattern for main navigation (if needed)
@@ -505,29 +536,50 @@ Variants: 1024x1024 (app store), various sizes for system
 
 ---
 
-## MOCKUP APPROVAL CHECKLIST
+## Deviations from this spec (verified 2026-09-12)
 
-- ✅ Color palette defined (military aesthetic: black + amber)
-- ✅ Typography scale established
-- ✅ Core components designed (BriefingCard, RegionTab, BLUF, PDFActionButton, etc.)
-- ✅ Key screens wireframed (Home, Detail, About, Splash, **PDF Viewer**)
-- ✅ **PDF generation & viewing** flow specified
-- ✅ **PDF sharing/save actions** documented
-- ✅ Heavy disclaimer placement confirmed (splash + sticky header + **PDF footer**)
-- ✅ Region filtering UI specified
-- ✅ Source citation format defined
-- ✅ WCAG AA contrast ratios verified
-- ✅ Touch target sizes meet platform guidelines
-- ✅ Loading/error states documented
-- ✅ Platform-specific considerations noted
+The tokens match this document. Four details do not, and the spec is not the source of truth for them:
+
+- `mobile/components/BriefingCard.tsx` still prints "WEEKLY SITREP" on the card. The pipeline runs daily, so this label is stale UI copy. No code was changed in this documentation pass.
+- `mobile/app/about.tsx` still says "Briefings are generated weekly" and describes "weekly geopolitical intelligence briefings". Same stale copy.
+- The About screen shows no version string. The app version lives in `mobile/app.json` (`1.0.0`); the backend version is `v0.21.10`.
+- Store screenshots do not exist yet. Five phone screenshots and a 1024x500 feature graphic are still to be produced before the Google Play submission.
 
 ---
 
-## NEXT STEPS (FRONTEND APPROVED PHASE)
+## Design checklist (all items shipped)
 
-Once mockups approved:
-1. Implement design system in NativeWind config
-2. Build reusable component library
-3. Create static screens with placeholder content
-4. Test on iOS Simulator and Android Emulator
-5. Capture screenshots for CONTRACT verification
+- [x] Color palette defined (military aesthetic: black + amber)
+- [x] Typography scale established
+- [x] Core components designed (BriefingCard, RegionTab, BLUF, PDFActionButton, etc.)
+- [x] Key screens wireframed (Home, Detail, About, Splash, **PDF Viewer**)
+- [x] **PDF generation & viewing** flow specified
+- [x] **PDF sharing/save actions** documented
+- [x] Heavy disclaimer placement confirmed (splash + sticky header + **PDF footer**)
+- [x] Region filtering UI specified
+- [x] Source citation format defined
+- [x] WCAG AA contrast ratios verified
+- [x] Touch target sizes meet platform guidelines
+- [x] Loading/error states documented
+- [x] Platform-specific considerations noted
+
+---
+
+## Next steps
+
+Written when the frontend was approved. Steps 1 to 4 shipped in v0.1; step 5 is still open and is now a store requirement.
+
+1. Implement the design system in the NativeWind config - done, v0.1 (`mobile/tailwind.config.js`)
+2. Build the reusable component library - done, v0.1 (`mobile/components/`)
+3. Create static screens with placeholder content - done, v0.1
+4. Test on iOS Simulator and Android Emulator - done, v0.1; device testing continued through v0.17
+5. Capture screenshots for store verification - open. Five phone screenshots and a 1024x500 feature graphic
+
+---
+
+## Where to read next
+
+- [README.md](README.md) - overview, live URLs, and how to run the project
+- [SPEC.md](SPEC.md) - the shipped feature list these screens belong to
+- [VERSION_ROADMAP.md](VERSION_ROADMAP.md) - which gate shipped each screen
+- [CONTRACT.md](CONTRACT.md) - visual verification fields and the store checklist

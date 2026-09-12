@@ -3,8 +3,9 @@ name: start
 description: "Orchestrates session startup for Blueprint v11 projects. Use at the beginning of every coding session, when resuming work, or when the user types /start."
 ---
 
-# START SKILL - Blueprint v11
-# Invoke: /start
+# Start
+
+Session startup: read state, then continue or begin fresh. Invoke: `/start`.
 
 ## TONE
 
@@ -56,18 +57,21 @@ remaining skills at appropriate times:
 
 Reconstruct project state without ceremony.
 
-1. Read ALWAYS-load files:
-   `CLAUDE.md`, `CONTRACT.md`, `SPEC.md`, `ERRORS.md`, `MEMORY_SEMANTIC.md`
+1. Read the state files that exist in this repo:
+   `CONTRACT.md`, `SPEC.md`, `MEMORY_SEMANTIC.md`, `MEMORY_EPISODIC.md`,
+   `MEMORY_CORRECTIONS.md`
 
 2. Read ON DEMAND (only if that domain is active):
-   `VERSION_ROADMAP.md`, `PLANS.md`, `DECISIONS.md`, `FRONTEND_SPEC.md`,
-   `DESIGN_SYSTEM.md`, `COMPONENT_REGISTRY.md`, `TESTS.md`, `COSTS.md`,
-   `SECURITY.md`, `PERFORMANCE.md`, `DEPLOYMENT.md`, `DEPLOYMENT_CONFIG.md`,
-   `CONTEXT_BUDGET.md`, `VISUAL_CHECKS.md`, `CHANGELOG.md`, `TIMELOG.md`,
-   `RESEARCH.md`
+   `VERSION_ROADMAP.md`, `PLANS.md`, `DECISIONS.md`, `DESIGN_SYSTEM.md`,
+   `DEPLOYMENT.md`, `DEPLOYMENT_CONFIG.md`
 
-3. Reconstruct state from SPEC.md (current gate), TESTS.md (test
-   status), git log (last commit), PLANS.md (pending tasks).
+   SITREP never created the Blueprint template files `CLAUDE.md`,
+   `ERRORS.md`, `TESTS.md`, `COSTS.md`, `SECURITY.md`, `PERFORMANCE.md`,
+   `FRONTEND_SPEC.md`, `COMPONENT_REGISTRY.md`, `CONTEXT_BUDGET.md`,
+   `VISUAL_CHECKS.md`, `CHANGELOG.md`, `TIMELOG.md`, `RESEARCH.md`. Skip
+   them - do not report them as missing or create them mid-session.
+
+3. Reconstruct state from SPEC.md (current gate), `cd api && python -m pytest tests -q` (test status - 11 tests pass), git log (last commit), PLANS.md (pending tasks).
 
 4. Tell the user what you see, conversationally:
 
@@ -87,7 +91,8 @@ Reconstruct project state without ceremony.
 
 ## STEP 3 - install hooks (every session start)
 
-Run: `bash ~/.claude/hooks/strip-coauthor.sh`
+The hooks ship in this repo. Run from the repo root:
+`bash .claude/hooks/strip-coauthor.sh`
 
 This installs the commit-msg hook if not already present. Silent unless
 something goes wrong.

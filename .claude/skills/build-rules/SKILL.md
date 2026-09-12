@@ -3,8 +3,9 @@ name: build-rules
 description: "Invokes the five-phase planning and approval process before any code is written. Use when starting a new app build, when the user types /build-rules, or when a project needs its initial specification. This is a new-project skill; for resuming an existing project, use the start skill instead."
 ---
 
-# BUILD RULES - Blueprint v11
-# Invoke: /build-rules or auto-triggered at new project start
+# Build rules
+
+Five-phase planning and approval process for a new build. Invoke: `/build-rules`, or auto-triggered at new project start.
 
 ## THE FIVE PHASES
 
@@ -193,7 +194,7 @@ Wait for: **FRONTEND APPROVED**
 Plan the test strategy. Not execute it - that's the `testing` skill's
 job. Here we agree on:
 
-- What test runners to use (pytest, vitest, playwright, etc.)
+- What test runners to use. SITREP runs pytest from `api/`; there is no frontend runner.
 - Coverage targets per layer
 - Which critical paths get explicit E2E coverage
 - Which failure modes need regression tests from day one
@@ -231,11 +232,12 @@ When a gate's work is done:
 9. Append ESTIMATION entry to MEMORY_CORRECTIONS.md using the
    calibration hook:
    ```bash
-   ~/.claude/hooks/gate-close-calibration.sh <version>    # Mac/Linux/WSL
+   bash .claude/hooks/gate-close-calibration.sh <version>    # Mac/Linux/WSL
    ```
    ```powershell
-   & ~/.claude/hooks/gate-close-calibration.ps1 -Version <version>   # Windows
+   & .claude/hooks/gate-close-calibration.ps1 -Version <version>   # Windows
    ```
+   Run both from the repo root; the hooks ship inside this repo at `.claude/hooks/`.
    The hook reads TIMELOG.md first (preferred) and falls back to git
    commit timestamps with a 2-hour gap filter.
 

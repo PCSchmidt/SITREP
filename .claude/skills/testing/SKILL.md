@@ -1,75 +1,47 @@
 ---
 name: testing
-description: "This skill manages test strategy, test writing, and test enforcement for all app builds. Use when writing tests, checking test coverage, setting up test infrastructure, or at gate close. Covers Pytest, Vitest, React Testing Library, and Playwright."
+description: "Test strategy and test commands for SITREP. Use when writing tests, checking coverage, or working a gate close. Invoke: /testing."
 ---
 
-# TESTING SKILL -- Blueprint v11
-# Invoke: /testing
+# Testing
 
-## TEST STRATEGY BY GATE
+Backend tests live in `api/tests/` and run with pytest. There is no automated test suite for the web or mobile app.
 
-v0.0.0 Foundation:     0 tests (infrastructure only)
-v0.1.0 Scaffold:       0 tests (test framework configured)
-v0.2.0 Data Layer:     12+ tests (model validation, migration, RLS isolation)
-v0.3.0 Auth:           27+ tests (auth flows, protected routes, JWT)
-v0.4.0 External APIs:  50+ tests (webhook, sync, error handling)
-v0.5.0 Core Features:  89+ tests (agents, streaming, all screens)
-v0.6.0 CRUD:           119+ tests (secondary features)
-v1.0.0 Launch:         119+ tests (no regression from v0.6.0)
+## The command
 
-## BACKEND: PYTEST
-
-Framework: pytest + pytest-asyncio + httpx (async client)
-
-File structure:
-  apps/api/tests/
-    conftest.py          -- fixtures: test_client, test_db, test_user
-    test_[feature].py    -- one file per domain
-
-Test naming: test_[action]_[condition]_[expected_result]
-
-RLS isolation test (mandatory at v0.2.0+):
-```python
-async def test_user_cannot_see_other_user_data(client, user_a_headers, user_b_id):
-    response = await client.get(f"/api/data?user_id={user_b_id}",
-                                headers=user_a_headers)
-    assert response.status_code in [403, 200]
-    if response.status_code == 200:
-        assert len(response.json()["data"]) == 0
+```bash
+cd api && python -m pytest tests -q      # 11 passed, verified 2026-09-12
 ```
 
-## FRONTEND: VITEST + REACT TESTING LIBRARY
+Run it from `api/` and pass `tests` explicitly. A bare `python -m pytest` from `api/` also collects `api/scripts/test_*.py`, which are ad-hoc scraper and synthesis scripts - six of them fail collection and abort the run.
 
-File structure:
-  apps/web/src/components/[Component]/[Component].test.tsx
+`api/conftest.py` puts `api/` on `sys.path` because the backend uses flat imports (`from scheduler import ...`). The tests call `pytest.importorskip` for `fastapi`, `apscheduler`, and `dotenv`, so a bare interpreter skips instead of crashing.
 
-Component test pattern:
-```typescript
-import { render, screen } from '@testing-library/react'
-import { MyComponent } from './MyComponent'
+## What is covered
 
-describe('MyComponent', () => {
-  it('renders the expected content', () => {
-    render(<MyComponent label="Test" value="$42,000" />)
-    expect(screen.getByText('$42,000')).toBeInTheDocument()
-  })
-})
-```
+| File | Tests | Covers |
+| --- | --- | --- |
+| `api/tests/test_admin_auth.py` | 7 | `require_admin_token`: an unset host stays open, a configured host returns 401/403, the env value is trimmed, and the guarded set is exactly the seven mutating routes |
+| `api/tests/test_supabase_key.py` | 4 | `SUPABASE_SERVICE_KEY` is preferred over `SUPABASE_KEY`; an anon-only install flags `uses_service_role = False` |
 
-## VISUAL VERIFICATION: PLAYWRIGHT
+Not covered: scrapers, synthesis, PDF generation, the mobile app, and the web export. Treat those as manual checks.
 
-Triggered at gate close when screens were built.
-Run via /visual-checks skill (see VISUAL_CHECKS.md).
+## Conventions
 
-## GATE CLOSE REQUIREMENTS
+- Test naming: `test_[action]_[condition]_[expected_result]`.
+- Write the test from the requirement, not from the implementation, so it can fail for the right reason.
+- A fixed bug gets a test that fails without the fix. The Supabase key test exists because an anon-key install failed writes with `42501` while the pipeline still reported success.
+- Adding a write route means adding it to the guarded-route set in `test_admin_auth.py`; that test fails if a mutating route lacks `require_admin_token`, or if a route the mobile app reads gets guarded.
+- Never commit a virtualenv. Local scratch venvs (`.venv-verify`, `.venv-reqtest`) are git-ignored - use one when you need to test a specific package version, then keep it out of the change.
 
-Before marking any gate as COMPLETE:
-1. All tests pass (zero failures, zero skips without reason)
-2. Test count equals or exceeds gate target
-3. No test count regression from prior gate
-4. Coverage on new code: minimum 80% line coverage
+## Gate close checklist
 
-## TESTS.MD FORMAT
+1. `cd api && python -m pytest tests -q` is green: 11 tests, zero failures, no unexplained skips.
+2. No test was deleted or skipped to make the suite pass.
+3. Coverage target is 70% line coverage (CONTRACT.md). `pytest-cov==6.0.0` is pinned in `api/requirements.txt` but is not installed in the scratch venvs, so coverage is currently unmeasured - install it in the venv you test with if you need the number.
+4. Any endpoint the change touches still returns 200 on the live API (see the deployment skill's check list).
 
-| Gate | Backend | Frontend | E2E | Total | Target | Status |
-|------|---------|----------|-----|-------|--------|--------|
+## Related
+
+- Repo README: ../../../README.md
+- `../deployment/SKILL.md` for the production checks, `../debug/SKILL.md` when a failing test needs root-cause work.

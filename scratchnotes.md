@@ -1,3 +1,26 @@
+# scratchnotes
+
+Raw capture of the 2026-05-21 planning chat that started SITREP: the opening prompt, the full first
+response, and the follow-up prompts about naming, stack, and the repo description. Kept verbatim as the
+origin record. It is a plan, not the product, and most of the stack below changed during the build.
+
+Corrected 2026-09-12. The transcript itself is unchanged.
+
+- Synthesis: the plan used the Claude API; the shipped pipeline calls OpenRouter with a
+  deepseek/deepseek-v4-flash -> deepseek/deepseek-v3.2 -> moonshotai/kimi-k2.5 waterfall.
+- Auth: the Supabase auth options (B and C) were never built. The app has no user accounts.
+- Frontend: the Next.js option was dropped. The shipped client is Expo / React Native
+  (Expo ~56.0.8, React Native 0.85.3, expo-router ~56.2.8), plus an Expo web export.
+- Scraping: CloakBrowser was not used. The pipeline runs RSS feeds, free APIs (GDELT, Guardian), and
+  Playwright for ISW: 14 scrapers exist and 13 run by default.
+- Cadence: one edition per day, not weekly. An internal APScheduler job runs the pipeline at 06:00 UTC
+  and briefings are stored in Supabase Postgres.
+- Hosting: the API runs on Railway (Docker, uvicorn + FastAPI), the web app is served from GitHub Pages
+  at https://pcschmidt.github.io/sitrep/.
+- The "refresh button": there is no /refresh endpoint.
+
+---
+
 CLAUDE_CHAT: "https://claude.ai/chat/c4acd191-899d-46c3-84eb-8cabcb8354ba"
 
 PROMPT: "https://github.com/PCSchmidt/CloakBrowser
@@ -178,3 +201,12 @@ Given the "high-end security feel" requirement, Option B or C makes sense and Su
 What's your call on auth, and do you want me to generate the full project scaffold + first Claude Code session plan?"
 PROMPTS: "Describe the app for the repo description"
 RESPONSE: "**SITREP** — AI-powered open-source intelligence platform delivering classified-feel daily threat assessments and geopolitical briefings to mobile. Structured like a professional intelligence product: executive summaries, regional BLUFs, cited sourcing, and real-time world event synthesis — built on Claude AI, React Native, and FastAPI."
+
+---
+
+## Related docs
+
+- [README.md](README.md) - current project state
+- [MEMORY_EPISODIC.md](MEMORY_EPISODIC.md) - session log from the build
+- [SESSION_NOTES_2026-05-27.md](SESSION_NOTES_2026-05-27.md) - v0.10 session notes
+- [MEMORY_SEMANTIC.md](MEMORY_SEMANTIC.md) - patterns observed across projects

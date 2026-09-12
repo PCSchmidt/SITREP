@@ -1,7 +1,11 @@
-# MEMORY_CORRECTIONS.md
-# Blueprint v11 | Reflexion Entries and Estimation Calibration
-# New entries added ABOVE previous (newest first).
-# Used by build-rules.md to calibrate future estimates.
+# MEMORY_CORRECTIONS
+
+Historical log (Blueprint v11): reflexion entries and estimation calibration, 2026-05-23 to
+2026-09-12. New entries are added above previous ones (newest first). Used by build-rules.md to
+calibrate future estimates. The estimates and predictions below are records of past gates, not
+current state: see [README.md](README.md) for that.
+
+Corrected 2026-09-12: one incident note added above; no existing entry changed.
 
 ## REFLEXION LOG
 # Format per entry:
@@ -12,6 +16,36 @@
 # TECHNICAL PREDICTIONS VS REALITY: [what was expected vs what happened]
 # CORRECTION FOR FUTURE: [what changes]
 # MEMORY_SEMANTIC.md UPDATE: [pattern added/updated or none]
+
+## INCIDENT NOTE: v0.21.10 -- Anon-key outage, disk-only PDFs, and a fork sync
+Date: 2026-09-12
+Project: SITREP
+ESTIMATE: n/a (incident response, no gate estimate)
+
+TECHNICAL PREDICTIONS VS REALITY:
+- Assumed since v0.6 that Supabase was optional caching for later. Reality: with the anon key,
+  writes fail with 42501 "new row violates row-level security policy" and reads come back empty,
+  so the outage looked like briefings vanishing after a redeploy rather than a permission error.
+- Assumed the PDF path was fine because the endpoint returned 200. Reality: Content-Disposition:
+  attachment made browsers download the file, the web iframe stayed on "Loading PDF...", and the
+  cached PDFs died with the container because nothing is archived in object storage.
+- Unplanned: a fork-sync attempt on the portfolio repo (PCSchmidt.github.io) would have replaced
+  the live Astro site with the fork's upstream Jekyll main. Nothing was lost; a backup branch and
+  a tag were made first.
+
+CORRECTION FOR FUTURE:
+1. Treat the datastore as the source of truth from the first storage gate: prove write, read-back,
+   and survives-restart, and check which key role the server actually loaded.
+2. Pin managed-service clients and test the exact credential format. A library version, not only an
+   env var, can reject new keys (supabase-py 2.9.0 rejects sb_secret_... keys; 2.16.0 is the first
+   release that accepts them).
+3. For an embedded document, choose the Content-Disposition mode and test it in the real viewer
+   (browser iframe and native viewer) before shipping the endpoint.
+4. Before a fork sync or an upstream merge, branch and tag whatever serves production, and check
+   that the upstream history is actually related to it.
+
+MEMORY_SEMANTIC.md UPDATE: PAT-007 and PAT-008 added (service key plus supporting client; inline
+on-demand PDFs)
 
 ## REFLEXION: v0.15 -- GDELT Integration
 Date: 2026-05-29
@@ -340,3 +374,10 @@ MEMORY_SEMANTIC.md UPDATE: None (need 3+ projects to validate pattern)
 
 ## PRE-FILL ACCURACY LOG
 [Empty until first interrogation with pre-fills]
+
+## Related docs
+
+- [README.md](README.md) - current project state
+- [DEPLOYMENT.md](DEPLOYMENT.md) - how the service runs and deploys
+- [MEMORY_EPISODIC.md](MEMORY_EPISODIC.md) - session log
+- [MEMORY_SEMANTIC.md](MEMORY_SEMANTIC.md) - patterns observed across projects

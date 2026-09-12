@@ -1,6 +1,11 @@
-# MEMORY_SEMANTIC.md
-# Blueprint v11 | Persistent Patterns Across Projects
-# Updated at gate close when a pattern is validated or invalidated.
+# MEMORY_SEMANTIC
+
+Historical log (Blueprint v11): patterns observed across projects, written 2026-05-23 to 2026-09-12.
+A pattern is added at gate close when it is validated or invalidated, so each entry is a snapshot of
+what was known at its own date. Current SITREP state: [README.md](README.md); deployment facts:
+[DEPLOYMENT.md](DEPLOYMENT.md).
+
+Corrected 2026-09-12: PAT-007 and PAT-008 added; no existing pattern text changed.
 
 ## PATTERNS
 # Format:
@@ -67,3 +72,33 @@ the value. Never trust the LLM to preserve exact string values — always overri
 field after JSON parsing: `briefing['region'] = region`. Apply this pattern to any
 field that must exactly match an input parameter.
 Last validated: 2026-05-29
+
+### PAT-007: Server writes need the service role key, and a client that accepts it
+Confidence: HIGH
+Source: SITREP v0.21 (anon-key outage, 2026-09-12)
+Description: A Supabase writer that uses the publishable/anon key fails with 42501 "new row
+violates row-level security policy", and reads can come back empty instead of erroring, so the
+failure looks like an empty cache rather than a permissions problem. Use the service role key for
+server-side writes and keep the anon key for client reads. The key format also moves faster than
+the client library: supabase-py 2.9.0 rejects the new sb_secret_ keys with "Invalid API key", and
+2.16.0 is the first release that accepts them (2.31.0 pinned in this repo). Add a debug endpoint
+that reports which key role the server loaded, and assert in a test that the loaded client is
+initialized.
+Last validated: 2026-09-12
+
+### PAT-008: Generate and serve embedded PDFs on demand, inline
+Confidence: HIGH
+Source: SITREP v0.21 (2026-09-12)
+Description: Content-Disposition: attachment makes a browser download a PDF instead of rendering
+it, so an <iframe> embed or a native viewer shows a stuck loading state even though the request
+returned 200. Serve inline and keep a client-side timeout that clears the spinner. Do not archive
+the generated file on the container disk as the source of truth: rebuild it from the stored record
+when the file is missing or older than that record, and say plainly that the cache is ephemeral.
+Last validated: 2026-09-12
+
+## Related docs
+
+- [README.md](README.md) - current project state
+- [DEPLOYMENT.md](DEPLOYMENT.md) - how the service runs and deploys
+- [MEMORY_EPISODIC.md](MEMORY_EPISODIC.md) - session log
+- [MEMORY_CORRECTIONS.md](MEMORY_CORRECTIONS.md) - estimation calibration and incident notes

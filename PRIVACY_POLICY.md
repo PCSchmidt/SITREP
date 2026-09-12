@@ -1,19 +1,21 @@
-# SITREP Privacy Policy
+# PRIVACY POLICY
 
-**Last updated:** 2026-05-29
+Privacy policy for SITREP, the mobile and web briefing app. This file is the source text; the published page is **https://pcschmidt.github.io/sitrep/privacy-policy** (HTTP 200, checked 2026-09-12).
+
+**Last updated:** 2026-09-12
 **Effective date:** 2026-05-29
 
 ---
 
-## 1. Who We Are
+## 1. Who we are
 
-SITREP is a personal portfolio project developed by Chris Schmidt. It is a free mobile application that delivers AI-generated geopolitical intelligence briefings. SITREP is not affiliated with any government agency, military organization, or intelligence service.
+SITREP is a personal portfolio project developed by Chris Schmidt. It is a free mobile and web app that delivers AI-generated geopolitical intelligence briefings. SITREP is not affiliated with any government agency, military organization, or intelligence service.
 
 Contact: p.christopher.schmidt@gmail.com
 
 ---
 
-## 2. What Information We Collect
+## 2. What information we collect
 
 SITREP collects **no personal information**. We do not require account creation, login, or any form of personal identification.
 
@@ -22,7 +24,7 @@ SITREP collects **no personal information**. We do not require account creation,
 We use Mixpanel to understand how the app is used. Mixpanel automatically assigns each device an anonymous identifier (a UUID) to distinguish unique devices without identifying you personally. We track the following events:
 
 | Event | What it records |
-|-------|----------------|
+| --- | --- |
 | `app_open` | App was launched |
 | `briefing_view` | A briefing was opened (includes region and title — no personal data) |
 | `region_filter` | A region tab was tapped |
@@ -31,7 +33,7 @@ We use Mixpanel to understand how the app is used. Mixpanel automatically assign
 
 No names, emails, locations, or device identifiers are associated with these events.
 
-### 2.2 Crash Reporting (Sentry)
+### 2.2 Crash reporting (Sentry)
 
 We use Sentry to capture crash reports when the app encounters an unexpected error. Sentry may collect:
 
@@ -41,7 +43,7 @@ We use Sentry to capture crash reports when the app encounters an unexpected err
 
 Sentry does not collect personal information, location data, or the content of any briefings you viewed.
 
-### 2.3 What We Do NOT Collect
+### 2.3 What we do not collect
 
 - Name, email address, or any contact information
 - Location data
@@ -50,46 +52,67 @@ Sentry does not collect personal information, location data, or the content of a
 - Payment information (the app is free)
 - Any data that identifies you personally
 
+### 2.4 What stays on your device
+
+Two things are stored locally and never sent anywhere:
+
+| | |
+| --- | --- |
+| Briefing cache | The last briefings you opened are cached in the app's local storage so the app still works when the backend is unreachable or you are offline |
+| Downloaded PDFs | A PDF is saved to the app's cache or documents folder only when you tap Share or Save |
+
+Both are removed when you uninstall the app. Neither contains personal data.
+
 ---
 
-## 3. How We Use the Information
+## 3. How we use the information
 
 Analytics data is used solely to understand feature usage and improve the app. Crash data is used solely to identify and fix bugs. We do not sell, share, or monetize any data.
 
 ---
 
-## 4. Third-Party Services
+## 4. Third-party services
 
-SITREP uses the following third-party services, each with their own privacy policies:
+SITREP uses the following third-party services. Each has its own privacy policy:
 
-| Service | Purpose | Privacy Policy |
-|---------|---------|----------------|
-| Mixpanel | Anonymous analytics | mixpanel.com/legal/privacy-policy |
-| Sentry | Crash reporting | sentry.io/privacy |
-| Railway | Backend hosting | railway.app/legal/privacy |
-| OpenRouter | AI model routing | openrouter.ai/privacy |
+| Service | Purpose | Privacy policy |
+| --- | --- | --- |
+| Mixpanel | Anonymous analytics | https://mixpanel.com/legal/privacy-policy |
+| Sentry | Crash reporting | https://sentry.io/privacy/ |
+| Railway | Backend hosting | https://railway.com/legal/privacy |
+| Supabase | Postgres store for the generated briefings (no user data) | https://supabase.com/privacy |
+| OpenRouter | AI model routing for briefing synthesis | https://openrouter.ai/privacy |
+
+### 4.1 What the backend does with data
+
+The backend serves briefings. It accepts nothing from your device except a read request.
+
+- It collects public news content from open sources: public feeds and pages from outlets such as ISW, Defense One, Breaking Defense, War on the Rocks, The War Zone, Al Jazeera, Foreign Policy, CFR, and Americas Quarterly, plus the Guardian Open Platform API, the GDELT project, and US and UK government releases. No user data is sent to any of them.
+- It sends that collected article text, and nothing else, to OpenRouter for AI synthesis. Content you read in the app is never sent back to a model provider.
+- It stores the generated briefings in Supabase so a container restart does not lose them. The briefings hold no user data.
+- It serves briefings and PDFs read-only. There is no account, no upload, and no user identifier in the request.
 
 ---
 
-## 5. AI-Generated Content
+## 5. AI-generated content
 
-All briefings are generated by artificial intelligence (DeepSeek V4 Flash via OpenRouter) from publicly available open-source news articles. The AI processing happens on our backend servers — content you read is not transmitted back to any AI provider.
+All briefings are generated by artificial intelligence from publicly available open-source news articles. The primary model is DeepSeek V4 Flash (`deepseek/deepseek-v4-flash`) through OpenRouter, with DeepSeek V3.2 and Kimi K2.5 as fallbacks when a call fails. The AI processing happens on our backend servers, and content you read is not transmitted back to any AI provider.
 
 ---
 
-## 6. Data Retention
+## 6. Data retention
 
 Anonymous analytics events are retained by Mixpanel per their standard retention policy. Crash reports are retained by Sentry for 90 days by default. We do not maintain any separate data store of user behavior.
 
 ---
 
-## 7. Children's Privacy
+## 7. Children's privacy
 
 SITREP is not directed at children under 13. We do not knowingly collect information from children.
 
 ---
 
-## 8. Changes to This Policy
+## 8. Changes to this policy
 
 We may update this policy when features change. The "Last updated" date at the top reflects the most recent revision. Continued use of the app after updates constitutes acceptance.
 
@@ -99,3 +122,13 @@ We may update this policy when features change. The "Last updated" date at the t
 
 Questions about this privacy policy:
 **p.christopher.schmidt@gmail.com**
+
+---
+
+## See also
+
+- [README.md](README.md) - project overview and current state.
+- [TERMS_OF_SERVICE.md](TERMS_OF_SERVICE.md) - the terms that apply to the same app.
+- [STORE_SUBMISSION_CHECKLIST.md](STORE_SUBMISSION_CHECKLIST.md) - the store listings that link to this policy, and their submission order.
+
+The published copy of this policy lives at https://pcschmidt.github.io/sitrep/privacy-policy and is generated from `docs/privacy-policy.html`. Update that file when this text changes.

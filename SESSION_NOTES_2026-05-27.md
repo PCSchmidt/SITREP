@@ -1,10 +1,29 @@
-# Session Notes: 2026-05-27
+# SESSION_NOTES_2026-05-27
+
+Historical session notes for 2026-05-27, gate v0.10 (production deployment, mobile app running on a
+physical device). This is a record of that day. For the current build see [README.md](README.md), and
+for how the service runs and deploys see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+Corrections added 2026-09-12. The original text is left in place below.
+
+- Briefings are stored in Supabase, so the container disk is no longer the store and a redeploy no
+  longer wipes them. Until 2026-09-12 the backend used the anon key, writes failed with a row-level
+  security error (42501), and the disk copy was all that remained.
+- The pipeline now runs daily at 06:00 UTC from an internal APScheduler job. When these notes were
+  written it ran weekly at 06:00 UTC.
+- The mobile app caches briefings on device and refetches them when it returns to the foreground.
+- PDFs are generated on demand from the stored briefing and served inline. The endpoint takes a region
+  parameter (including Global), so the "wrong region" workaround noted below no longer applies.
+- Scraper coverage grew: 14 scrapers exist and 13 run by default (GuardianAPIScraper runs only when
+  GUARDIAN_API_KEY is set). The three sources listed as broken below are fixed or replaced.
+- The 2026-08-21 launch target was not met. Google Play closed testing (20 testers, 14 days) is the
+  next step, then the App Store.
 
 ## Session Summary
 
 **Duration**: ~3 hours  
 **Focus**: v0.10 Production Deployment - Mobile App Integration  
-**Status**: ✅ COMPLETE - Mobile app fully functional on physical device
+**Status**: COMPLETE - Mobile app fully functional on physical device
 
 ---
 
@@ -41,11 +60,11 @@
 - Mobile app fetches briefings via mobile data successfully
 
 ### 6. Testing on Physical Device
-- ✅ Home screen: Regional briefings display with cards
-- ✅ Region filtering: ALL, MIDDLE EAST, INDO-PACIFIC, EUROPE/AFRICA, W. HEMISPHERE
-- ✅ Detail screen: Full briefing content (BLUF, sections, sources)
-- ✅ PDF viewer: Loads Railway backend PDFs successfully
-- ✅ Navigation: All routes working (Home → Detail → PDF → Back)
+- Home screen: Regional briefings display with cards
+- Region filtering: ALL, MIDDLE EAST, INDO-PACIFIC, EUROPE/AFRICA, W. HEMISPHERE
+- Detail screen: Full briefing content (BLUF, sections, sources)
+- PDF viewer: Loads Railway backend PDFs successfully
+- Navigation: All routes working (Home → Detail → PDF → Back)
 
 ---
 
@@ -125,20 +144,20 @@ npx expo start
 ## Project State Snapshot
 
 ### What Works
-✅ Backend scraping pipeline (ISW + other sources)  
-✅ LLM synthesis (DeepSeek V4 Flash via Open Router)  
-✅ PDF generation (ReportLab, 15-20 page reports)  
-✅ Railway production deployment + weekly cron  
-✅ Mobile app (4 regional briefings, detail screens, PDF viewer)  
-✅ USB development workflow  
-✅ All navigation flows  
+- Backend scraping pipeline (ISW + other sources)  
+- LLM synthesis (DeepSeek V4 Flash via Open Router)  
+- PDF generation (ReportLab, 15-20 page reports)  
+- Railway production deployment + weekly cron  
+- Mobile app (4 regional briefings, detail screens, PDF viewer)  
+- USB development workflow  
+- All navigation flows  
 
 ### What's Pending
-📅 Analytics (Mixpanel + Sentry) - v0.11  
-📅 Legal disclaimers (Privacy Policy, ToS) - v0.12  
-📅 App Store prep (icons, screenshots, metadata) - v0.13  
-📅 Beta testing (TestFlight) - v0.14  
-📅 Production launch (App Store + Play Store) - v1.0  
+- Analytics (Mixpanel + Sentry) - v0.11  
+- Legal disclaimers (Privacy Policy, ToS) - v0.12  
+- App Store prep (icons, screenshots, metadata) - v0.13  
+- Beta testing (TestFlight) - v0.14  
+- Production launch (App Store + Play Store) - v1.0  
 
 ### Hours Tracking
 - **v0.0-v0.10 Actual**: 56 hours
@@ -166,7 +185,7 @@ npx expo start
 
 ### Backend
 - **Production URL**: https://sitrep-production-6aac.up.railway.app
-- **Cron Schedule**: Every Sunday 06:00 UTC
+- **Cron Schedule**: Every Sunday 06:00 UTC (now daily 06:00 UTC; see the corrections at the top)
 - **Last Briefings Generated**: 2026-05-23 (Indo-Pacific), 2026-05-24 (Middle East), 2026-05-25 (Europe/Africa), 2026-05-26 (Western Hemisphere)
 
 ### Mobile
@@ -189,3 +208,12 @@ npx expo start
 **Session End**: 2026-05-27  
 **Status**: Mobile app fully functional, v0.10 COMPLETE  
 **Safe to Disconnect**: Yes - development build installed, phone can be unplugged
+
+---
+
+## Related docs
+
+- [README.md](README.md) - current project state
+- [DEPLOYMENT.md](DEPLOYMENT.md) - how the service runs and deploys
+- [MEMORY_EPISODIC.md](MEMORY_EPISODIC.md) - session log, in the same format as these notes
+- [MEMORY_CORRECTIONS.md](MEMORY_CORRECTIONS.md) - estimation calibration and incident notes

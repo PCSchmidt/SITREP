@@ -3,8 +3,9 @@ name: health
 description: "This skill audits Blueprint v11 installation and project foundation files. Use when checking system integrity, after long breaks from a project, or when the user types /health."
 ---
 
-# HEALTH SKILL -- Blueprint v11
-# Invoke: /health
+# Health
+
+Audits the foundation files, the memory network, and the hook install. Invoke: `/health`.
 
 ## STEP 1: MEMORY NETWORK AUDIT
 
@@ -16,11 +17,15 @@ description: "This skill audits Blueprint v11 installation and project foundatio
 
 ## STEP 2: FOUNDATION FILE AUDIT
 
-ALWAYS LOAD (5): CLAUDE.md, CONTRACT.md, SPEC.md, ERRORS.md, MEMORY_SEMANTIC.md
-ON DEMAND (17+): VERSION_ROADMAP.md, PLANS.md, DECISIONS.md, FRONTEND_SPEC.md,
-DESIGN_SYSTEM.md, COMPONENT_REGISTRY.md, TESTS.md, COSTS.md, SECURITY.md,
-PERFORMANCE.md, DEPLOYMENT.md, DEPLOYMENT_CONFIG.md, CONTEXT_BUDGET.md,
-VISUAL_CHECKS.md, CHANGELOG.md, TIMELOG.md, RESEARCH.md
+ALWAYS LOAD: CONTRACT.md, SPEC.md, MEMORY_SEMANTIC.md
+ON DEMAND: VERSION_ROADMAP.md, PLANS.md, DECISIONS.md, DESIGN_SYSTEM.md,
+DEPLOYMENT.md, DEPLOYMENT_CONFIG.md
+
+Blueprint template files that SITREP never created. Report them as MISSING
+but do not treat their absence as a failure, and do not create them during a
+health check: CLAUDE.md, ERRORS.md, FRONTEND_SPEC.md, MOCKUPS.md, TESTS.md,
+COSTS.md, SECURITY.md, PERFORMANCE.md, COMPONENT_REGISTRY.md,
+CONTEXT_BUDGET.md, VISUAL_CHECKS.md, CHANGELOG.md, TIMELOG.md, RESEARCH.md
 
 Report: [X] foundation files present. Missing files at pre-v0.0.0: expected.
 
