@@ -35,7 +35,7 @@ export default function AboutScreen() {
           is NOT official intelligence and should NOT be used for operational or
           government decision-making.{'\n\n'}
           Accuracy is not guaranteed. AI models can mischaracterize or hallucinate facts.
-          Briefings are generated weekly and may not reflect current events. Sources are
+          Briefings are generated daily and may not reflect current events. Sources are
           cited but independently unverified.{'\n\n'}
           Use at your own discretion.
         </Text>
@@ -47,7 +47,7 @@ export default function AboutScreen() {
           About
         </Text>
         <Text style={{ color: Colors.textBody, ...Typography.body, lineHeight: 22 }}>
-          SITREP delivers weekly geopolitical intelligence briefings in BLUF (Bottom Line
+          SITREP delivers daily geopolitical intelligence briefings in BLUF (Bottom Line
           Up Front) format — the same structure used by military intelligence products.{'\n\n'}
           Sources include ISW, Defense One, Breaking Defense, War on the Rocks, The War
           Zone, Al Jazeera, and other open-source defense publications. Content is

@@ -78,3 +78,8 @@ mobile/test_*.pdf
 .claude/state/
 .claude/scheduled_tasks.lock
 .claude/*.lock
+
+# Local screenshots that may show credentials - never commit these
+sitrep-production-api-keys.png
+railway-*-variables.png
+*.png.tmp

@@ -60,9 +60,6 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#000000' }}>
-      {showDisclaimer && (
-        <DisclaimerBanner dismissible onDismiss={() => setShowDisclaimer(false)} />
-      )}
       <RegionTab activeRegion={activeRegion} onRegionChange={setActiveRegion} />
 
       <ScrollView
@@ -105,6 +102,9 @@ export default function HomeScreen() {
           />
         ))}
       </ScrollView>
+      {showDisclaimer && (
+        <DisclaimerBanner dismissible onDismiss={() => setShowDisclaimer(false)} />
+      )}
     </View>
   );
 }

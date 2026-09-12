@@ -32,7 +32,7 @@ export default function BriefingCard({ id, timestamp, title, preview, regions }:
             textTransform: 'uppercase',
           }}
         >
-          WEEKLY SITREP
+          DAILY SITREP
         </Text>
         <Text
           style={{

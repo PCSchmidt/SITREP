@@ -48,7 +48,6 @@ export default function DetailScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#000000' }}>
-      <DisclaimerBanner />
       <ScrollView style={{ flex: 1 }}>
         <View style={{ padding: Spacing.lg }}>
           <Text
@@ -155,6 +154,7 @@ export default function DetailScreen() {
           </View>
         </View>
       </ScrollView>
+      <DisclaimerBanner />
     </View>
   );
 }

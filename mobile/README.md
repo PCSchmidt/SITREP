@@ -42,7 +42,7 @@ mobile/
 │   ├── BriefingCard.tsx        # briefing preview card
 │   ├── RegionTab.tsx           # region filter tabs
 │   ├── BLUFSection.tsx         # BLUF highlighted section
-│   ├── DisclaimerBanner.tsx    # AI content warning
+│   ├── DisclaimerBanner.tsx    # provenance note, bottom of screen
 │   ├── SourceCitation.tsx      # article source links
 │   ├── PlatformPdfViewer.tsx   # native: react-native-pdf
 │   └── PlatformPdfViewer.web.tsx # web: iframe with a 6s fallback timer

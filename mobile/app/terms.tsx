@@ -55,7 +55,7 @@ export default function TermsScreen() {
         <Body>
           ALL CONTENT IN SITREP IS AI-GENERATED.{'\n\n'}
           Accuracy is not guaranteed — AI models can mischaracterize or hallucinate
-          facts. Content may be incomplete or outdated (briefings are weekly).
+          facts. Content may be incomplete or outdated (briefings are daily).
           Source citations are AI-extracted and may contain errors.{'\n\n'}
           DO NOT rely on this content for any real-world decisions, especially
           operational, military, intelligence, or government decisions.

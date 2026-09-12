@@ -173,20 +173,23 @@ Interaction:
 
 ### 5. DisclaimerBanner
 ```
-Purpose: Heavy AI-generated content warning (compliance)
+Purpose: quiet provenance note (the sources are real; the paraphrase is machine-written)
 Layout:
-  - Full-width banner
-  - Amber background (#FFA500)
-  - Black text for contrast
-  - 12px padding
-  - Warning marker on the left edge
+  - Full-width footer strip, 1px top hairline (#1A1A1A), near-black background (#0A0A0A)
+  - No colour block, no uppercase heading, no warning icon
+  - 8px vertical padding, 16px horizontal
 Content:
-  - "AI GENERATED CONTENT" (H3, black, bold, uppercase)
-  - "Not official intelligence. Use at your own discretion." (caption, black)
+  - "AI-generated summary. Sources are real and cited; the wording is model-written.
+     Not official intelligence." (11px, #888888, 15px line height)
 Placement:
-  - Splash screen (full screen)
-  - Top of every briefing detail screen (sticky header)
-  - About page (expanded version with full disclaimer)
+  - Bottom of the home screen, below the briefing list (dismissible, × on the right)
+  - Bottom of the briefing detail screen, below the sources (not dismissible)
+  - The About screen carries the long-form disclaimer instead
+History:
+  - Until 2026-09-12 this was an amber banner at the top of both screens with an
+    uppercase "AI GENERATED CONTENT" heading. It was moved to the footer and toned
+    down: the earlier copy implied the content itself was unreliable, when only the
+    paraphrase is machine-written and every claim links to a real source.
 ```
 
 ### 6. PDFActionButton
@@ -248,8 +251,6 @@ The v3 generator replaced the earlier amber ReportLab, v1, and v2 generators, wh
 ### Home Screen (Latest Briefing)
 ```
 ┌─────────────────────────────────────┐
-│  !! AI GENERATED CONTENT            │  ← DisclaimerBanner (dismissible)
-├─────────────────────────────────────┤
 │                                     │
 │  SITREP                     ⋮       │  ← Header (title + menu icon)
 │  Intelligence Briefing              │
@@ -259,7 +260,7 @@ The v3 generator replaced the earlier amber ReportLab, v1, and v2 generators, wh
 │  ┌─────────────────────────────┐   │
 │  │ 2026-05-18 0600 UTC        │   │  ← BriefingCard
 │  │                             │   │
-│  │ WEEKLY SITREP               │   │
+│  │ DAILY SITREP                │   │
 │  │ Global Security Update      │   │
 │  │                             │   │
 │  │ Tensions escalate in...     │   │
@@ -275,18 +276,19 @@ The v3 generator replaced the earlier amber ReportLab, v1, and v2 generators, wh
 │  │ ...                         │   │
 │  └─────────────────────────────┘   │
 │                                     │
+├─────────────────────────────────────┤
+│ AI-generated summary. Sources are   │  ← DisclaimerBanner footer
+│ real and cited. Not official intel. │     (dismissible ×)
 └─────────────────────────────────────┘
 ```
 
 ### Briefing Detail Screen
 ```
 ┌─────────────────────────────────────┐
-│  !! AI GENERATED - NOT OFFICIAL     │  ← Sticky disclaimer
-├─────────────────────────────────────┤
 │  ← SITREP          Share    ⋯       │  ← Header (back + actions)
 │                                     │
 │  2026-05-18 0600 UTC               │  ← Timestamp
-│  WEEKLY INTELLIGENCE BRIEFING       │  ← Title
+│  DAILY INTELLIGENCE BRIEFING        │  ← Title
 │                                     │
 │  ┌─ ALL ─ MIDDLE EAST ─ INDO... ─┐ │  ← Region filter (optional)
 │                                     │
@@ -409,7 +411,9 @@ Actions in More Menu (⋯):
 │      Intelligence Briefing          │
 │                                     │
 │  ┌─────────────────────────────┐   │
-│  │ !!  AI GENERATED CONTENT    │   │  ← Full-screen disclaimer
+│  │  AI-GENERATED SUMMARY      │   │  ← First-launch notice (NOT built; the
+│  │                             │   │     shipped app shows the footer note
+│  │                             │   │     below the briefing list instead)
 │  │                             │   │     (must tap to proceed)
 │  │ This application synthesizes│   │
 │  │ open-source intelligence    │   │
