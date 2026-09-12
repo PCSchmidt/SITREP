@@ -1,5 +1,5 @@
 import { Stack, router } from 'expo-router';
-import { Pressable, Text } from 'react-native';
+import { Platform, Pressable, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -22,6 +22,17 @@ function RootLayout() {
     initAnalytics().then(() => {
       trackAppOpen();
     });
+  }, []);
+
+  // GitHub Pages answers unknown paths with the site's 404 page, so
+  // public/404.html forwards deep links such as /sitrep/detail/abc as
+  // /sitrep/?redirect=/sitrep/detail/abc. Follow that path once on mount.
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof window === 'undefined') return;
+    const target = new URLSearchParams(window.location.search).get('redirect');
+    if (!target) return;
+    const path = target.startsWith('/sitrep/') ? target.slice('/sitrep'.length) : target;
+    router.replace(path as any);
   }, []);
 
   return (
