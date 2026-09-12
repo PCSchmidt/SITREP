@@ -48,7 +48,8 @@ SUPABASE_KEY=eyJ...                 # Required — Supabase anon key
 
 ### Manual pipeline trigger
 ```bash
-curl -X POST https://sitrep-production-6aac.up.railway.app/pipeline/run-weekly
+curl -X POST https://sitrep-production-6aac.up.railway.app/pipeline/run-weekly \
+  -H "X-Admin-Token: $SITREP_ADMIN_TOKEN"   # only when the Railway variable is set
 ```
 
 ---

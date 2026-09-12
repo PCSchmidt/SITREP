@@ -8,6 +8,7 @@ after deploying freshness fixes.
 
 import argparse
 import json
+import os
 import sys
 
 import requests
@@ -20,13 +21,21 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Trigger a clean SITREP briefing refresh on Railway.")
     parser.add_argument("--api", default=DEFAULT_API, help="Base SITREP API URL")
     parser.add_argument("--timeout", type=int, default=1500, help="Request timeout in seconds")
+    parser.add_argument(
+        "--token",
+        default=os.getenv("SITREP_ADMIN_TOKEN", ""),
+        help="Admin token sent as the X-Admin-Token header (defaults to $SITREP_ADMIN_TOKEN)",
+    )
     args = parser.parse_args()
 
     url = f"{args.api.rstrip('/')}/pipeline/run-weekly"
     print(f"Triggering clean briefing regeneration via {url}")
 
+    token = (args.token or "").strip()
+    headers = {"X-Admin-Token": token} if token else None
+
     try:
-        response = requests.post(url, timeout=args.timeout)
+        response = requests.post(url, timeout=args.timeout, headers=headers)
     except requests.RequestException as exc:
         print(f"Request failed: {exc}")
         return 1

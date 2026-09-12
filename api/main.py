@@ -1,7 +1,7 @@
 # SITREP Backend API
 # FastAPI server for intelligence briefing synthesis and PDF generation
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from pathlib import Path
@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 import json
 import os
 import logging
+import secrets
 from typing import Any, Dict, List
 
 # Configure logging
@@ -17,6 +18,36 @@ logger = logging.getLogger(__name__)
 
 SCRAPED_DIR = Path("data/scraped")
 BRIEFING_DIR = Path("data/briefings")
+
+
+ADMIN_TOKEN_ENV = "SITREP_ADMIN_TOKEN"
+ADMIN_TOKEN_HEADER = "X-Admin-Token"
+
+
+async def require_admin_token(request: Request, x_admin_token: str | None = Header(default=None)) -> None:
+    """Protect pipeline and debug endpoints with a shared secret.
+
+    Enforcement is opt-in so an existing deployment is never locked out
+    unexpectedly: when SITREP_ADMIN_TOKEN is unset, the request is allowed and a
+    warning is logged. Set SITREP_ADMIN_TOKEN on the host (and on every caller:
+    the in-app scheduler, refresh_railway_briefings.py, and the GitHub Actions
+    workflow) to require the X-Admin-Token header.
+    """
+    expected = (os.getenv(ADMIN_TOKEN_ENV) or "").strip()
+
+    if not expected:
+        logger.warning(
+            "%s is not set: %s is unauthenticated. Set it to require the %s header.",
+            ADMIN_TOKEN_ENV,
+            request.url.path,
+            ADMIN_TOKEN_HEADER,
+        )
+        return
+
+    if x_admin_token is None:
+        raise HTTPException(status_code=401, detail=f"Missing {ADMIN_TOKEN_HEADER} header")
+    if not secrets.compare_digest(x_admin_token, expected):
+        raise HTTPException(status_code=403, detail="Invalid admin token")
 
 
 def _clear_json_files(directory: Path) -> int:
@@ -191,7 +222,7 @@ async def health_check():
         "supabase_enabled": USE_SUPABASE
     }
 
-@app.post("/scrape")
+@app.post("/scrape", dependencies=[Depends(require_admin_token)])
 async def scrape_sources(region: str = "Europe/Africa", days: int = 7):
     """
     Scrape intelligence sources for a specific region.
@@ -228,7 +259,7 @@ async def scrape_sources(region: str = "Europe/Africa", days: int = 7):
         raise HTTPException(status_code=500, detail=f"Scraping failed: {str(e)}")
 
 
-@app.post("/synthesize")
+@app.post("/synthesize", dependencies=[Depends(require_admin_token)])
 async def synthesize_briefing(region: str = "Europe/Africa"):
     """
     Generate BLUF briefing from scraped articles.
@@ -397,7 +428,7 @@ async def get_global_briefing():
         raise HTTPException(status_code=500, detail=f"Error retrieving global briefing: {str(e)}")
 
 
-@app.post("/synthesize/global")
+@app.post("/synthesize/global", dependencies=[Depends(require_admin_token)])
 async def synthesize_global_briefing():
     """
     Generate a cross-regional global intelligence briefing from all scraped articles.
@@ -487,7 +518,7 @@ async def get_latest_pdf(region: str = "Europe/Africa"):
         raise HTTPException(status_code=500, detail=f"Error retrieving PDF: {str(e)}")
 
 
-@app.post("/briefing/generate-pdf")
+@app.post("/briefing/generate-pdf", dependencies=[Depends(require_admin_token)])
 async def generate_pdf(region: str = "Europe/Africa"):
     """
     Generate PDF from latest briefing JSON.
@@ -532,7 +563,7 @@ async def generate_pdf(region: str = "Europe/Africa"):
         raise HTTPException(status_code=500, detail=f"PDF generation failed: {str(e)}")
 
 
-@app.post("/pipeline/run-weekly")
+@app.post("/pipeline/run-weekly", dependencies=[Depends(require_admin_token)])
 async def run_weekly_pipeline():
     """
     Execute weekly briefing generation pipeline.
@@ -751,7 +782,7 @@ async def run_weekly_pipeline():
         raise HTTPException(status_code=500, detail=f"Pipeline execution failed: {str(e)}")
 
 
-@app.get("/debug/supabase")
+@app.get("/debug/supabase", dependencies=[Depends(require_admin_token)])
 async def debug_supabase():
     """
     Test Supabase connection and show status.
@@ -783,7 +814,7 @@ async def debug_supabase():
     return result
 
 
-@app.post("/debug/upload-briefing")
+@app.post("/debug/upload-briefing", dependencies=[Depends(require_admin_token)])
 async def upload_briefing_to_supabase(region: str):
     """
     Manually upload a briefing from filesystem to Supabase.

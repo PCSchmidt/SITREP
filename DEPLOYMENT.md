@@ -141,6 +141,28 @@ startup in `main.py`. It runs the full pipeline **daily at 06:00 UTC** by callin
   and can be removed.
 - Confirm it's live: `GET /` reports `scheduler` status and the next run time.
 
+### Admin token (recommended before public launch)
+
+Every mutating endpoint (`POST /scrape`, `POST /synthesize`, `POST /synthesize/global`,
+`POST /briefing/generate-pdf`, `POST /pipeline/run-weekly`, `GET /debug/supabase`,
+`POST /debug/upload-briefing`) accepts an optional shared secret. Enforcement is
+**opt-in**:
+
+1. Generate a long random value (for example `openssl rand -hex 32`).
+2. Set it on Railway as `SITREP_ADMIN_TOKEN` and redeploy.
+3. Send the same value from every caller:
+   - In-app scheduler: reads `SITREP_ADMIN_TOKEN` from the environment automatically.
+   - Manual refresh: `SITREP_ADMIN_TOKEN=... python refresh_railway_briefings.py`
+     (or `--token ...`).
+   - GitHub Actions backup trigger: add the repository secret
+     `SITREP_ADMIN_TOKEN` (Settings → Secrets and variables → Actions).
+4. Callers that omit the header then receive `401` (missing) or `403` (wrong).
+
+While `SITREP_ADMIN_TOKEN` is unset the endpoints stay open and the server logs a
+warning per request, so you can add the token without breaking the daily run.
+Read-only endpoints (`/`, `/health`, `/briefing/latest`, `/briefing/global`,
+`/briefing/latest/pdf`) stay public because the mobile app needs them.
+
 ---
 
 ## STEP 5: Verify Deployment
@@ -157,6 +179,8 @@ startup in `main.py`. It runs the full pipeline **daily at 06:00 UTC** by callin
    ```bash
    curl -X POST https://YOUR-RAILWAY-URL.up.railway.app/pipeline/run-weekly
    ```
+
+   If `SITREP_ADMIN_TOKEN` is set, add `-H "X-Admin-Token: $SITREP_ADMIN_TOKEN"`.
 
    Expected: Pipeline runs and caches briefings to Supabase
 3. **Check Supabase**:

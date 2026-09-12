@@ -42,9 +42,18 @@ jobs:
 
       - name: Trigger the pipeline if stale
         if: steps.check.outputs.stale == 'true'
+        # Optional shared secret: set the SITREP_ADMIN_TOKEN repository secret to
+        # match the Railway variable. When either side is unset the header is
+        # skipped, so the trigger keeps working during the transition.
+        env:
+          ADMIN_TOKEN: ${{ secrets.SITREP_ADMIN_TOKEN }}
         run: |
           set -uo pipefail
           echo "Triggering pipeline at $(date -u +%FT%TZ) ..."
-          resp="$(curl -sS --max-time 1500 -X POST "$API/pipeline/run-weekly")"
+          auth_args=()
+          if [ -n "${ADMIN_TOKEN:-}" ]; then
+            auth_args=(-H "X-Admin-Token: $ADMIN_TOKEN")
+          fi
+          resp="$(curl -sS --max-time 1500 -X POST "${auth_args[@]}" "$API/pipeline/run-weekly")"
           echo "Response (truncated):"; echo "$resp" | head -c 600; echo
           echo "$resp" | python3 -c "import sys,json; d=json.load(sys.stdin); print('pipeline status:', d.get('status'), '| regions:', d.get('total_regions'), '| errors:', d.get('errors')); sys.exit(0 if d.get('status')=='success' else 1)"

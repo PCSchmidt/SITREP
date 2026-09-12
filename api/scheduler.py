@@ -2,6 +2,7 @@
 # Runs briefing generation at 6AM UTC daily
 
 import logging
+import os
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from datetime import datetime, timezone
@@ -20,8 +21,15 @@ class BriefingScheduler:
         """Trigger the weekly pipeline endpoint"""
         try:
             logger.info("Scheduler triggering daily pipeline run...")
+            # Send the admin token when the host configures one; the endpoint
+            # stays open while SITREP_ADMIN_TOKEN is unset.
+            admin_token = (os.getenv("SITREP_ADMIN_TOKEN") or "").strip()
+            headers = {"X-Admin-Token": admin_token} if admin_token else None
+
             async with httpx.AsyncClient(timeout=600.0) as client:
-                response = await client.post(f"{self.api_base_url}/pipeline/run-weekly")
+                response = await client.post(
+                    f"{self.api_base_url}/pipeline/run-weekly", headers=headers
+                )
                 if response.status_code == 200:
                     logger.info(f"Pipeline triggered successfully at {datetime.now(timezone.utc)}")
                 else:
