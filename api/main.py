@@ -134,6 +134,50 @@ def _aggregate_freshness_blocks(freshness_blocks: List[Dict[str, Any]]) -> Dict[
         "top_titles": top_titles,
     }
 
+async def _load_briefing_for_pdf(region: str) -> "Dict[str, Any] | None":
+    """Load the newest briefing for a region: Supabase first, then disk files."""
+    if USE_SUPABASE and supabase:
+        try:
+            record = await supabase.get_latest_briefing(region)
+            if record and record.get("briefing_data"):
+                return record["briefing_data"]
+        except Exception as e:
+            logger.warning(f"Supabase briefing lookup for PDF failed: {e}")
+
+    briefing_dir = Path("data/briefings")
+    if not briefing_dir.exists():
+        return None
+
+    region_slug = region.lower().replace(' ', '_').replace('/', '_')
+    briefing_files = list(briefing_dir.glob(f"{region_slug}_*.json"))
+    if not briefing_files:
+        return None
+
+    latest = max(briefing_files, key=lambda p: p.stat().st_mtime)
+    with open(latest, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+
+def _pdf_needs_refresh(pdf_path: "Path | None", briefing: Dict[str, Any]) -> bool:
+    """True when there is no PDF yet, or the cached file predates the briefing."""
+    if pdf_path is None or not pdf_path.exists():
+        return True
+
+    raw = briefing.get("generated_at")
+    if not raw:
+        return False
+
+    try:
+        generated_at = datetime.fromisoformat(str(raw).replace("Z", "+00:00"))
+    except ValueError:
+        return False
+
+    if generated_at.tzinfo is None:
+        generated_at = generated_at.replace(tzinfo=timezone.utc)
+
+    return pdf_path.stat().st_mtime < generated_at.timestamp()
+
+
 def _stamp_generated_at(briefing: Dict[str, Any]) -> Dict[str, Any]:
     """Record when a briefing was produced.
 
@@ -148,7 +192,7 @@ def _stamp_generated_at(briefing: Dict[str, Any]) -> Dict[str, Any]:
 
 # Application version. Bump on each deploy so the running build can be
 # identified via GET / (used to confirm a Railway redeploy is live).
-APP_VERSION = "0.21.9"
+APP_VERSION = "0.21.10"
 
 # Initialize Supabase client (optional for local dev)
 try:
@@ -499,25 +543,29 @@ async def get_latest_pdf(region: str = "Europe/Africa"):
     Returns PDF file for download.
     """
     try:
-        # Find latest PDF in data/pdfs/
+        # The host filesystem is ephemeral, so a PDF that was only sitting on disk
+        # disappeared at every restart and the PDF button broke in the app while the
+        # text briefings kept working from Supabase. Build the PDF from the stored
+        # briefing whenever the cached file is missing or older than the briefing.
         pdf_dir = Path("data/pdfs")
-        if not pdf_dir.exists():
-            raise HTTPException(status_code=404, detail="No PDFs available")
+        pdf_dir.mkdir(parents=True, exist_ok=True)
 
-        # Map region to PDF filename pattern
         region_slug = region.lower().replace(' ', '_').replace('/', '_')
+        pdf_files = list(pdf_dir.glob(f"{region_slug}_*.pdf"))
+        latest_pdf = max(pdf_files, key=lambda p: p.stat().st_mtime) if pdf_files else None
 
-        # Find PDFs matching this region
-        pdf_pattern = f"{region_slug}_*.pdf"
-        pdf_files = list(pdf_dir.glob(pdf_pattern))
+        briefing = await _load_briefing_for_pdf(region)
 
-        if not pdf_files:
+        if briefing is None and latest_pdf is None:
             raise HTTPException(status_code=404, detail=f"No PDF found for region: {region}")
 
-        # Get most recent PDF for this region
-        latest_pdf = max(pdf_files, key=lambda p: p.stat().st_mtime)
+        if briefing is not None and _pdf_needs_refresh(latest_pdf, briefing):
+            from pdf_generation.pdf_generator_v3 import PDFGeneratorV3
 
-        # Return PDF file
+            generated_path = PDFGeneratorV3().generate_pdf(briefing)
+            latest_pdf = Path(generated_path)
+            logger.info(f"Generated {region} PDF on demand: {latest_pdf}")
+
         return FileResponse(
             path=str(latest_pdf),
             media_type="application/pdf",
