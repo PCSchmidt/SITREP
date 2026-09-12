@@ -117,7 +117,7 @@ npx expo start
    - **Current workaround**: Works for latest briefing, just shows wrong region sometimes
    - **Priority**: Low (v1.1+)
 
-3. **Debug Logging**: Remove console.log statements from [mobile/app/index.tsx](mobile/app/index.tsx:18-26)
+3. **Debug Logging**: Remove console.log statements from [mobile/app/index.tsx](mobile/app/index.tsx) (lines 18-26 at the time of writing)
    - Lines 18-26: HomeScreen debug state logging
    - Lines 61-68: Filtered briefings debug logging
    - **Priority**: Before production release (v0.14+)

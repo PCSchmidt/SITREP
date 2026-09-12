@@ -95,7 +95,7 @@ DAILY UPDATES
 New briefings are generated every day at 06:00 UTC. No subscription, no account.
 
 DISCLAIMER
-All content is AI-generated from open-source news. This is not official intelligence. Accuracy is not guaranteed, and sources are cited but not independently verified. Do not use it for operational, military, or government decisions.
+Each briefing is written by an AI model from published, linked open-source reporting. The sources are real; the synthesis is machine-written, so check anything important against the linked source. Not official intelligence.
 
 A portfolio project by Chris Schmidt, a full-stack developer working on AI-integrated mobile apps.
 pcschmidt.github.io

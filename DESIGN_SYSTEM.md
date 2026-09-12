@@ -409,24 +409,13 @@ Actions in More Menu (⋯):
 │      Intelligence Briefing          │
 │                                     │
 │  ┌─────────────────────────────┐   │
-│  │  AI-GENERATED SUMMARY      │   │  ← First-launch notice (NOT built; the
-│  │                             │   │     shipped app shows the footer note
-│  │                             │   │     below the briefing list instead)
-│  │                             │   │     (must tap to proceed)
-│  │ This application synthesizes│   │
-│  │ open-source intelligence    │   │
-│  │ using artificial intelligence.│  │
-│  │                             │   │
-│  │ NOT OFFICIAL INTELLIGENCE   │   │
-│  │                             │   │
-│  │ Content is AI-generated and │   │
-│  │ should not be used for      │   │
-│  │ official decision-making.   │   │
-│  │                             │   │
-│  │ By continuing, you          │   │
-│  │ acknowledge these risks.    │   │
-│  │                             │   │
-│  │ [I UNDERSTAND]              │   │  ← Button (amber)
+│  │  SITREP                     │   │  ← Retired design, NOT built. The
+│  │  AI-generated briefings     │   │     app never gated first launch on
+│  │  from linked open-source    │   │     a notice; it shows the footer
+│  │  reporting. Not official    │   │     note below the briefing list
+│  │  intelligence.              │   │     instead. Kept only as a record
+│  │                             │   │     of the earlier, heavier approach.
+│  │  [Continue]                 │   │
 │  │                             │   │
 │  │ Privacy Policy | Terms →    │   │
 │  └─────────────────────────────┘   │
@@ -540,10 +529,9 @@ Variants: 1024x1024 (app store), various sizes for system
 
 ## Deviations from this spec (verified 2026-09-12)
 
-The tokens match this document. Four details do not, and the spec is not the source of truth for them:
+The tokens match this document. Three details do not, and the spec is not the source of truth for them:
 
-- `mobile/components/BriefingCard.tsx` still prints "WEEKLY SITREP" on the card. The pipeline runs daily, so this label is stale UI copy. No code was changed in this documentation pass.
-- `mobile/app/about.tsx` still says "Briefings are generated weekly" and describes "weekly geopolitical intelligence briefings". Same stale copy.
+- The card label and the About copy were corrected to daily generation on 2026-09-12 (`BriefingCard.tsx`, `about.tsx`, `terms.tsx`), so nothing in the app now claims a weekly cadence.
 - The About screen shows no version string. The app version lives in `mobile/app.json` (`1.0.0`); the backend version is `v0.21.11`.
 - Store screenshots do not exist yet. Five phone screenshots and a 1024x500 feature graphic are still to be produced before the Google Play submission.
 
