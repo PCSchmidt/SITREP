@@ -1,4 +1,4 @@
-import { createElement, useRef } from 'react';
+import { createElement, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { Colors } from '../constants/tokens';
 
@@ -21,6 +21,20 @@ export default function PlatformPdfViewer({
   style?: object;
 }) {
   const settledRef = useRef(false);
+  const onLoadCompleteRef = useRef(onLoadComplete);
+  onLoadCompleteRef.current = onLoadComplete;
+
+  // A browser that decides to download the PDF instead of rendering it never fires
+  // onLoad, so stop the spinner on a timer as a fallback.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!settledRef.current) {
+        settledRef.current = true;
+        onLoadCompleteRef.current(0);
+      }
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleLoad = () => {
     if (settledRef.current) return;

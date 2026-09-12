@@ -566,10 +566,13 @@ async def get_latest_pdf(region: str = "Europe/Africa"):
             latest_pdf = Path(generated_path)
             logger.info(f"Generated {region} PDF on demand: {latest_pdf}")
 
+        # Inline: the web build embeds this URL in an iframe, and an attachment
+        # disposition makes the browser download the file instead of rendering it,
+        # which left the web PDF screen stuck on its loading spinner.
         return FileResponse(
             path=str(latest_pdf),
             media_type="application/pdf",
-            filename=latest_pdf.name
+            headers={"Content-Disposition": f'inline; filename="{latest_pdf.name}"'},
         )
 
     except HTTPException:
