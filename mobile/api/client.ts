@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Briefing } from '../types/briefing';
 
 // API Configuration
@@ -65,10 +66,12 @@ function transformBriefing(
 ): Briefing {
   const { briefing } = backendResponse;
 
-  // Extract date from generated_at for ID
-  // Fallback to current date if generated_at is null (handles legacy briefings)
-  const generatedAt = briefing.generated_at || new Date().toISOString();
-  const dateStr = generatedAt.split('T')[0];
+  // Extract date from generated_at for ID. Some older briefings were saved without
+  // the field at all, so guard the parse: an unparseable date used to throw and the
+  // whole region disappeared from the app.
+  const generatedDate = new Date(briefing.generated_at ?? '');
+  const hasValidDate = !Number.isNaN(generatedDate.getTime());
+  const dateStr = (hasValidDate ? generatedDate : new Date()).toISOString().split('T')[0];
 
   // Map region to short code (must match tokens.ts Regions)
   const regionMap: Record<string, string> = {
@@ -196,7 +199,9 @@ function transformBriefing(
 
   return {
     id: uniqueId,
-    timestamp: new Date(briefing.generated_at).toISOString().replace('T', ' ').substring(0, 19) + ' UTC',
+    timestamp: hasValidDate
+      ? generatedDate.toISOString().replace('T', ' ').substring(0, 19) + ' UTC'
+      : 'date unavailable',
     title: `${briefing.region} Intelligence Briefing`,
     preview,
     regions: [regionCode],
@@ -213,27 +218,76 @@ function transformBriefing(
   };
 }
 
+// On-device cache
+//
+// The backend stores briefings on an ephemeral disk, so a restart can leave it
+// with nothing to serve. Caching the last good copy means the app keeps showing
+// briefings (marked stale) instead of an error while the backend recovers.
+
+const CACHE_PREFIX = 'sitrep:briefing:v1:';
+
+async function readCachedBriefing(key: string): Promise<Briefing | null> {
+  try {
+    const raw = await AsyncStorage.getItem(CACHE_PREFIX + key);
+    return raw ? (JSON.parse(raw) as Briefing) : null;
+  } catch (err) {
+    console.warn('Failed to read cached briefing', key, err);
+    return null;
+  }
+}
+
+async function cacheBriefing(key: string, briefing: Briefing): Promise<void> {
+  try {
+    await AsyncStorage.setItem(CACHE_PREFIX + key, JSON.stringify(briefing));
+  } catch (err) {
+    console.warn('Failed to cache briefing', key, err);
+  }
+}
+
+async function fetchBriefingWithCache(
+  key: string,
+  fetcher: () => Promise<Briefing>
+): Promise<Briefing> {
+  try {
+    const fresh = await fetcher();
+    const stamped: Briefing = { ...fresh, isStale: false, cachedAt: new Date().toISOString() };
+    void cacheBriefing(key, stamped);
+    return stamped;
+  } catch (err) {
+    const cached = await readCachedBriefing(key);
+    if (cached) {
+      console.warn(`Serving cached briefing for ${key} after fetch failure:`, err);
+      return { ...cached, isStale: true };
+    }
+    throw err;
+  }
+}
+
 // API Functions
 export async function fetchLatestBriefing(region: string = 'Europe/Africa'): Promise<Briefing> {
-  const response = await fetch(`${API_BASE_URL}/briefing/latest?region=${encodeURIComponent(region)}`);
+  return fetchBriefingWithCache(`region:${region}`, async () => {
+    const response = await fetch(`${API_BASE_URL}/briefing/latest?region=${encodeURIComponent(region)}`);
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch briefing: ${response.status} ${response.statusText}`);
-  }
+    if (!response.ok) {
+      throw new Error(`Failed to fetch briefing: ${response.status} ${response.statusText}`);
+    }
 
-  const data: BackendBriefingResponse = await response.json();
-  return transformBriefing(data);
+    const data: BackendBriefingResponse = await response.json();
+    return transformBriefing(data);
+  });
 }
 
 export async function fetchGlobalBriefing(): Promise<Briefing> {
-  const response = await fetch(`${API_BASE_URL}/briefing/global`);
+  return fetchBriefingWithCache('global', async () => {
+    const response = await fetch(`${API_BASE_URL}/briefing/global`);
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch global briefing: ${response.status} ${response.statusText}`);
-  }
+    if (!response.ok) {
+      throw new Error(`Failed to fetch global briefing: ${response.status} ${response.statusText}`);
+    }
 
-  const data: BackendBriefingResponse = await response.json();
-  return transformBriefing(data);
+    const data: BackendBriefingResponse = await response.json();
+    return transformBriefing(data);
+  });
 }
 
 export async function fetchAllRegionBriefings(): Promise<Briefing[]> {

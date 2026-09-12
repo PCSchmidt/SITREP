@@ -1,5 +1,5 @@
 import { Stack, router } from 'expo-router';
-import { Platform, Pressable, Text } from 'react-native';
+import { AppState, Platform, Pressable, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -12,7 +12,10 @@ const queryClient = new QueryClient({
       staleTime: 5 * 60 * 1000,
       gcTime: 10 * 60 * 1000,
       retry: 2,
-      refetchOnWindowFocus: false,
+      // On web a tab can sit open for hours; on native the AppState listener below
+      // handles the same case.
+      refetchOnWindowFocus: Platform.OS === 'web',
+      refetchOnReconnect: true,
     },
   },
 });
@@ -22,6 +25,19 @@ function RootLayout() {
     initAnalytics().then(() => {
       trackAppOpen();
     });
+  }, []);
+
+  // React Query does not watch React Native's AppState, so a briefing fetched
+  // during a backend outage stayed cached until the app was restarted. Refetch
+  // whenever the app returns to the foreground.
+  useEffect(() => {
+    if (Platform.OS === 'web') return;
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        queryClient.invalidateQueries({ queryKey: ['briefings'] });
+      }
+    });
+    return () => subscription.remove();
   }, []);
 
   // GitHub Pages answers unknown paths with the site's 404 page, so

@@ -55,6 +55,9 @@ export default function HomeScreen() {
     ? (globalQuery.data ? [globalQuery.data] : [])
     : (regionalQuery.data?.filter(b => b.regions.includes(activeRegion)) ?? []);
 
+  // True when the shown briefings came from the on-device cache rather than live data.
+  const isStale = displayedBriefings.some(briefing => briefing.isStale);
+
   return (
     <View style={{ flex: 1, backgroundColor: '#000000' }}>
       {showDisclaimer && (
@@ -76,6 +79,13 @@ export default function HomeScreen() {
           <View style={{ padding: Spacing.xl }}>
             <Text style={{ color: '#FF4444', textAlign: 'center' }}>
               Failed to load briefings. {(error as Error).message}
+            </Text>
+          </View>
+        )}
+        {!isLoading && !error && isStale && (
+          <View style={{ paddingBottom: Spacing.md }}>
+            <Text style={{ color: '#D0A000', textAlign: 'center', fontSize: 12 }}>
+              Showing the last saved briefings. The briefing service could not be reached.
             </Text>
           </View>
         )}
