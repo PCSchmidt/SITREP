@@ -4,7 +4,7 @@ Current specification for SITREP: what ships in v1.0, what is deferred, and the 
 
 | | |
 | --- | --- |
-| Backend | v0.21.10 (`APP_VERSION` in `api/main.py`), FastAPI on Railway |
+| Backend | v0.21.11 (`APP_VERSION` in `api/main.py`), FastAPI on Railway |
 | Live API | https://sitrep-production-6aac.up.railway.app |
 | Web app | https://pcschmidt.github.io/sitrep/ (Expo web export) |
 | Mobile | Expo / React Native (Expo SDK ~56.0.8, React Native 0.85.3, React 19.2.3, `expo-router` ~56.2.8); Android package `com.pcschmidt.sitrep`, versionCode 7 |
@@ -16,7 +16,7 @@ Current specification for SITREP: what ships in v1.0, what is deferred, and the 
 | | |
 | --- | --- |
 | App name | SITREP |
-| Current gate | v0.21.10 - backend live in production |
+| Current gate | v0.21.11 - backend live in production |
 | Status | Pre-launch. Android preview build runs on device. Google Play submission is next, then Apple App Store |
 | Build type | Production / GA |
 | Target launch | No fixed date. Google Play closed testing (20 testers, 14 days) has to pass first |
@@ -33,7 +33,7 @@ Everything in it comes from public reporting and is written by a language model.
 
 ## Current state (verified 2026-09-12)
 
-**Backend v0.21.10 is live** at <https://sitrep-production-6aac.up.railway.app>; the web export is live at <https://pcschmidt.github.io/sitrep/>. Checked that day:
+**Backend v0.21.11 is live** at <https://sitrep-production-6aac.up.railway.app>; the web export is live at <https://pcschmidt.github.io/sitrep/>. Checked that day:
 
 | Check | Result |
 | --- | --- |
@@ -77,7 +77,7 @@ There is no `/refresh` and no `/scrape/status` route.
 
 ## v1.0 features
 
-Checked items are shipped in v0.21.10. The only open v1.0 item is store approval.
+Checked items are shipped in v0.21.11. The only open v1.0 item is store approval.
 
 ### Core intelligence briefing
 - [x] Daily automated briefing generation (Internal APScheduler)
@@ -124,7 +124,7 @@ Checked items are shipped in v0.21.10. The only open v1.0 item is store approval
 
 ## v1.1+ deferred features
 
-Planned, not started. Nothing in this list is in the v0.21.10 build.
+Planned, not started. Nothing in this list is in the v0.21.11 build.
 
 - [ ] User authentication (Supabase Auth)
 - [ ] Personalized region preferences
@@ -137,7 +137,7 @@ Planned, not started. Nothing in this list is in the v0.21.10 build.
 
 ## Scraping sources
 
-**Active (v0.21.10, 13 scrapers by default, ~540 articles/run):**
+**Active (v0.21.11, 13 scrapers by default, ~540 articles/run):**
 
 `api/scrapers/` holds 14 scrapers; `GuardianAPIScraper` is added only when `GUARDIAN_API_KEY` is set, which is why a run shows 13. Each attempt has a 60s timeout and 2 retries per source. The 2026-09-12 run produced 30 articles per regional desk and 120 articles for the Global briefing.
 

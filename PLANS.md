@@ -4,7 +4,7 @@ Open work, known gaps, and deferred material for SITREP, with the older plan his
 
 | | |
 | --- | --- |
-| Current backend version | v0.21.10 (`APP_VERSION` in `api/main.py`) |
+| Current backend version | v0.21.11 (`APP_VERSION` in `api/main.py`) |
 | Live API | **https://sitrep-production-6aac.up.railway.app** |
 | Web app | https://pcschmidt.github.io/sitrep/ |
 | Facts checked | 2026-09-12 |
@@ -26,7 +26,7 @@ Items 1 and 2 are the next planned work. Items 3 to 6 are known gaps; none of th
 
 ## Historical: app store prep through v0.16 (not current)
 
-Superseded by "Open work" above. The build is now v0.21.10 and the app-store gate below closed long ago; this section is the state as recorded on 2026-05-29 and 2026-06-01.
+Superseded by "Open work" above. The build is now v0.21.11 and the app-store gate below closed long ago; this section is the state as recorded on 2026-05-29 and 2026-06-01.
 
 **Recent completions (2026-05-29):**
 
@@ -94,7 +94,7 @@ Superseded by "Open work" above. Item A is done; item B below is now tracked as 
 
 ## Deferred work (post-v1.0) - planned, not started
 
-Nothing in this section is in the v0.21.10 build.
+Nothing in this section is in the v0.21.11 build.
 
 ### Source expansion Wave 2 (v1.1+)
 
@@ -247,7 +247,7 @@ Superseded by the cost model in SPEC.md. Current state: about $0.013 per daily r
 
 ## Session notes - historical
 
-Superseded by the v0.21.10 state at the top of this file. Kept as the v0.2.1 record.
+Superseded by the v0.21.11 state at the top of this file. Kept as the v0.2.1 record.
 
 **2026-05-23**:
 - Completed v0.2.1 scraper infrastructure

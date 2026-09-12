@@ -2,7 +2,7 @@
 
 **Live app: https://pcschmidt.github.io/sitrep/** (the web build of the mobile app;
 keyboard and mouse work, and the PDF buttons open the same briefings).
-**API: https://sitrep-production-6aac.up.railway.app** — backend v0.21.10, `uvicorn main:app`
+**API: https://sitrep-production-6aac.up.railway.app** — backend v0.21.11, `uvicorn main:app`
 from `api/` on Railway. Legal pages: [privacy](https://pcschmidt.github.io/sitrep/privacy-policy),
 [terms](https://pcschmidt.github.io/sitrep/terms).
 
@@ -42,7 +42,7 @@ The thing that makes it more than a news summarizer:
 | | |
 | --- | --- |
 | Live app | https://pcschmidt.github.io/sitrep/ (Expo web export, baseUrl `/sitrep`) |
-| API | https://sitrep-production-6aac.up.railway.app — v0.21.10, 11 routes |
+| API | https://sitrep-production-6aac.up.railway.app — v0.21.11, 11 routes |
 | Desks | Middle East, Indo-Pacific, Europe/Africa, Western Hemisphere, plus composite Global |
 | Sources | 13 scrapers by default; 14 with a `GUARDIAN_API_KEY` (adds the Guardian Content API) |
 | Model | `deepseek/deepseek-v4-flash`, waterfall to `deepseek/deepseek-v3.2`, then `moonshotai/kimi-k2.5` |

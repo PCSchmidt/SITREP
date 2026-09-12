@@ -1,10 +1,10 @@
 # VERSION_ROADMAP
 
-Gate-by-gate history of SITREP from v0.0 to v0.21.10, with the remaining work for v1.0. Every row below except the current one is history; read each Status cell as of that gate's date, not as today.
+Gate-by-gate history of SITREP from v0.0 to v0.21.11, with the remaining work for v1.0. Every row below except the current one is history; read each Status cell as of that gate's date, not as today.
 
 | | |
 | --- | --- |
-| Current version | v0.21.10 (`APP_VERSION` in `api/main.py`) |
+| Current version | v0.21.11 (`APP_VERSION` in `api/main.py`) |
 | Live API | **https://sitrep-production-6aac.up.railway.app** |
 | Web app | https://pcschmidt.github.io/sitrep/ |
 | Next gate | v1.0 Production Live - Google Play submission, then Apple App Store |
@@ -31,7 +31,7 @@ Near-term gates (typically v0.0 through v0.3 or the first third of
 total gates) have single-number estimates. Later gates have ranges
 with a note on what drives the uncertainty.
 
-Hours are as recorded when each gate closed. Nothing in this table is the current state; the current build is v0.21.10.
+Hours are as recorded when each gate closed. Nothing in this table is the current state; the current build is v0.21.11.
 
 | Version | Gate Name | Goal | Est Hours | Actual Hours | Status |
 |---------|-----------|------|-----------|--------------|--------|
@@ -61,13 +61,14 @@ Hours are as recorded when each gate closed. Nothing in this table is the curren
 | v0.21.5-7 | **Content Freshness & WH Fixes** | **HOTFIXES: v0.21.5 (mobile null-check for generated_at), v0.21.6 (GDELT rate limiting: 30s delays, exponential backoff 45s→90s→180s, timeout 150s→300s), v0.21.7 (Western Hemisphere keyword expansion: added 14 terms including argentina/chile/peru/ecuador/bolivia/panama/guatemala/honduras/nicaragua/southcom/northcom/oas/cartel/narco/drug trafficking/migration/border; disabled unreliable LatAm backup scraper). Result: all 5 regions generating successfully with 30 articles each.** | **—** | **6h** | **DONE** |
 | v0.21.8 | **Storage recovery + endpoint guard** | **Briefing caching writes with `SUPABASE_SERVICE_KEY`; anon-key writes fail with 42501 "new row violates row-level security policy", and disk-only briefings died at every redeploy. Opt-in `X-Admin-Token` guard on the pipeline and debug routes. Web app served from /sitrep with 404 deep-link forwarding. `GET /` reports the running version.** | - | - | DONE |
 | v0.21.9 | **New-format Supabase keys** | **supabase-py rejects new-format `sb_secret_` keys before 2.16.0; `api/requirements.txt` pins `supabase==2.31.0`. Server stamps `generated_at` on every briefing, because the mobile client formats that field directly and an unparseable value used to hide a whole region.** | - | - | DONE |
-| v0.21.10 | **On-demand PDFs, served inline** | **`GET /briefing/latest/pdf` loads the newest briefing (Supabase first), regenerates the PDF when the cached file is missing or older than the briefing, and serves it with `Content-Disposition: inline` so the web iframe renders it instead of downloading. Mobile keeps showing the last good briefing through a backend gap. Verified 2026-09-12: all five briefings and all five PDFs return 200.** | - | - | DONE (current) |
+| v0.21.10 | **On-demand PDFs, served inline** | **`GET /briefing/latest/pdf` loads the newest briefing (Supabase first), regenerates the PDF when the cached file is missing or older than the briefing, and serves it with `Content-Disposition: inline` so the web iframe renders it instead of downloading. Mobile keeps showing the last good briefing through a backend gap. Verified 2026-09-12: all five briefings and all five PDFs return 200.** | - | - | DONE |
+| v0.21.11 | **Calmer provenance copy** | **The amber "AI GENERATED CONTENT" banner is gone: a small grey footer note now states that the cited sources are real and only the paraphrase is machine-written, on both the home and detail screens. The PDF cover and page footers carry the same plain-language note. App copy corrected from weekly to daily generation. Published privacy and terms pages synced with the markdown.** | - | - | DONE (current) |
 | v1.0 | Production Live | Target: Google Play submission approved, then Apple App Store. App live and discoverable. Portfolio page (pcschmidt.github.io) updated with store links and screenshots. | 6-12h (depends on review times) | - | pending - next |
 
 **Total Estimated Hours**: ~156-180h (added v0.18-v0.21 post-beta hardening +20-28h)  
 **Timeline at 10-15h/week**: 8-12 weeks (~2-3 months)
 
-Only v1.0 is open. The backend is live at v0.21.10; the remaining work is store submission, and no gate after v0.21.10 has started.
+Only v1.0 is open. The backend is live at v0.21.11; the remaining work is store submission, and no gate after v0.21.11 has started.
 
 ## Rules
 
@@ -93,6 +94,6 @@ The final gate is labeled explicitly as one of:
 ## Where to read next
 
 - [README.md](README.md) - overview, live URLs, and how to run the project
-- [SPEC.md](SPEC.md) - what ships in v0.21.10 and what is deferred
+- [SPEC.md](SPEC.md) - what ships in v0.21.11 and what is deferred
 - [PLANS.md](PLANS.md) - the open work behind the v1.0 row
 - [DECISIONS.md](DECISIONS.md) - the decisions that produced the last three gates

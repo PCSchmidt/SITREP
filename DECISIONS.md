@@ -244,5 +244,5 @@ Status: LOCKED
 
 - [README.md](README.md) - overview, live URLs, and how to run the project
 - [CONTRACT.md](CONTRACT.md) - the locked fields these decisions produced
-- [SPEC.md](SPEC.md) - what ships in v0.21.10
+- [SPEC.md](SPEC.md) - what ships in v0.21.11
 - [VERSION_ROADMAP.md](VERSION_ROADMAP.md) - which gate carried each entry

@@ -27,16 +27,14 @@ SITREP is a personal portfolio project and a free app for mobile and the web (ht
 
 ## 3. AI-generated content disclaimer
 
-**ALL CONTENT IN SITREP IS AI-GENERATED.**
+Every briefing is written by a large language model from public news reporting. This means:
 
-Briefings are automatically synthesized from open-source public news articles using large language models. This means:
-
-- **Accuracy is not guaranteed.** AI models can hallucinate, misattribute, or mischaracterize facts.
-- **Content may be incomplete.** The AI synthesizes from a limited set of sources: 13 scrapers, roughly 540 articles per run.
-- **Content may be outdated.** The pipeline runs once a day at 06:00 UTC; anything that breaks after that run is not in the briefing.
+- **The sources are real; the synthesis is machine-written.** Each claim links to the article it came from. Those articles are published reporting, but the AI can misread, misattribute, or omit detail, and the wording can drift from the original.
+- **Check anything that matters.** Follow the citation before you rely on a claim. Links are extracted automatically and can occasionally point at the wrong article.
+- **Coverage is limited.** 13 scrapers, roughly 540 articles per run: a quiet or paywalled day produces a thinner briefing.
+- **It runs once a day.** The pipeline runs at 06:00 UTC, so events after that run are not in the briefing.
 - **One model among several may write it.** Briefings come from a model waterfall: DeepSeek V4 Flash first, then DeepSeek V3.2, then Kimi K2.5, all through OpenRouter. Different briefings can come from different models.
-- **Sources are cited but not verified.** Source citations are extracted by AI and may contain errors.
-- **Do not rely on this content for decisions.** Especially any decision with real-world consequences.
+- **It is analysis you should weigh, not an order.** Do not use it for operational, military, intelligence, or government decisions.
 
 ---
 

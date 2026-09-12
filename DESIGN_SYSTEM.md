@@ -4,7 +4,7 @@ Visual design reference for SITREP: colour, type, spacing, components, and scree
 
 | | |
 | --- | --- |
-| Status | Implemented. The design system shipped in v0.1 and is in the v0.21.10 build |
+| Status | Implemented. The design system shipped in v0.1 and is in the v0.21.11 build |
 | Platform | Mobile-first, iOS + Android, AMOLED-optimised, dark only |
 | Tokens | `mobile/constants/tokens.ts`, `mobile/tailwind.config.js` |
 | Live app | **https://pcschmidt.github.io/sitrep/** |
@@ -41,8 +41,7 @@ Success (Green):            #00FF41  (terminal green)
 ```
 Heading (White):            #FFFFFF
 Body (Gray):                #CCCCCC
-Subtle (Dark Gray):         #888888
-Disclaimer (Amber):         #FFA500
+Subtle (Dark Gray):         #888888   (provenance note, footer disclaimer)
 Source Citation (Gold):     #FFD700
 ```
 
@@ -82,7 +81,7 @@ BLUF Header:                H2, Amber (#FFA500), uppercase
 Region Tag:                 Caption, Monospace, region semantic color
 Timestamp:                  Caption, Monospace, Subtle Gray
 Source Citation:            Caption, Gold (#FFD700), italic
-Disclaimer:                 Body, Amber, bold
+Disclaimer:                 Caption, Subtle Gray (#888888), footer of screen
 ```
 
 ---
@@ -113,7 +112,7 @@ Layout:
   - True black background (#000000)
 Content:
   - Timestamp (top right, caption, monospace, gray)
-  - "WEEKLY SITREP" label (H3, amber, uppercase)
+  - "DAILY SITREP" label (H3, amber, uppercase)
   - Briefing title/headline (H2, white)
   - 2-line preview text (body, gray)
   - Region tags (horizontal chips, semantic colors)
@@ -206,7 +205,7 @@ Content:
   - "View as PDF" label (H3, black, bold, uppercase)
   - File size estimate (caption, black, right)
 Placement:
-  - Top of briefing detail screen (sticky below disclaimer)
+  - Top of briefing detail screen content (the provenance note is at the foot)
   - Also in home screen briefing card (as secondary action)
 Interaction:
   - Tap opens PDF viewer
@@ -239,7 +238,7 @@ The PDF is a separate design from the app. `api/pdf_generation/pdf_generator_v3.
 | Palette | Navy `#13233b` masthead and headings, ink `#1c2330` body, slate `#5b6675` labels, hairline rules `#c5ccd4`, link blue `#1d4e89` |
 | Cover | Two columns: Contents and Executive Summary |
 | Sections | Numbered, region-tagged, with a numbered hyperlinked reference list per section |
-| Disclaimer | AI-generated notice on the cover and in the page footer |
+| Disclaimer | plain-language provenance note on the cover and in the page footer |
 | Global | One document that renders all four regions in full, not a condensed summary |
 
 The v3 generator replaced the earlier amber ReportLab, v1, and v2 generators, which were deleted. The "PDF Viewer Screen" mockup below still shows the old cover text; the app chrome around it is current.
@@ -339,19 +338,18 @@ The v3 generator replaced the earlier amber ReportLab, v1, and v2 generators, wh
 │  Intelligence Briefing Platform     │
 │                                     │
 │  ┌─────────────────────────────┐   │
-│  │ !!  IMPORTANT DISCLAIMER    │   │  ← Full legal disclaimer
+│  │ HOW THIS IS WRITTEN         │   │  ← Content note: hairline rule, no
+│  │                             │   │     amber, no warning icon
+│  │ Briefings are written by an │   │
+│  │ AI model from real, linked  │   │
+│  │ open-source reporting. The  │   │
+│  │ cited sources are published │   │
+│  │ articles; the summary is    │   │
+│  │ machine-written, so check   │   │
+│  │ anything important against  │   │
+│  │ the linked source.          │   │
 │  │                             │   │
-│  │ This app generates AI-      │   │
-│  │ powered intelligence        │   │
-│  │ summaries from open-source  │   │
-│  │ news articles. This content │   │
-│  │ is NOT official intelligence│   │
-│  │ and should not be used for  │   │
-│  │ operational decision-making.│   │
-│  │                             │   │
-│  │ Sources are cited but       │   │
-│  │ accuracy is not guaranteed. │   │
-│  │ Use at your own discretion. │   │
+│  │ Not official intelligence.  │   │
 │  └─────────────────────────────┘   │
 │                                     │
 │  Sources                        →   │  ← Link to sources page
@@ -546,7 +544,7 @@ The tokens match this document. Four details do not, and the spec is not the sou
 
 - `mobile/components/BriefingCard.tsx` still prints "WEEKLY SITREP" on the card. The pipeline runs daily, so this label is stale UI copy. No code was changed in this documentation pass.
 - `mobile/app/about.tsx` still says "Briefings are generated weekly" and describes "weekly geopolitical intelligence briefings". Same stale copy.
-- The About screen shows no version string. The app version lives in `mobile/app.json` (`1.0.0`); the backend version is `v0.21.10`.
+- The About screen shows no version string. The app version lives in `mobile/app.json` (`1.0.0`); the backend version is `v0.21.11`.
 - Store screenshots do not exist yet. Five phone screenshots and a 1024x500 feature graphic are still to be produced before the Google Play submission.
 
 ---
@@ -559,7 +557,7 @@ The tokens match this document. Four details do not, and the spec is not the sou
 - [x] Key screens wireframed (Home, Detail, About, Splash, **PDF Viewer**)
 - [x] **PDF generation & viewing** flow specified
 - [x] **PDF sharing/save actions** documented
-- [x] Heavy disclaimer placement confirmed (splash + sticky header + **PDF footer**)
+- [x] Disclaimer placement: footer note on both screens, content note on About, provenance line on the PDF cover and page footers (softened 2026-09-12)
 - [x] Region filtering UI specified
 - [x] Source citation format defined
 - [x] WCAG AA contrast ratios verified

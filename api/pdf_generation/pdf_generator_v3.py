@@ -229,7 +229,7 @@ class PDFGeneratorV3:
         canvas.setFont(self.SANS, 7)
         canvas.drawCentredString(
             width / 2, 0.5 * inch,
-            "AI-GENERATED OPEN-SOURCE SUMMARY  •  NOT OFFICIAL INTELLIGENCE  •  ACCURACY NOT GUARANTEED")
+            "AI-generated summary of open-source reporting  •  Not official intelligence")
         canvas.restoreState()
 
     def _content_canvas(self, canvas, doc):
@@ -254,7 +254,7 @@ class PDFGeneratorV3:
         canvas.setFillColor(self.SLATE)
         canvas.drawString(lm, 0.46 * inch, "SITREP")
         canvas.drawCentredString(width / 2, 0.46 * inch,
-                                 "AI-GENERATED  •  NOT FOR OPERATIONAL USE")
+                                 "AI-Generated  •  Not Official Intelligence")
         canvas.drawRightString(rm, 0.46 * inch, f"{self._date_str}  •  PAGE {doc.page}")
         canvas.restoreState()
 
@@ -283,9 +283,11 @@ class PDFGeneratorV3:
 
         # Disclaimer band
         disc = Paragraph(
-            "This product is an AI-generated synthesis of open-source reporting, provided for general "
-            "informational awareness only. It is not official intelligence, and accuracy is not guaranteed. "
-            "Views belong to the cited authors. Do not use for operational decision-making.",
+            "An AI model wrote this briefing from the open-source reporting cited throughout. Those "
+            "sources are real, published articles; the synthesis is machine-written, so wording can "
+            "drift from the original and details can be wrong. Check anything important against the "
+            "linked source. Views belong to the cited authors. Not official intelligence, and not a "
+            "substitute for professional analysis.",
             self.st['Disclaimer'])
         band = Table([[disc]], colWidths=[fw])
         band.setStyle(TableStyle([

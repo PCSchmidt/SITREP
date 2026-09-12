@@ -51,14 +51,15 @@ export default function TermsScreen() {
         </Body>
       </Section>
 
-      <Section title="⚠ AI Content Disclaimer">
+      <Section title="AI-Generated Content">
         <Body>
-          ALL CONTENT IN SITREP IS AI-GENERATED.{'\n\n'}
-          Accuracy is not guaranteed — AI models can mischaracterize or hallucinate
-          facts. Content may be incomplete or outdated (briefings are daily).
-          Source citations are AI-extracted and may contain errors.{'\n\n'}
-          DO NOT rely on this content for any real-world decisions, especially
-          operational, military, intelligence, or government decisions.
+          Every briefing is written by an AI model from public news reporting. The cited
+          sources are real, published articles; the synthesis is machine-written, so it
+          can misread, misattribute or omit detail, and it may lag events after that
+          day's run. Treat it as a starting point and follow the citations.{'\n\n'}
+          This is not official intelligence and is not a substitute for professional
+          analysis. Do not use it for operational, military, intelligence or government
+          decisions.
         </Body>
       </Section>
 

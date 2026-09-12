@@ -11,7 +11,7 @@ Submission state for SITREP on Google Play and the Apple App Store, in the order
 | App version | 1.0.0 (`mobile/app.json`) |
 | Android version code | 7, with `autoIncrement: true` on the production profile |
 | Mobile stack | Expo SDK 56.0.8, React Native 0.85.3, React 19.2.3, expo-router 56.2.8 |
-| Backend | v0.21.10 at https://sitrep-production-6aac.up.railway.app (Railway, Docker, uvicorn + FastAPI) |
+| Backend | v0.21.11 at https://sitrep-production-6aac.up.railway.app (Railway, Docker, uvicorn + FastAPI) |
 | Production AAB | `cd mobile && eas build --platform android --profile production` |
 | Submission order | Google Play closed testing (20 testers, 14 days) -> Google Play production -> Apple App Store |
 

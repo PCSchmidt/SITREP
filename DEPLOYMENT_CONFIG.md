@@ -6,7 +6,7 @@ and the commands and failure modes that come up day to day. Setup steps live in
 
 | | |
 | --- | --- |
-| API | **https://sitrep-production-6aac.up.railway.app** - v0.21.10 |
+| API | **https://sitrep-production-6aac.up.railway.app** - v0.21.11 |
 | Web app | **https://pcschmidt.github.io/sitrep/** - published from the portfolio repo, not this one |
 | Schedule | In-app APScheduler daily 06:00 UTC (`api/scheduler.py`, `CronTrigger(hour=6)`), plus a 07:00 UTC Actions backup |
 | Runbook | [DEPLOYMENT.md](DEPLOYMENT.md) |
@@ -223,7 +223,7 @@ PACKAGE (Android): com.pcschmidt.sitrep  (versionCode 7)
 EAS_PROJECT_ID:    c0284b13-8077-4be7-acc5-e0cafbf0f3e2
 SCHEDULE:          daily 06:00 UTC (in-app APScheduler CronTrigger(hour=6))
 PYTHON_VERSION:    3.11
-API_VERSION:       0.21.10
+API_VERSION:       0.21.11
 ```
 
 ## See also

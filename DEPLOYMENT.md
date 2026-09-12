@@ -6,7 +6,7 @@ commands: [DEPLOYMENT_CONFIG.md](DEPLOYMENT_CONFIG.md).
 
 | | |
 | --- | --- |
-| API | **https://sitrep-production-6aac.up.railway.app** - Railway, Docker, `uvicorn main:app` + FastAPI, v0.21.10 |
+| API | **https://sitrep-production-6aac.up.railway.app** - Railway, Docker, `uvicorn main:app` + FastAPI, v0.21.11 |
 | Web app | **https://pcschmidt.github.io/sitrep/** - Expo web export, built by the portfolio repo's workflow, not by this repo |
 | Data store | Supabase Postgres; briefings survive redeploys, PDFs are regenerated on demand |
 | Schedule | In-app APScheduler daily at 06:00 UTC, plus a 07:00 UTC GitHub Actions backup trigger |
@@ -105,7 +105,7 @@ it must read `service_role`.
 curl https://sitrep-production-6aac.up.railway.app/health          # {"status":"ok"}
 
 # version and scheduler
-curl https://sitrep-production-6aac.up.railway.app/               # v0.21.10
+curl https://sitrep-production-6aac.up.railway.app/               # v0.21.11
 
 # which Supabase key is in use, and how many regional briefings are stored
 curl https://sitrep-production-6aac.up.railway.app/debug/supabase

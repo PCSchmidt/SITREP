@@ -8,7 +8,7 @@ Aspirational roadmap for closing the gap between SITREP and The LOWDOWN, the new
 
 | | |
 | --- | --- |
-| Backend | v0.21.10 (`APP_VERSION` in `api/main.py`) |
+| Backend | v0.21.11 (`APP_VERSION` in `api/main.py`) |
 | Live API | **https://sitrep-production-6aac.up.railway.app** |
 | Web app | https://pcschmidt.github.io/sitrep/ |
 | Scrapers | 13 run by default, ~540 articles per run. 14 scraper files in `api/scrapers/`; `GuardianAPIScraper` runs only when `GUARDIAN_API_KEY` is set |

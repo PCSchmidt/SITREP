@@ -5,7 +5,7 @@ Locked project fields for SITREP: identity, stack, constraints, and what is bann
 | | |
 | --- | --- |
 | Contract status | SCOPE CONFIRMED |
-| Current version | v0.21.10 |
+| Current version | v0.21.11 |
 | Live API | **https://sitrep-production-6aac.up.railway.app** |
 | Last field change | 2026-09-12 (storage, keys, deployment URLs) |
 
@@ -14,7 +14,7 @@ Locked project fields for SITREP: identity, stack, constraints, and what is bann
 ## Project identity
 
 PROJECT_NAME:          SITREP
-PROJECT_VERSION:       v0.21.10                     (corrected 2026-09-12; was v0.15.0)
+PROJECT_VERSION:       v0.21.11                     (corrected 2026-09-12; was v0.15.0)
 BUILD_TYPE:            PRODUCTION
 FINAL_VERSION:         v1.0 Production Live
 CLIENT_TYPE:           PERSONAL
@@ -144,7 +144,7 @@ Contract status: **SCOPE CONFIRMED**
 Last updated: 2026-09-12
 Updated by: Chris Schmidt
 Superseded fields: version, database, backend URL, and target launch date were corrected on
-2026-09-12 to match the shipped v0.21.10 build. See [DECISIONS.md](DECISIONS.md) DEC-010.
+2026-09-12 to match the shipped v0.21.11 build. See [DECISIONS.md](DECISIONS.md) DEC-010.
 
 ---
 

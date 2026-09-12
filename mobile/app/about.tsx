@@ -16,28 +16,27 @@ export default function AboutScreen() {
         AI Intelligence Briefing Platform
       </Text>
 
-      {/* AI Disclaimer — prominent */}
+      {/* How the content is made — calm, not a warning */}
       <View
         style={{
           backgroundColor: Colors.cardBg,
           padding: Spacing.lg,
           borderRadius: 4,
-          borderLeftWidth: 4,
-          borderLeftColor: Colors.amber,
+          borderLeftWidth: 2,
+          borderLeftColor: Colors.border,
           marginBottom: Spacing.xl,
         }}
       >
-        <Text style={{ color: Colors.amber, ...Typography.h3, marginBottom: Spacing.sm }}>
-          ⚠ IMPORTANT DISCLAIMER
+        <Text style={{ color: Colors.textSubtle, ...Typography.caption, marginBottom: Spacing.sm, textTransform: 'uppercase', letterSpacing: 0.8 }}>
+          How this is written
         </Text>
         <Text style={{ color: Colors.textBody, ...Typography.body, lineHeight: 22 }}>
-          All briefings are AI-generated from open-source news articles. This content
-          is NOT official intelligence and should NOT be used for operational or
-          government decision-making.{'\n\n'}
-          Accuracy is not guaranteed. AI models can mischaracterize or hallucinate facts.
-          Briefings are generated daily and may not reflect current events. Sources are
-          cited but independently unverified.{'\n\n'}
-          Use at your own discretion.
+          Briefings are written by an AI model from real, linked open-source reporting.
+          The cited sources are published articles; the summary and analysis are
+          machine-written, so the wording can drift from the original and details can
+          be wrong. Check anything important against the linked source.{'\n\n'}
+          Briefings are generated once a day and may not reflect later events. This is
+          not official intelligence and not a substitute for professional analysis.
         </Text>
       </View>
 

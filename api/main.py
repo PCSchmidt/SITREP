@@ -192,7 +192,7 @@ def _stamp_generated_at(briefing: Dict[str, Any]) -> Dict[str, Any]:
 
 # Application version. Bump on each deploy so the running build can be
 # identified via GET / (used to confirm a Railway redeploy is live).
-APP_VERSION = "0.21.10"
+APP_VERSION = "0.21.11"
 
 # Initialize Supabase client (optional for local dev)
 try:

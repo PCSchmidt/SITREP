@@ -9,7 +9,7 @@ SITREP ships to three places: the Railway API, the GitHub Pages web app, and the
 
 | | |
 | --- | --- |
-| API | **https://sitrep-production-6aac.up.railway.app** - Railway, Docker, uvicorn + FastAPI, v0.21.10 |
+| API | **https://sitrep-production-6aac.up.railway.app** - Railway, Docker, uvicorn + FastAPI, v0.21.11 |
 | Health check | `curl https://sitrep-production-6aac.up.railway.app/health` returns `{"status":"ok"}` |
 | Web app | **https://pcschmidt.github.io/sitrep/** - Expo web export, baseUrl `/sitrep` |
 | Data store | Supabase Postgres; briefings survive redeploys, PDFs are regenerated on demand |
