@@ -220,15 +220,15 @@ An iOS app preview video (15-30 seconds) is optional: open app -> switch region 
 | 3 | Analytics APK tested on device | Done - Samsung S25+, 2026-05-30 |
 | 4 | Privacy policy hosted | Done - live, HTTP 200 on 2026-09-12 |
 | 4 | Terms of service hosted | Done - live, HTTP 200 on 2026-09-12 |
-| 5 | Android preview APK tested | Done - runs on device |
-| 5 | Android production AAB | Next step |
+| 5 | Android preview APK (v8, current copy) | Done - EAS build `5e7b26af`, installed on Samsung SM-S936U via adb (2026-09-15) |
+| 5 | Android production AAB | Done - EAS build `d8ff7a74`, versionCode 8, commit 6fa68bd (2026-09-15). AAB at `C:/Users/pchri/.prime/agent/session-artifacts/sitrep-store/sitrep-v8-production.aab` |
 | 5 | iOS production IPA | Deferred - Android first |
 | 6 | Play Console account | Next step |
 | 6 | Closed testing track, 20 testers for 14 days | Not started - gated on the AAB |
 | 7 | Play production rollout | Blocked on step 6 |
 | 8 | App Store Connect listing, screenshots, review | Deferred |
-| 9 | 5 screenshots | Not produced |
-| 9 | 1024x500 feature graphic | Not produced |
+| 9 | 5 phone screenshots | Done - captured from the v8 preview APK on-device, `mobile/store-assets/screenshots/` (1080x2340) |
+| 9 | 1024x500 feature graphic | Done - `mobile/store-assets/feature-graphic.png` (draft-1 style, black/amber wordmark); draft-2 alternate kept |
 
 ---
 
