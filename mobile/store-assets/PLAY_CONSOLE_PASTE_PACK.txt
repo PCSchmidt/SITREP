@@ -1,0 +1,98 @@
+SITREP — GOOGLE PLAY CONSOLE PASTE PACK
+Generated 2026-09-15 from APP_STORE_LISTING.md. Everything below is paste-ready.
+Console: https://play.google.com/console
+
+============================================================
+1) APP CREATION
+============================================================
+App name:            SITREP: AI Intelligence Briefings
+Default language:    English (United States)
+App or game:         App
+Free or paid:        Free
+
+============================================================
+2) STORE LISTING
+============================================================
+App name (30 shown, limit 50):
+SITREP: AI Intelligence Briefings
+
+Short description (limit 80):
+AI geopolitics briefings in BLUF format. 4 regions plus a global view.
+
+Full description (limit 4000):
+SITREP delivers geopolitical intelligence briefings in BLUF (Bottom Line Up Front) format, built from open-source news.
+
+FOUR REGIONAL BRIEFINGS
+• Middle East — Iran, Israel, the Gulf, Strait of Hormuz
+• Indo-Pacific — China, Taiwan, South China Sea, Korea, ASEAN
+• Europe/Africa — Ukraine, Russia, NATO, sub-Saharan Africa
+• Western Hemisphere — Latin America, Mexico, the Caribbean
+
+GLOBAL VIEW
+The ALL tab stitches all four regional briefings together in full, so cross-regional connections show up in one report.
+
+SOURCES
+About 540 articles per run through 13 scrapers: ISW, Defense One, Breaking Defense, War on the Rocks, The War Zone, Al Jazeera, Foreign Policy, CFR, Americas Quarterly, Reuters, Bloomberg, BBC, The Economist, World Bank, GDELT, the Guardian Open Platform API, and US/UK government releases. Every claim cites its source article.
+
+PDF BRIEFINGS
+Every briefing exports as a PDF with hyperlinked sources. Share it or save it to the device.
+
+DAILY UPDATES, NO ACCOUNT
+New briefings every day at 06:00 UTC. Free. No login, no subscription.
+
+AI-generated from open-source news. Not official intelligence. Not for operational use.
+
+App category:        News & Magazines
+Tags:                news, military, intelligence, geopolitics, security
+
+Store assets (in mobile/store-assets/):
+  App icon:          play-icon-512.png   (512x512 PNG)
+  Feature graphic:   feature-graphic.png (1024x500 PNG)
+  Phone screenshots: screenshots/ (5 PNGs, captured from the device)
+
+============================================================
+3) CONTENT RATING QUESTIONNAIRE
+============================================================
+Categories to select: all except the ones noted below.
+- Violence: Yes — references to war and conflict in news coverage.
+  Expected rating outcome: Teen.
+- No sex/nudity, no gambling, no drugs, no user-generated content,
+  no purchases, no ads, no sharing of user data to third parties
+  beyond the privacy policy.
+- Privacy policy URL: https://pcschmidt.github.io/sitrep/privacy-policy
+
+============================================================
+4) TARGET AUDIENCE & CONTENT
+============================================================
+Target age group:    13+
+Appeal to children:  No
+Data safety form:    App collects NO user data.
+                     (Mixpanel/Sentry telemetry is anonymized;
+                     no account, no PII, no login. Answer per
+                     privacy policy - review before submitting.)
+News app declaration: Yes (app is a news app)
+COVID-19 apps:       No
+Government apps:     No
+Financial features:  None
+Health apps:         None
+
+============================================================
+5) CLOSED TESTING TRACK SETUP
+============================================================
+1. Testing -> Closed testing -> Create new track (or use alpha).
+2. Release name: 1.0.0 (8)  <- versionCode 8 from the AAB
+3. Upload the production AAB: cd mobile && eas build --platform android
+   --profile production  (build d8ff7a74, or the latest FINISHED build).
+4. Email lists: create a Google Group or paste up to 2000 emails;
+   add at least 20 testers.
+5. Feedback URL or email for testers.
+6. Countries: United States (start) - expand later.
+7. Roll out. The 14-day clock starts when 20 testers are opted in.
+
+============================================================
+6) AFTER 14 DAYS
+============================================================
+1. Apply for production access (Promotion from closed testing).
+2. Promote the release to production, staged rollout 20% -> 100%.
+
+Reference docs: STORE_SUBMISSION_CHECKLIST.md, APP_STORE_LISTING.md
