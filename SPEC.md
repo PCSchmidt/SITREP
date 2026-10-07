@@ -7,9 +7,9 @@ Current specification for SITREP: what ships in v1.0, what is deferred, and the 
 | Backend | v0.21.11 (`APP_VERSION` in `api/main.py`), FastAPI on Railway |
 | Live API | https://sitrep-production-6aac.up.railway.app |
 | Web app | https://pcschmidt.github.io/sitrep/ (Expo web export) |
-| Mobile | Expo / React Native (Expo SDK ~56.0.8, React Native 0.85.3, React 19.2.3, `expo-router` ~56.2.8); Android package `com.pcschmidt.sitrep`, versionCode 7 |
+| Mobile | Expo / React Native (Expo SDK ~56.0.8, React Native 0.85.3, React 19.2.3, `expo-router` ~56.2.8); Android package `com.pcschmidt.sitrep`, local versionCode 8 |
 | Data store | Supabase Postgres for briefings; PDFs generated on demand, not archived |
-| Status | Pre-launch: Google Play submission next, then Apple App Store |
+| Status | Pre-launch: Play Console entry exists; closed-test release and opted-in count need confirmation, then Apple App Store |
 
 ## Project
 
@@ -17,9 +17,9 @@ Current specification for SITREP: what ships in v1.0, what is deferred, and the 
 | --- | --- |
 | App name | SITREP |
 | Current gate | v0.21.11 - backend live in production |
-| Status | Pre-launch. Android preview build runs on device. Google Play submission is next, then Apple App Store |
+| Status | Pre-launch. Android v8 preview APK runs on device; v8 production AAB and Play assets are ready. Confirm closed-test status in Play Console, then Apple App Store |
 | Build type | Production / GA |
-| Target launch | No fixed date. Google Play closed testing (20 testers, 14 days) has to pass first |
+| Target launch | No fixed date. Affected personal accounts need 12 opted-in closed testers continuously for 14 days before applying for Google Play production access |
 
 ---
 
@@ -59,7 +59,7 @@ Live routes (`/openapi.json`, 2026-09-12). Write and debug routes accept the opt
 | Method | Path | Notes |
 | --- | --- | --- |
 | GET | `/` | Service identity, reports `APP_VERSION` |
-| GET | `/health` | Liveness. Version string here is stale |
+| GET | `/health` | Liveness; reports `APP_VERSION` |
 | GET | `/briefing/latest` | Newest briefing for one region, Supabase first |
 | GET | `/briefing/global` | Composite Global briefing |
 | GET | `/briefing/latest/pdf` | PDF for one region, inline, rebuilt when stale |

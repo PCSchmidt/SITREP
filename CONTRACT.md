@@ -21,8 +21,9 @@ CLIENT_TYPE:           PERSONAL
 CLIENT_CODE:           N/A
 TEAM_MODE:             false
 START_DATE:            2026-05-21
-TARGET_LAUNCH_DATE:    Not fixed. The 2026-08-21 date passed. Google Play closed testing
-                       (20 testers, 14 days) is next, then Apple App Store review.
+TARGET_LAUNCH_DATE:    Not fixed. The 2026-08-21 date passed. Google Play production
+                       access requires 12 opted-in closed testers for 14 continuous days
+                       for affected personal accounts, then Apple App Store review.
 
 ---
 
@@ -58,7 +59,7 @@ BILLING:               None
 
 MOBILE_PLATFORM:       Google Play Store next, then Apple App Store   (corrected 2026-09-12)
 BACKEND_PLATFORM:      Railway (Docker image, uvicorn + FastAPI)
-MOBILE_BUNDLE_ID:      com.pcschmidt.sitrep (Android versionCode 7, iOS buildNumber 1)
+MOBILE_BUNDLE_ID:      com.pcschmidt.sitrep (local Android versionCode 8, iOS buildNumber 1)
 BACKEND_URL:           https://sitrep-production-6aac.up.railway.app  (corrected 2026-09-12)
 WEB_URL:               https://pcschmidt.github.io/sitrep/
 BACKEND_PORT_LOCAL:    8000
@@ -129,9 +130,9 @@ WRITETHRU_HOOK:        INSTALLED
 ## Visual verification
 
 VISUAL_CHECKS_ENABLED: true
-SCREENSHOTS_PATH:      No `/mockups/screenshots/` directory exists in this repo. Store
-                       screenshots are still to be produced (5 screenshots plus a
-                       1024x500 feature graphic)
+SCREENSHOTS_PATH:      Android store screenshots: `mobile/store-assets/screenshots/` (five
+                       1080x2340 images). Play feature graphic: `mobile/store-assets/feature-graphic.png`.
+                       iOS screenshots remain to be produced.
 MOBILE_DEV_PLATFORM:   Development build and Android preview APK on a physical device
                        (react-native-pdf does not run in Expo Go)
 EXPO_DEV_URL:          exp://localhost:8081
@@ -174,4 +175,3 @@ Superseded fields: version, database, backend URL, and target launch date were c
 - [SPEC.md](SPEC.md) - what ships, what is deferred
 - [DECISIONS.md](DECISIONS.md) - dated decisions behind these locked fields
 - [VERSION_ROADMAP.md](VERSION_ROADMAP.md) - gate history and what v1.0 still needs
-

@@ -13,7 +13,7 @@ SITREP ships to three places: the Railway API, the GitHub Pages web app, and the
 | Health check | `curl https://sitrep-production-6aac.up.railway.app/health` returns `{"status":"ok"}` |
 | Web app | **https://pcschmidt.github.io/sitrep/** - Expo web export, baseUrl `/sitrep` |
 | Data store | Supabase Postgres; briefings survive redeploys, PDFs are regenerated on demand |
-| Mobile | Expo SDK 56, `eas build --profile production`; Android `com.pcschmidt.sitrep`, versionCode 7 |
+| Mobile | Expo SDK 56, `eas build --profile production`; Android `com.pcschmidt.sitrep`, local versionCode 8 (EAS auto-increments remotely) |
 
 Verified 2026-09-12: the four regional briefings, the Global briefing, and their five PDFs all return 200.
 
@@ -44,7 +44,7 @@ Verified 2026-09-12: the four regional briefings, the Global briefing, and their
 ## Mobile
 
 - Production AAB: `eas build --profile production` run from `mobile/`.
-- Current path: Google Play closed testing (20 testers, 14 days), then the Apple App Store. Still to produce: 5 screenshots and a 1024x500 feature graphic.
+- Current path: verify the Play Console Alpha release and opted-in count, then production access (12 opted-in closed testers for 14 continuous days for affected personal accounts), then Apple App Store. The v8 AAB and five Android screenshots plus feature graphic are ready; iOS screenshots remain.
 - PDF viewing differs by platform: `react-native-pdf` natively, an `<iframe>` on web (`mobile/components/PlatformPdfViewer.web.tsx`) with a 6s fallback timer. The API must keep serving PDFs with `Content-Disposition: inline`; an attachment makes the browser download the file and the web viewer stays on "Loading PDF...".
 
 ## Verify after any deploy

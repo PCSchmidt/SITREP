@@ -51,7 +51,8 @@ mobile/
 ├── services/analytics.ts       # Mixpanel + Sentry wrappers
 ├── data/mockBriefings.ts       # placeholder briefings for local UI work
 ├── types/briefing.ts           # briefing models
-├── app.json                    # Expo config, version 1.0.0, Android versionCode 7
+├── app.json                    # Expo config, version 1.0.0, local Android versionCode 8
+├── store-assets/               # Play icon, feature graphic, five Android screenshots
 └── eas.json                    # build and submit profiles
 ```
 
@@ -129,11 +130,11 @@ System fonts (SF Pro, Roboto), monospace for timestamps and metadata. Full token
 | | |
 | --- | --- |
 | app.json version | 1.0.0 |
-| Android package | `com.pcschmidt.sitrep`, versionCode 7 |
+| Android package | `com.pcschmidt.sitrep`, local versionCode 8 (EAS production auto-increments remotely) |
 | iOS bundle id | `com.pcschmidt.sitrep` |
 | Production build | `npx eas build --profile production` (Android AAB) |
-| Release status | Google Play closed testing next (20 testers, 14 days), then Apple App Store |
-| Still to produce | 5 store screenshots, a 1024x500 feature graphic |
+| Release status | Play Console entry exists; verify Alpha release and opted-in count. Affected personal accounts need 12 opted-in closed testers for 14 days before production access |
+| Play assets | Five Android screenshots (1080x2340), 512x512 icon, 1024x500 feature graphic in `store-assets/`; iOS screenshots still needed |
 
 Store and legal pages: https://pcschmidt.github.io/sitrep/privacy-policy and
 https://pcschmidt.github.io/sitrep/terms.

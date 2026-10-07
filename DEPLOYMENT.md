@@ -265,8 +265,10 @@ restarted.
 - PDFs have no object-storage archive; the container cache is the only copy.
 - The in-app scheduler only runs if the container is alive at 06:00 UTC; the 07:00 UTC
   Actions job is the safety net, not a guarantee.
-- Google Play closed testing is next (20 testers, 14 days), then production, then App
-  Store. The production AAB is built with `eas build --profile production`.
+- The Play Console app entry exists. Confirm the Alpha release and opted-in count;
+  affected personal accounts need 12 opted-in closed testers for 14 continuous days
+  before applying for production access. Android v8 AAB and Play assets are built;
+  Apple App Store follows Android.
 
 ## See also
 

@@ -50,7 +50,7 @@ The thing that makes it more than a news summarizer:
 | Last verified run | 2026-09-12 15:24–15:26 UTC — 30 articles per desk, 120-article Global, 17 sections |
 | Storage | Supabase Postgres for briefings; PDFs are container-disk cache only |
 | Tests | `cd api && pytest tests -q` — 11 passing, offline, no keys needed |
-| Release status | Google Play closed testing next (20 testers / 14 days), then production, then App Store |
+| Release status | Play Console app entry exists; closed-test status and opted-in count still need confirmation. For affected personal accounts, production access requires 12 opted-in closed testers for 14 continuous days; then Apple App Store |
 
 ## Architecture at a glance
 
@@ -204,8 +204,9 @@ Verified against production on 2026-09-12; regenerate any of it with the command
   pipeline, debug, and upload endpoints are open. Treat that as a known, dated gap.
 - **PDF cache is ephemeral.** Only the container disk holds PDFs; object storage would be
   needed for a real archive.
-- **Not in any store yet.** Google Play closed testing is next; today the app is a web
-  build, a local run, and an APK/AAB built with EAS.
+- **Not in production on any store yet.** The Play Console entry exists, but the
+  closed-test release status and eligible tester count have not been verified. The
+  Android v8 APK/AAB and Play listing assets have been built.
 
 ## Operational notes
 

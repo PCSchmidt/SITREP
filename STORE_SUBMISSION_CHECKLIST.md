@@ -9,13 +9,13 @@ Submission state for SITREP on Google Play and the Apple App Store, in the order
 | Android package | `com.pcschmidt.sitrep` |
 | iOS bundle ID | `com.pcschmidt.sitrep` |
 | App version | 1.0.0 (`mobile/app.json`) |
-| Android version code | 7, with `autoIncrement: true` on the production profile |
+| Android version code | 8 locally in `mobile/app.json`; EAS production uses remote `appVersionSource` and `autoIncrement: true` |
 | Mobile stack | Expo SDK 56.0.8, React Native 0.85.3, React 19.2.3, expo-router 56.2.8 |
 | Backend | v0.21.11 at https://sitrep-production-6aac.up.railway.app (Railway, Docker, uvicorn + FastAPI) |
 | Production AAB | `cd mobile && eas build --platform android --profile production` |
-| Submission order | Google Play closed testing (20 testers, 14 days) -> Google Play production -> Apple App Store |
+| Submission order | Google Play closed testing (12 opted-in testers for 14 continuous days for affected personal accounts) -> Google Play production -> Apple App Store |
 
-Store assets are not finished: 5 screenshots and a 1024x500 feature graphic are still to produce (step 9).
+Android store assets are ready in `mobile/store-assets/` (step 9). iOS screenshots remain to be produced.
 
 ## Step 1 - EAS account and project (done)
 
@@ -112,7 +112,7 @@ eas build --platform android --profile production
 
 - The production profile builds an app bundle (`.aab`), not an APK.
 - Upload the `.aab` to Google Play Console.
-- `versionCode` auto-increments on every production build; the last local value is 7 in `mobile/app.json`.
+- EAS manages the production `versionCode` remotely and auto-increments it on every production build; `mobile/app.json` currently has 8. The v8 AAB is already built (EAS `d8ff7a74`).
 
 ### iOS production build (IPA for App Store)
 
@@ -127,23 +127,23 @@ eas build --platform ios --profile production
 
 ---
 
-## Step 6 - Google Play Console: closed testing (next)
+## Step 6 - Google Play Console: closed testing (in progress; status to verify)
 
 Dashboard: play.google.com/console
 
-1. Create the developer account ($25 one-time fee) if it does not exist yet.
-2. Create app -> SITREP -> Default language: English.
+1. Developer account exists (confirmed in Play Console on 2026-10-07).
+2. SITREP app entry exists as `com.pcschmidt.sitrep`.
 3. Fill in the store listing (paste from [APP_STORE_LISTING.md](APP_STORE_LISTING.md)):
    - App name, short description, full description
    - 5 phone screenshots
-   - Icon (512x512 PNG — build it from the 1024x1024 `mobile/assets/icon.png`, Play resizes)
-   - Feature graphic (1024x500, see step 9)
+   - Icon (`mobile/store-assets/play-icon-512.png`)
+   - Feature graphic (`mobile/store-assets/feature-graphic.png`)
 4. Content rating: complete the questionnaire (references to war and conflict -> Teen).
 5. Target audience: 13+.
 6. Privacy policy URL: https://pcschmidt.github.io/sitrep/privacy-policy
 7. App category: News & Magazines. Pricing: Free.
-8. Create a release, upload the `.aab`, and roll it out to the **closed testing** track.
-9. Recruit at least 20 testers and keep them opted in for 14 continuous days. A new personal developer account needs that closed-test record before it can apply for production access.
+8. Verify the Alpha release status in Play Console, upload the v8 `.aab` if not already uploaded, and submit the closed-test release for review if still pending. The 2026-10-07 screenshot showed changes not yet submitted for review, not proof that no earlier release exists.
+9. Verify the **opted-in** count in Play Console, not just the 15 users in the `SITREP Testers` email list or the number of installations. For affected personal accounts, at least 12 testers must remain opted in to the closed test for 14 continuous days before applying for production access. See [Google's requirements](https://support.google.com/googleplay/android-developer/answer/14151465).
 10. Apply for production access in the Play Console.
 
 The 14-day clock is the long pole: start it as soon as one AAB is stable, and collect tester feedback in that window. Play review for a first submission takes 3-7 days.
@@ -188,9 +188,9 @@ Dashboard: appstoreconnect.apple.com
 
 ---
 
-## Step 9 - Screenshots and feature graphic (not produced)
+## Step 9 - Screenshots and feature graphic (Android done; iOS pending)
 
-Run the app on a physical device or simulator and capture these 5 screens:
+The following five Android screens were captured from the v8 preview APK on a physical device in `mobile/store-assets/screenshots/`. Capture equivalent iOS screens later:
 
 | # | Screen | What to show |
 | --- | --- | --- |
@@ -201,8 +201,8 @@ Run the app on a physical device or simulator and capture these 5 screens:
 | 5 | About | Disclaimer plus Privacy/Terms links |
 
 - iOS: 6.7" display, 1290x2796 (iPhone 15 Pro Max).
-- Android: 1080x1920 minimum.
-- Google Play also needs a 1024x500 feature graphic. Nothing is produced yet.
+- Android: the five screenshots are 1080x2340.
+- Google Play feature graphic: `mobile/store-assets/feature-graphic.png` (1024x500).
 
 An iOS app preview video (15-30 seconds) is optional: open app -> switch region tabs -> open a briefing -> view PDF -> share.
 
@@ -223,8 +223,9 @@ An iOS app preview video (15-30 seconds) is optional: open app -> switch region 
 | 5 | Android preview APK (v8, current copy) | Done - EAS build `5e7b26af`, installed on Samsung SM-S936U via adb (2026-09-15) |
 | 5 | Android production AAB | Done - EAS build `d8ff7a74`, versionCode 8, commit 6fa68bd (2026-09-15). AAB at `C:/Users/pchri/.prime/agent/session-artifacts/sitrep-store/sitrep-v8-production.aab` |
 | 5 | iOS production IPA | Deferred - Android first |
-| 6 | Play Console account | Next step |
-| 6 | Closed testing track, 20 testers for 14 days | Not started - gated on the AAB |
+| 6 | Play Console account and SITREP app entry | Done - visible in screenshots shared 2026-10-07 |
+| 6 | Alpha tester email list | 15 users listed; opted-in count and duration not verified |
+| 6 | Closed testing release and 12 opted-in testers for 14 days | Verify release/review and opt-in status in Play Console; the AAB is built, but an upload or active release was not established by the screenshots |
 | 7 | Play production rollout | Blocked on step 6 |
 | 8 | App Store Connect listing, screenshots, review | Deferred |
 | 9 | 5 phone screenshots | Done - captured from the v8 preview APK on-device, `mobile/store-assets/screenshots/` (1080x2340) |

@@ -533,7 +533,7 @@ The tokens match this document. Three details do not, and the spec is not the so
 
 - The card label and the About copy were corrected to daily generation on 2026-09-12 (`BriefingCard.tsx`, `about.tsx`, `terms.tsx`), so nothing in the app now claims a weekly cadence.
 - The About screen shows no version string. The app version lives in `mobile/app.json` (`1.0.0`); the backend version is `v0.21.11`.
-- Store screenshots do not exist yet. Five phone screenshots and a 1024x500 feature graphic are still to be produced before the Google Play submission.
+- Five Android phone screenshots (1080x2340) and the 1024x500 Play feature graphic are in `mobile/store-assets/`. iOS screenshots remain to be produced.
 
 ---
 
@@ -557,13 +557,13 @@ The tokens match this document. Three details do not, and the spec is not the so
 
 ## Next steps
 
-Written when the frontend was approved. Steps 1 to 4 shipped in v0.1; step 5 is still open and is now a store requirement.
+Written when the frontend was approved. Steps 1 to 4 shipped in v0.1; Android store assets for step 5 were captured in September 2026, while iOS screenshots remain open.
 
 1. Implement the design system in the NativeWind config - done, v0.1 (`mobile/tailwind.config.js`)
 2. Build the reusable component library - done, v0.1 (`mobile/components/`)
 3. Create static screens with placeholder content - done, v0.1
 4. Test on iOS Simulator and Android Emulator - done, v0.1; device testing continued through v0.17
-5. Capture screenshots for store verification - open. Five phone screenshots and a 1024x500 feature graphic
+5. Capture screenshots for store verification - Android done (five phone screenshots and a 1024x500 feature graphic); iOS screenshots deferred
 
 ---
 

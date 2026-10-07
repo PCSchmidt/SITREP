@@ -127,7 +127,7 @@ briefing is recorded in `metadata.model_used`.
 ## Expo / mobile app
 
 Expo SDK ~56.0.8, React Native 0.85.3, React 19.2.3, expo-router ~56.2.8. `app.json`
-version 1.0.0, Android package `com.pcschmidt.sitrep` versionCode 7, iOS bundle
+version 1.0.0, Android package `com.pcschmidt.sitrep` local versionCode 8, iOS bundle
 `com.pcschmidt.sitrep`.
 
 ### Development build on a physical device
@@ -219,7 +219,7 @@ BACKEND_URL:       https://sitrep-production-6aac.up.railway.app
 WEB_URL:           https://pcschmidt.github.io/sitrep/
 LEGAL_URLS:        https://pcschmidt.github.io/sitrep/privacy-policy | .../sitrep/terms
 BUNDLE_ID (iOS):   com.pcschmidt.sitrep
-PACKAGE (Android): com.pcschmidt.sitrep  (versionCode 7)
+PACKAGE (Android): com.pcschmidt.sitrep  (local versionCode 8; EAS production auto-increments remotely)
 EAS_PROJECT_ID:    c0284b13-8077-4be7-acc5-e0cafbf0f3e2
 SCHEDULE:          daily 06:00 UTC (in-app APScheduler CronTrigger(hour=6))
 PYTHON_VERSION:    3.11

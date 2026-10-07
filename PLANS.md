@@ -1,26 +1,26 @@
 # PLANS
 
-Open work, known gaps, and deferred material for SITREP, with the older plan history kept as a record. Facts in the first two sections are verified 2026-09-12; everything under a "historical" heading is dated material, not current state.
+Open work, known gaps, and deferred material for SITREP, with the older plan history kept as a record. Current store facts were checked 2026-10-07; everything under a "historical" heading is dated material, not current state.
 
 | | |
 | --- | --- |
 | Current backend version | v0.21.11 (`APP_VERSION` in `api/main.py`) |
 | Live API | **https://sitrep-production-6aac.up.railway.app** |
 | Web app | https://pcschmidt.github.io/sitrep/ |
-| Facts checked | 2026-09-12 |
+| Store facts checked | 2026-10-07 |
 
 ---
 
-## Open work (verified 2026-09-12)
+## Open work (store status checked 2026-10-07)
 
-1. **Google Play submission is next.** The closed-testing gate is 20 testers for 14 days. The production AAB is built with `eas build --profile production`.
+1. **Confirm and complete Google Play closed testing.** The Play Console app entry and Alpha tester email list (15 listed users) exist; the 2026-10-07 screenshot shows pending changes not yet submitted for review. The status of any earlier release and the opted-in count have not been verified. For affected personal accounts, Google requires at least 12 opted-in closed testers continuously for 14 days before applying for production access. The v8 production AAB is built (EAS `d8ff7a74`); verify its upload/release status in Play Console.
 2. **Apple App Store submission comes after Play**, once the Play result is known.
-3. **Store assets are still to produce:** 5 screenshots and a 1024x500 feature graphic. Neither exists in the repo.
+3. **Android store assets are ready:** five 1080x2340 device screenshots, a 512x512 Play icon, and a 1024x500 feature graphic are committed in `mobile/store-assets/`. iOS screenshots and an iOS production build remain deferred.
 4. **`SITREP_ADMIN_TOKEN` is not set on Railway**, so `/pipeline/run-weekly`, `/synthesize`, `/synthesize/global`, `/briefing/generate-pdf` and `/debug/*` are still unauthenticated in production. The token guard is opt-in: it logs a warning per request and allows it while the variable is unset.
 5. **There is no automated PDF archive in object storage.** PDFs are cached to `data/pdfs/` on disk and rebuilt from the stored briefing when missing or stale.
 6. **`/debug/supabase` `briefings_count` does not include the Global row.** It counts the four regional briefings only.
 
-Items 1 and 2 are the next planned work. Items 3 to 6 are known gaps; none of them is scheduled.
+Items 1 and 2 are the next planned work. Item 3 records completed Android assets and deferred iOS assets; items 4 to 6 are known gaps, not scheduled.
 
 ---
 

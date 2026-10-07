@@ -1,16 +1,16 @@
 # APP STORE LISTING
 
-Store copy and metadata for SITREP, ready to paste into App Store Connect and Google Play Console. Nothing is submitted yet; Google Play closed testing comes first — see [STORE_SUBMISSION_CHECKLIST.md](STORE_SUBMISSION_CHECKLIST.md).
+Store copy and metadata for SITREP, ready to paste into App Store Connect and Google Play Console. The Play Console app entry exists; the status of the Alpha release and any previously submitted changes still needs verification. Google Play comes before the App Store — see [STORE_SUBMISSION_CHECKLIST.md](STORE_SUBMISSION_CHECKLIST.md).
 
 **Live privacy policy: https://pcschmidt.github.io/sitrep/privacy-policy · Terms of service: https://pcschmidt.github.io/sitrep/terms** — both return HTTP 200, checked 2026-09-12. The copy below must stay consistent with those two pages.
 
 | | |
 | --- | --- |
 | Android package / iOS bundle ID | `com.pcschmidt.sitrep` |
-| App version | 1.0.0, Android versionCode 7 (`mobile/app.json`) |
+| App version | 1.0.0, local Android versionCode 8 (`mobile/app.json`; EAS manages production versions remotely) |
 | Mobile stack | Expo SDK 56.0.8, React Native 0.85.3, React 19.2.3, expo-router 56.2.8 |
-| Screenshots | 5 per store, not produced yet |
-| Feature graphic | 1024x500, not produced yet |
+| Screenshots | Five Android screenshots (1080x2340) in `mobile/store-assets/screenshots/`; iOS screenshots pending |
+| Feature graphic | 1024x500 at `mobile/store-assets/feature-graphic.png` |
 
 ---
 
@@ -175,7 +175,7 @@ https://pcschmidt.github.io/sitrep/terms
 
 ---
 
-## Screenshots (not produced yet)
+## Screenshots (Android done; iOS pending)
 
 5 screens are needed for each store. Take them on a device or emulator; the app's default tab is the composite ALL briefing.
 
@@ -188,13 +188,13 @@ Take on an iPhone 15 Pro Max or a simulator at that resolution. Show:
 4. PDF viewer — briefing PDF open and paginated
 5. About screen — disclaimer and legal links
 
-### Android (phone — 1080x1920px minimum)
+### Android (phone — captured at 1080x2340px)
 
-Same 5 screens as iOS. The Android preview APK runs on device (Samsung S25+).
+Same 5 screens as iOS. The five screenshots in `mobile/store-assets/screenshots/` were captured on a Samsung S25+ running the v8 preview APK.
 
 ### Feature graphic (Google Play only, 1024x500)
 
-Not produced. SITREP wordmark on the black/amber palette is the plan.
+Ready at `mobile/store-assets/feature-graphic.png` (SITREP wordmark on the black/amber palette).
 
 ### App preview video (optional, iOS only — 15-30 seconds)
 

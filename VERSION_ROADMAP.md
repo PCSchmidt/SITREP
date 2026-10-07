@@ -7,7 +7,7 @@ Gate-by-gate history of SITREP from v0.0 to v0.21.11, with the remaining work fo
 | Current version | v0.21.11 (`APP_VERSION` in `api/main.py`) |
 | Live API | **https://sitrep-production-6aac.up.railway.app** |
 | Web app | https://pcschmidt.github.io/sitrep/ |
-| Next gate | v1.0 Production Live - Google Play submission, then Apple App Store |
+| Next gate | v1.0 Production Live - confirm Google Play closed-test status, then production and Apple App Store |
 | Facts checked | 2026-09-12 |
 
 ## Build type
@@ -68,7 +68,7 @@ Hours are as recorded when each gate closed. Nothing in this table is the curren
 **Total Estimated Hours**: ~156-180h (added v0.18-v0.21 post-beta hardening +20-28h)  
 **Timeline at 10-15h/week**: 8-12 weeks (~2-3 months)
 
-Only v1.0 is open. The backend is live at v0.21.11; the remaining work is store submission, and no gate after v0.21.11 has started.
+Only v1.0 is open. The backend is live at v0.21.11; the Android v8 AAB and Play assets are ready. The Play Console app entry exists, but the closed-test release status and opted-in tester count still need confirmation before production access.
 
 ## Rules
 
