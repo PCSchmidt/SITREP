@@ -180,7 +180,7 @@ Archived the prior text as SITREP.v1draft.md (6,349 words). Revised text is abou
 7. Prompt injection explained in one plain sentence.
 8. Blueprint v11, closed test, stealth browser, rollback and robots file explained inline; "ladder of experiment" dropped.
 9. Hiring line near the top; duplicated recruiter questions merged and shortened.
-10. Status line now says the Indo-Pacific desk failed on the check day and the write and run routes are open. Verified: E15 (Indo-Pacific generated_at 2026-10-26, Global 90 articles and 14 sections) and E11/E12 S2, E3 CL-09 (open per docs and guard code; not tested with a live POST, so wording is "per the project's own documents").
+10. Status line now says the Indo-Pacific desk failed on the check day. Verified: E15 (Indo-Pacific generated_at 2026-10-26, Global 90 articles and 14 sections). Claims about route protection were later removed (see the change log below).
 Dropped: the fourteenth-reader detail and a few secondary examples. Production claims keep their caveats (cost unverified, usage unknown, run history not shown). No local paths or secrets in the text.
 
 ## Change log, 27 October 2026
